@@ -1,0 +1,31 @@
+*.pplication files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+*.iml
+.gradle
+.settings/
+.svn/
+.DS_Store
+
+# generated files
+bin/
+gen/
+build/
+target/
+.gradle/
+.idea/iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
