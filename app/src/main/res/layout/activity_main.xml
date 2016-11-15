@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hlpolice.pahlj.com.hljpoliceapp.MainActivity">
+    android:background="@color/list_background">
+    <!--底部菜单栏-->
+    <include layout="@layout/view_layout_title"
+        android:id="@+id/relativelayout"/>
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#333"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        <RadioButton
+            android:id="@+id/rbGoodNews"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_menu_item_boutique"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rbBoutique"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_menu_item_boutique"
+            android:text="功能区" />
+
+        <RadioButton
+            android:id="@+id/rbCategory"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_menu_item_boutique"
+            android:text="事项中心" />
+
+        <RadioButton
+            android:id="@+id/rbContact"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/selector_menu_item_boutique"
+            android:text="个人中心" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_con"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/menu"
+        android:layout_below="@id/relativelayout"/>
+
 </RelativeLayout>
