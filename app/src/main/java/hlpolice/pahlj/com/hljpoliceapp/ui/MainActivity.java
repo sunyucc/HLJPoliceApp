@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity {
     PersonCenterFragment mPersonCenterFragment;
     HomePageFragment mHomePageFragment;
     FunctionFragment mFunctionFragment;
+    SafeFragment mSafeFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -44,16 +45,23 @@ public class MainActivity extends BaseActivity {
 
     private void initFragment() {
         mFragments = new Fragment[4];
-//        mPersonCenterFragment = new PersonCenterFragment();
+        mPersonCenterFragment = new PersonCenterFragment();
         mHomePageFragment = new HomePageFragment();
         mFunctionFragment = new FunctionFragment();
+        mSafeFragment = new SafeFragment();
         mFragments[0] = mHomePageFragment;
         mFragments[1] = mFunctionFragment;
+        mFragments[2] = mSafeFragment;
+        mFragments[3] = mPersonCenterFragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_con, mHomePageFragment)
                 .add(R.id.fragment_con, mFunctionFragment)
+                .add(R.id.fragment_con, mSafeFragment)
+                .add(R.id.fragment_con, mPersonCenterFragment)
                 .hide(mFunctionFragment)
+                .hide(mPersonCenterFragment)
+                .hide(mSafeFragment)
                 .show(mHomePageFragment)
                 .commit();
     }

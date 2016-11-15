@@ -1,13 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <WebView
-            android:id="@+id/webView"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/layout_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            android:layout_height="190dp">
+            <hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView
+                android:id="@+id/salv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/good_detail_bg_white" />
+
+            <hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator
+                    android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:count="4"
+                app:focus="0"
+                app:focus_color="@color/good_detaul_flow_indicator_focus"
+                app:normal_color="#a1d1d1d1"
+                app:r="5dp"
+                app:space="3dp" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/layout_refresh_title"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
 </LinearLayout>
+
