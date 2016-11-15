@@ -1,5 +1,6 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,10 @@ import android.webkit.WebViewClient;
 
 import hlpolice.pahlj.com.hljpoliceapp.R;
 
-public class HomePageFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class FunctionFragment extends Fragment {
     WebView webView ;
     MainActivity mContext;
     @Override
@@ -41,3 +45,4 @@ public class HomePageFragment extends Fragment {
         });
     }
 }
+

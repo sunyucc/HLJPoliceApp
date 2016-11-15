@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hlpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
 import hlpolice.pahlj.com.hljpoliceapp.ui.NewLeadActivity;
 
@@ -25,5 +26,8 @@ public class  MFGT {
 
     public static void gotoNewLeadActivity(Activity context) {
         startActivity(context, NewLeadActivity.class);
+    }
+    public static void gotoHtmlActivity(MainActivity mContext) {
+        startActivity(mContext, HtmlActivity.class);
     }
 }
