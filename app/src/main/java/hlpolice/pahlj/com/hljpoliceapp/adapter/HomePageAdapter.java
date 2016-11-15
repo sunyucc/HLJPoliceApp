@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 
 
@@ -25,9 +26,9 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
     Context mContext;
-    ArrayList<NewGoodsBean> mList;
+    ArrayList<FunctionBean> mList;
 
-    public void addData(ArrayList<NewGoodsBean> list) {
+    public void addData(ArrayList<FunctionBean> list) {
         this.mList.addAll(list);
         notifyDataSetChanged();
     }
@@ -46,7 +47,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         return holder;
     }
 
-    public void initData(ArrayList<NewGoodsBean> list) {
+    public void initData(ArrayList<FunctionBean> list) {
         if (mList != null) {
             mList.clear();
         }
@@ -57,14 +58,14 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
-        NewGoodsBean goods = mList.get(position);
-        ImageLoader.downloadImg(mContext, gvh.ivGoodsThumb, goods.getGoodsThumb(), true);
-        gvh.ivGoodsName.setText(goods.getGoodsName());
+        FunctionBean bean = mList.get(position);
+        ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
+        gvh.textView.setText(bean.getMkmc());
     }
 
     @Override
     public int getItemCount() {
-        return mList != null ? mList.size() + 1 : 1;
+        return mList != null ? mList.size() : 0;
     }
 
     @Override
@@ -78,8 +79,6 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         TextView textView;
         @BindView(R.id.imageView)
         ImageView imageView;
-
-
         HomePageViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

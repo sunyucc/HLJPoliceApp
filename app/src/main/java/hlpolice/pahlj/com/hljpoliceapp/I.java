@@ -6,4 +6,5 @@ package hlpolice.pahlj.com.hljpoliceapp;
 
 public interface I {
     String DOWNLOAD_IMG_URL = "www.baidu.com";
+    String SERVER_ROOT = "http://192.168.16.10:8080/cs";
 }
