@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HLJPolice</string>
+    <string name="function_title">Function</string>
+    <string name="yewufuwu">业务服务</string>
 </resources>

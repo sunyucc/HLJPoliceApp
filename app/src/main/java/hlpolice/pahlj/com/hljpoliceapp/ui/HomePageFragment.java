@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
 import hlpolice.pahlj.com.hljpoliceapp.views.MyGridLayoutManager;
 import hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView;
-import hlpolice.pahlj.com.hljpoliceapp.views.SpaceItemDecoration;
 
 
 public class HomePageFragment extends Fragment {
@@ -37,10 +37,14 @@ public class HomePageFragment extends Fragment {
     HomePageAdapter mAdapter;
     ArrayList<FunctionBean> mList;
     MyGridLayoutManager glm;
+    GridLayoutManager glm1;
     @BindView(R.id.salv)
     SlideAutoLoopView salv;
     @BindView(R.id.indicator)
     FlowIndicator indicator;
+//    @BindView(R.id.rv_ywfw)
+//    RecyclerView mRvywfw;
+//    YwfwAdapter mYwfwAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +54,7 @@ public class HomePageFragment extends Fragment {
         ButterKnife.bind(this, layout);
         mContext = getContext();
         mList = new ArrayList<>();
+//        mYwfwAdapter = new YwfwAdapter(mContext,mList);
         mAdapter = new HomePageAdapter(mContext, mList);
         initView();
         initData();
@@ -62,13 +67,13 @@ public class HomePageFragment extends Fragment {
             public void onSuccess(FunctionBean[] result) {
                 if (result != null && result.length > 0) {
                     ArrayList<FunctionBean> list = ConvertUtils.array2List(result);
-                    MainActivity m=(MainActivity)getActivity();
+                    MainActivity m = (MainActivity) getActivity();
                     for (FunctionBean functionBean : list) {
                         if ("03".equals(functionBean.getMklb())) {
                             m.setExtFuncData(functionBean);
                         }
                     }
-
+//                    mYwfwAdapter.initData(list);
                     mAdapter.initData(list);
                 }
             }
@@ -82,9 +87,7 @@ public class HomePageFragment extends Fragment {
 
     protected void initData() {
         downloadMoudles();
-
         downloadNews();
-
 
     }
 
@@ -96,14 +99,14 @@ public class HomePageFragment extends Fragment {
             @Override
             public void onSuccess(NewsBean result) {
                 if (result != null) {
-                    List<Map<String,String>> urlList = new ArrayList<>();
-                    Map<String,String> urlMap;
+                    List<Map<String, String>> urlList = new ArrayList<>();
+                    Map<String, String> urlMap;
                     List<NewsBean.DataBean> newsList = result.getData();
 
                     for (int i = 0; i < newsList.size(); i++) {
                         urlMap = new HashMap<>();
-                        urlMap.put("imgUrl",newsList.get(i).getTplj());
-                        urlMap.put("newsUrl",newsList.get(i).getXwdz());
+                        urlMap.put("imgUrl", newsList.get(i).getTplj());
+                        urlMap.put("newsUrl", newsList.get(i).getXwdz());
                         urlList.add(urlMap);
                     }
 
@@ -124,10 +127,15 @@ public class HomePageFragment extends Fragment {
 
     protected void initView() {
         glm = new MyGridLayoutManager(mContext, 3);
+        glm1 = new GridLayoutManager(mContext,3);
         mRv.setLayoutManager(glm);
         mRv.setHasFixedSize(true);
         mRv.setAdapter(mAdapter);
-        mRv.addItemDecoration(new SpaceItemDecoration(12));
+//        mRv.addItemDecoration(new SpaceItemDecoration(12));
+//        mRvywfw.setLayoutManager(glm1);
+//        mRvywfw.setHasFixedSize(true);
+//        mRvywfw.setAdapter(mYwfwAdapter);
+
     }
 
 
