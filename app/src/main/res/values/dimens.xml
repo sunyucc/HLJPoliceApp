@@ -6,4 +6,5 @@
     <dimen name="menu_textsize">14sp</dimen>
     <dimen name="menu_icon_width">42dp</dimen>
     <dimen name="menu_icon_heigh">42dp</dimen>
+    <dimen name="menu_icon_margin">10dp</dimen>
 </resources>

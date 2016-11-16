@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainRLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#000000" >
 
-    <hlpolice.pahlj.com.hljpoliceapp.widget.ScrollLayout
+    <hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView
         android:id="@+id/scrollLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,27 +14,27 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:background="@drawable/selector_menu_item_boutique" />
+            android:background="@drawable/welcome_1" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/selector_menu_item_boutique" />
+            android:background="@drawable/welcome_2" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/selector_menu_item_boutique" />
+            android:background="@drawable/welcome_3" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/selector_menu_item_boutique" />
+            android:background="@drawable/welcome_4" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/selector_menu_item_boutique" >
+            android:background="@drawable/welcome_1" >
 
             <Button
                 android:id="@+id/startBtn"
@@ -43,12 +43,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="90.0dip"
-                android:background="@drawable/selector_menu_item_boutique"
                 android:text="开启音乐之旅"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
         </RelativeLayout>
-    </hlpolice.pahlj.com.hljpoliceapp.widget.ScrollLayout>
+    </hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView>
 
     <LinearLayout
         android:id="@+id/pointLayout"
@@ -65,7 +64,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/selector_menu_item_boutique" />
+            android:src="@drawable/selector_page_point" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -73,7 +72,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/selector_menu_item_cart" />
+            android:src="@drawable/selector_page_point" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -81,7 +80,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/selector_menu_item_category" />
+            android:src="@drawable/selector_page_point" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -89,7 +88,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/selector_menu_item_new_good" />
+            android:src="@drawable/selector_page_point" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -97,7 +96,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/selector_menu_item_personal_center" />
+            android:src="@drawable/selector_page_point" />
     </LinearLayout>
 
 </RelativeLayout>

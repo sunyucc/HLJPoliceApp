@@ -19,7 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.NewLeadActivity" />
+        <activity
+            android:name=".ui.NewLeadActivity"
+            android:theme="@style/AppTheme.AppBarOverlay"/>
         <activity android:name=".ui.HtmlActivity"/>
     </application>
 

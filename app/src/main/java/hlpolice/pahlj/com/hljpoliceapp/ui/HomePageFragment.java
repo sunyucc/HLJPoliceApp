@@ -28,6 +28,7 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
 import hlpolice.pahlj.com.hljpoliceapp.views.MyGridLayoutManager;
 import hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView;
+import hlpolice.pahlj.com.hljpoliceapp.views.SpaceItemDecoration;
 
 
 public class HomePageFragment extends Fragment {
@@ -131,7 +132,7 @@ public class HomePageFragment extends Fragment {
         mRv.setLayoutManager(glm);
         mRv.setHasFixedSize(true);
         mRv.setAdapter(mAdapter);
-//        mRv.addItemDecoration(new SpaceItemDecoration(12));
+        mRv.addItemDecoration(new SpaceItemDecoration(12));
 //        mRvywfw.setLayoutManager(glm1);
 //        mRvywfw.setHasFixedSize(true);
 //        mRvywfw.setAdapter(mYwfwAdapter);

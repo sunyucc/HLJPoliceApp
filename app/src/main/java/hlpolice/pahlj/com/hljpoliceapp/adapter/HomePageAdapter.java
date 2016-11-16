@@ -5,10 +5,12 @@ package hlpolice.pahlj.com.hljpoliceapp.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
+import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 
 
@@ -49,15 +52,8 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         }
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-//                if (Integer.parseInt(list.get(i).getMklb()) == 01) {
-//                    mList.add(list.get(i));
-//                } else if (Integer.parseInt(list.get(i).getMklb()) == 03) {
-//                    mContext.sendBroadcast(new Intent());
-//                }
                 if ("01".equals(list.get(i).getMklb())) {
                     mList.add(list.get(i));
-                } else if ("02".equals(list.get(i).getMklb())) {
-
                 }
             }
 
@@ -66,12 +62,20 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
 
         FunctionBean bean = mList.get(position);
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
+        gvh.recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent().putExtra("url",mList.get(position).getQqdz());
+                intent.setClass(mContext, HtmlActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -90,10 +94,12 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         TextView textView;
         @BindView(R.id.imageView)
         ImageView imageView;
-
+        @BindView(R.id.recyclerView)
+        RelativeLayout recyclerView;
         HomePageViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
     }
+
 }

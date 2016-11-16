@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity {
     HomePageFragment mHomePageFragment;
     FunctionFragment mFunctionFragment;
     SafeFragment mSafeFragment;
-
     FunctionBean extFunction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

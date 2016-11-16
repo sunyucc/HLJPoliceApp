@@ -8,7 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-public class ScrollLayout extends ViewGroup {
+/**
+ * Created by Carklote on 2016/11/16.
+ */
+
+public class WelcomeWizardView extends ViewGroup {
 
     private int defaultScreen = 0;
     private int currentScreen;
@@ -16,53 +20,40 @@ public class ScrollLayout extends ViewGroup {
     private Scroller scroller;// 滑动控制器
     private VelocityTracker velocityTracker;// 用于得到手势在屏幕上的滑动速度
     private float lastMotionX;
-
     private static final int VELOCITY = 600;
-
     private OnViewChangeListener onViewChangeListener;
 
-    public ScrollLayout(Context context, AttributeSet attrs, int defStyle) {
+    public WelcomeWizardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView(context);
     }
 
-    public ScrollLayout(Context context, AttributeSet attrs) {
+    public WelcomeWizardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public ScrollLayout(Context context) {
+    public WelcomeWizardView(Context context) {
         super(context);
         initView(context);
     }
 
     private void initView(Context context) {
-
         currentScreen = defaultScreen;
-
         scroller = new Scroller(context);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
         if (changed) {
-
             int childLeft = 0;
-
             int childCount = getChildCount();
-
             for (int i = 0; i < childCount; i++) {
-
                 View childView = getChildAt(i);
-
                 if (childView.getVisibility() != View.GONE) {
-
                     int childWidth = childView.getMeasuredWidth();
                     // 设置View的大小、位置
-                    childView.layout(childLeft, 0, childLeft + childWidth,
-                            childView.getMeasuredHeight());
-
+                    childView.layout(childLeft, 0, childLeft + childWidth, childView.getMeasuredHeight());
                     childLeft += childWidth;
                 }
             }
