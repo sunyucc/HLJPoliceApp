@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rbGoodNews"
+            android:id="@+id/rb_shouye"
             style="@style/menu_item_style"
             android:button="@null"
             android:checked="true"
@@ -23,12 +23,12 @@
             android:text="首页" />
 
         <RadioButton
-            android:id="@+id/rbBoutique"
+            android:id="@+id/rb_zixun"
             style="@style/menu_item_style"
             android:button="@null"
             android:checked="false"
             android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="功能区" />
+            android:text="加载中" />
 
         <RadioButton
             android:id="@+id/rbCategory"

@@ -42,6 +42,8 @@ public class ImageLoader {
     private int mDefaultPicId;
     /**ListView、RecyclerView是否在拖拽中，true：拖拽中*/
     boolean mIsDragging;
+
+
     public interface OnImageLoadListener {
         void onSuccess(String url, Bitmap bitmap);
 
@@ -293,6 +295,7 @@ public class ImageLoader {
         return this;
     }
 
+
     /**
      * 设置缺省显示的图片
      * @param defaultPicId
@@ -352,6 +355,7 @@ public class ImageLoader {
     }
 
     public static void setImage(String url,Context context,ImageView imageView,boolean isDragging){
+//        mContext = context;
         ImageLoader.build(url)
                 .defaultPicture(R.drawable.nopic)
                 .imageView(imageView)

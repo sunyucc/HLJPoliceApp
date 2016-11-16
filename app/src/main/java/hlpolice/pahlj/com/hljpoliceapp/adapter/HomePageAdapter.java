@@ -28,10 +28,6 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<FunctionBean> mList;
 
-    public void addData(ArrayList<FunctionBean> list) {
-        this.mList.addAll(list);
-        notifyDataSetChanged();
-    }
     public HomePageAdapter(Context mContext, ArrayList mList) {
         this.mContext = mContext;
         this.mList = mList;
@@ -51,13 +47,28 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         if (mList != null) {
             mList.clear();
         }
-        mList.addAll(list);
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+//                if (Integer.parseInt(list.get(i).getMklb()) == 01) {
+//                    mList.add(list.get(i));
+//                } else if (Integer.parseInt(list.get(i).getMklb()) == 03) {
+//                    mContext.sendBroadcast(new Intent());
+//                }
+                if ("01".equals(list.get(i).getMklb())) {
+                    mList.add(list.get(i));
+                } else if ("02".equals(list.get(i).getMklb())) {
+
+                }
+            }
+
+        }
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
+
         FunctionBean bean = mList.get(position);
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
@@ -79,6 +90,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         TextView textView;
         @BindView(R.id.imageView)
         ImageView imageView;
+
         HomePageViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

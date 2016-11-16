@@ -9,16 +9,18 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.rbGoodNews)
-    RadioButton rbGoodNews;
-    @BindView(R.id.rbBoutique)
-    RadioButton rbBoutique;
+    @BindView(R.id.rb_shouye)
+    RadioButton rb_shouye;
+    @BindView(R.id.rb_zixun)
+    RadioButton mRbZixun;
     @BindView(R.id.rbCategory)
     RadioButton rbCategory;
     @BindView(R.id.rbContact)
@@ -33,6 +35,8 @@ public class MainActivity extends BaseActivity {
     HomePageFragment mHomePageFragment;
     FunctionFragment mFunctionFragment;
     SafeFragment mSafeFragment;
+
+    FunctionBean extFunction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -68,9 +72,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mRb = new RadioButton[]{rbGoodNews, rbBoutique, rbCategory, rbContact};
+        mRb = new RadioButton[]{rb_shouye, mRbZixun, rbCategory, rbContact};
         txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText("平安黑龙江");
+        txtTitle.setText(I.MENU_TITLE);
     }
 
     @Override
@@ -85,10 +89,10 @@ public class MainActivity extends BaseActivity {
 
     public void onCheckedChange(View view) {
         switch (view.getId()) {
-            case R.id.rbGoodNews:
+            case R.id.rb_shouye:
                 index = 0;
                 break;
-            case R.id.rbBoutique:
+            case R.id.rb_zixun:
                 index = 1;
                 break;
             case R.id.rbCategory:
@@ -137,5 +141,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    public void setExtFuncData(FunctionBean funcData) {
+        extFunction = funcData;
+        mRbZixun.setText(funcData.getMkmc());
+        mFunctionFragment.setUrl(funcData.getQqdz());
+
     }
 }

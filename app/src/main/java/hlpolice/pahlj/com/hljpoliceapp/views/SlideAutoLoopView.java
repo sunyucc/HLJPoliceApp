@@ -1,6 +1,7 @@
 package hlpolice.pahlj.com.hljpoliceapp.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -15,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.Scroller;
 
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 
 /**
@@ -38,6 +42,8 @@ public class SlideAutoLoopView extends ViewPager {
     int mDuration=2000;
     /** 相册的图片下载地址数组*/
     String[] mAlbumImgUrl;
+    String[] newsUrl;
+
     Timer mTimer;
     Handler mHandler;
     boolean mAutoSwitch=false;
@@ -154,7 +160,7 @@ public class SlideAutoLoopView extends ViewPager {
             LayoutParams params=new LayoutParams();
             iv.setLayoutParams(params);
             String imgUrl=albumImgUrl[position%count];
-            String imgName="images/"+imgUrl;
+//            String imgName="images/"+imgUrl;
 //            String url= I.DOWNLOAD_ALBUM_IMG_URL+imgUrl;
 //            Bitmap bitmap = imageLoader.displayImage(url, imgName, Utils.px2dp(context, 260), Utils.px2dp(context, 200), new OnImageLoadListener() {
 //                @Override
@@ -174,26 +180,48 @@ public class SlideAutoLoopView extends ViewPager {
 //                iv.setImageBitmap(bitmap);
 //            }
             ImageLoader.downloadImg(context,iv,imgUrl,true);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            iv.setOnClickListener(new ImageUrlListener(newsUrl[position%count]));
             container.addView(iv);
             return iv;
         }
-        
+
+        class  ImageUrlListener implements OnClickListener {
+            String url;
+            public ImageUrlListener(String url) {
+                this.url = url;
+            }
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HtmlActivity.class);
+                intent.putExtra("url",url);
+                mContext.startActivity(intent);
+            }
+        }
+
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View)object);
         }
     }
-    
+
     /**
      * 开始图片的轮播
      */
-    public void startPlayLoop(FlowIndicator flowIndicator, String[] albumImgUrl, int count){
+    public void startPlayLoop(FlowIndicator flowIndicator, List<Map<String,String>> urlList, int count){
         if(mAdapter==null){
             mCount=count;
             this.mFlowIndicator=flowIndicator;
             mFlowIndicator.setCount(count);
             mFlowIndicator.setFocus(0);
-            this.mAlbumImgUrl=albumImgUrl;
+            this.mAlbumImgUrl = new String[count];
+            this.newsUrl = new String[count];
+            for (int i=0;i<urlList.size();i++) {
+                mAlbumImgUrl[i] = urlList.get(i).get("imgUrl");
+                newsUrl[i] = urlList.get(i).get("newsUrl");
+            }
+            //this.mAlbumImgUrl=albumImgUrl;
             mAdapter=new SlideAutoLooopAdapter(mContext, mAlbumImgUrl, count);
             this.setAdapter(mAdapter);
             
