@@ -2,6 +2,7 @@ package hlpolice.pahlj.com.hljpoliceapp.dao;
 
 import android.content.Context;
 
+import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
@@ -18,7 +19,7 @@ public class NetDao {
      */
     public static void downloadMoudles(Context context,OkHttpUtils.OnCompleteListener<FunctionBean[]> listener){
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl("gyqq/htmlfuncApp/searchAll.go")
+        utils.setRequestUrl(I.FUNCTION_MOUDLES)
                 .targetClass(FunctionBean[].class)
                 .execute(listener);
     }
@@ -30,7 +31,7 @@ public class NetDao {
      */
      public static void downloadNews(Context context,OkHttpUtils.OnCompleteListener<NewsBean> listener){
         OkHttpUtils<NewsBean> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl("gyqq/newsApp/searchPage.go?pageIndex=1&pageSize=5")
+        utils.setRequestUrl(I.NEWS_MOUDLES)
                 .targetClass(NewsBean.class)
                 .execute(listener);
     }

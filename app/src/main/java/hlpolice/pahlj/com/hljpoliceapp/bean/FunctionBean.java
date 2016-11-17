@@ -1,23 +1,61 @@
 package hlpolice.pahlj.com.hljpoliceapp.bean;
 
+import java.util.List;
+
 /**
  * Created by sunyu on 2016/11/15.
  */
 
 public class FunctionBean {
+
+    /**
+     * data : [{"funcid":10003,"tbdz":"http://www.83027110.com/stwx/images/1_07.png","mkmc":"我要咨询","qqdz":"http://www.83027110.com/stwx/zxzx.html","gnms":"我要咨询","scbj":"n","cjsj":"2016-11-16","gxsj":"","mklb":"01"}]
+     * mklb : 01
+     * mc : 扩展一
+     */
+
+    private String mklb;
+    private String mc;
+    private List<DataBean> data;
+
+    public String getMklb() {
+        return mklb;
+    }
+
+    public void setMklb(String mklb) {
+        this.mklb = mklb;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * funcid : 10001
-         * tbdz : http://www.83027110.com/stwx/images/icon_nav_panel.png
-         * mkmc : 线索举报
-         * qqdz : http://www.83027110.com/stwx/safe/xiansuojiubao.html
-         * gnms : 线索举报
+         * funcid : 10003
+         * tbdz : http://www.83027110.com/stwx/images/1_07.png
+         * mkmc : 我要咨询
+         * qqdz : http://www.83027110.com/stwx/zxzx.html
+         * gnms : 我要咨询
          * scbj : n
          * cjsj : 2016-11-16
          * gxsj :
          * mklb : 01
          */
 
-        private String funcid;
+        private int funcid;
         private String tbdz;
         private String mkmc;
         private String qqdz;
@@ -27,11 +65,11 @@ public class FunctionBean {
         private String gxsj;
         private String mklb;
 
-        public String getFuncid() {
+        public int getFuncid() {
             return funcid;
         }
 
-        public void setFuncid(String funcid) {
+        public void setFuncid(int funcid) {
             this.funcid = funcid;
         }
 
@@ -99,18 +137,19 @@ public class FunctionBean {
             this.mklb = mklb;
         }
 
-    @Override
-    public String toString() {
-        return "FunctionBean{" +
-                "funcid='" + funcid + '\'' +
-                ", tbdz='" + tbdz + '\'' +
-                ", mkmc='" + mkmc + '\'' +
-                ", qqdz='" + qqdz + '\'' +
-                ", gnms='" + gnms + '\'' +
-                ", scbj='" + scbj + '\'' +
-                ", cjsj='" + cjsj + '\'' +
-                ", gxsj='" + gxsj + '\'' +
-                ", mklb='" + mklb + '\'' +
-                '}';
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "funcid=" + funcid +
+                    ", tbdz='" + tbdz + '\'' +
+                    ", mkmc='" + mkmc + '\'' +
+                    ", qqdz='" + qqdz + '\'' +
+                    ", gnms='" + gnms + '\'' +
+                    ", scbj='" + scbj + '\'' +
+                    ", cjsj='" + cjsj + '\'' +
+                    ", gxsj='" + gxsj + '\'' +
+                    ", mklb='" + mklb + '\'' +
+                    '}';
+        }
     }
 }

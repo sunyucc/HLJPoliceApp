@@ -9,7 +9,12 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,69 +28,106 @@ import hlpolice.pahlj.com.hljpoliceapp.adapter.HomePageAdapter;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hlpolice.pahlj.com.hljpoliceapp.dao.NetDao;
-import hlpolice.pahlj.com.hljpoliceapp.utils.ConvertUtils;
 import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
 import hlpolice.pahlj.com.hljpoliceapp.views.MyGridLayoutManager;
+import hlpolice.pahlj.com.hljpoliceapp.views.MyItemDecoration;
 import hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView;
-import hlpolice.pahlj.com.hljpoliceapp.views.SpaceItemDecoration;
 
 
 public class HomePageFragment extends Fragment {
-    @BindView(R.id.recyclerView)
-    RecyclerView mRv;
+    //    @BindView(R.id.recyclerView)
+//    RecyclerView mRv;
     Context mContext;
-    HomePageAdapter mAdapter, mYwfwAdapter;
-    ArrayList<FunctionBean> mList, sList;
-    MyGridLayoutManager glm;
-    MyGridLayoutManager glm1;
+    //    HomePageAdapter mAdapter, mYwfwAdapter;
+//    ArrayList<FunctionBean> mList, sList;
+//    MyGridLayoutManager glm;
+//    MyGridLayoutManager glm1;
     @BindView(R.id.salv)
     SlideAutoLoopView salv;
     @BindView(R.id.indicator)
     FlowIndicator indicator;
-    @BindView(R.id.rv)
-    RecyclerView rv;
     @BindView(R.id.layout_image)
     RelativeLayout loopView;
+    View[] mViews;
+    ArrayList<FunctionBean.DataBean>[] mLists;
+    HomePageAdapter[] mAdapters;
+    MyGridLayoutManager[] mGlms;
+    LinearLayout linearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_home_page, container, false);
+        View layout = inflater.inflate(R.layout.fragment_home_page, null);
+        linearLayout = (LinearLayout) layout.findViewById(R.id.linearLayout);
         ButterKnife.bind(this, layout);
         mContext = getContext();
-        mList = new ArrayList<>();
-        sList = new ArrayList<>();
-        mYwfwAdapter = new HomePageAdapter(mContext, sList);
-        mAdapter = new HomePageAdapter(mContext, mList);
+//        sList = new ArrayList<>();
+//        mYwfwAdapter = new HomePageAdapter(mContext, sList);
+//        mAdapter = new HomePageAdapter(mContext, mList);
         initView();
-        initData();
+        initData(inflater);
         return layout;
     }
 
     /**
      * 下载模块信息
      */
-    private void downloadMoudles() {
+    private void downloadMoudles(final LayoutInflater inflater) {
         NetDao.downloadMoudles(mContext, new OkHttpUtils.OnCompleteListener<FunctionBean[]>() {
             @Override
             public void onSuccess(FunctionBean[] result) {
                 if (result != null && result.length > 0) {
-                    ArrayList<FunctionBean> list = ConvertUtils.array2List(result);
+
+                    mViews = new View[result.length - 3];
+                    mLists = new ArrayList[result.length - 3];
+                    mAdapters = new HomePageAdapter[result.length - 3];
+                    mGlms = new MyGridLayoutManager[result.length - 3];
+
+                    int extid = 0;
                     MainActivity m = (MainActivity) getActivity();
-                    for (FunctionBean functionBean : list) {
-                        if ("03".equals(functionBean.getMklb())) {
-                            m.setExtFuncData(functionBean);
-                        } else if ("01".equals(functionBean.getMklb())) {
-                            mList.add(functionBean);
-                        } else if ("02".equals(functionBean.getMklb())) {
-                            sList.add(functionBean);
+
+                    for (int i = 0; i < result.length; i++) {
+
+                        View funcView = inflater.inflate(R.layout.item_main_function, null);
+                        if ("01".equals(result[i].getMklb())) {
+                            m.setExtFuncData(result[i]);
+                        } else if ("02".equals(result[i].getMklb())) {
+                            m.setExtSxData(result[i]);
+                        } else if ("03".equals(result[i].getMklb())) {
+                            m.setExtGrData(result[i]);
+                        } else {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(result[i].getData());
+                            mLists[extid] = gson.fromJson(json, new TypeToken<ArrayList<FunctionBean.DataBean>>() {
+                            }.getType());
+                            L.i("json: " + json);
+                            mGlms[extid] = new MyGridLayoutManager(mContext, 3);
+                            mViews[extid] = funcView;
+                            mAdapters[extid] = new HomePageAdapter(mContext, mLists[extid]);
+                            TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
+                            tv.setText(result[i].getMc());
+                            for (int x = 0; x < result[i].getData().size(); x++) {
+                                RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
+                                rv.setAdapter(mAdapters[extid]);
+                                rv.setLayoutManager(mGlms[extid]);
+                                rv.setHasFixedSize(true);
+                                rv.setAdapter(mAdapters[extid]);
+                                rv.addItemDecoration(new MyItemDecoration());
+                                mAdapters[extid].notifyDataSetChanged();
+                            }
+                            //mLinearLayout.addView(mViews[extid]);
+                            linearLayout.addView(mViews[extid]);
+                            extid++;
                         }
+
                     }
-                    mAdapter.notifyDataSetChanged();
-                    mYwfwAdapter.notifyDataSetChanged();
+
+
+//                    mAdapter.notifyDataSetChanged();
+//                    mYwfwAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -96,8 +138,8 @@ public class HomePageFragment extends Fragment {
         });
     }
 
-    protected void initData() {
-        downloadMoudles();
+    protected void initData(LayoutInflater inflater) {
+        downloadMoudles(inflater);
         downloadNews();
 
     }
@@ -117,11 +159,12 @@ public class HomePageFragment extends Fragment {
                     Map<String, String> urlMap;
                     List<NewsBean.DataBean> newsList = result.getData();
 
-                    for (int i = 0; i < newsList.size(); i++) {
+                    for (int i = 3; i < newsList.size() - 3; i++) {
                         urlMap = new HashMap<>();
                         urlMap.put("imgUrl", newsList.get(i).getTplj());
                         urlMap.put("newsUrl", newsList.get(i).getXwdz());
                         urlList.add(urlMap);
+                        L.e("urllist=="+urlList);
                     }
 
                     salv.startPlayLoop(indicator, urlList, newsList.size());
@@ -140,17 +183,8 @@ public class HomePageFragment extends Fragment {
 
 
     protected void initView() {
-        glm = new MyGridLayoutManager(mContext, 3);
-        glm1 = new MyGridLayoutManager(mContext, 3);
-        mRv.setLayoutManager(glm);
-        mRv.setHasFixedSize(true);
-        mRv.setAdapter(mAdapter);
-        mRv.addItemDecoration(new SpaceItemDecoration(2));
-        rv.setLayoutManager(glm1);
-        rv.setAdapter(mYwfwAdapter);
-        rv.addItemDecoration(new SpaceItemDecoration(2));
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        loopView.getLayoutParams().height =  metrics.heightPixels/5;
+        loopView.getLayoutParams().height = metrics.heightPixels / 5;
     }
 }

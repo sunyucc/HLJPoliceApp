@@ -108,7 +108,6 @@ public class MainActivity extends BaseActivity {
             txtTitle.setText(mRb[index].getText() );
             L.e(TAG,String.valueOf(mRb[index].getText()));
         }
-//        setRadioButtonStatus();
     }
 
     private void setFragment() {
@@ -144,8 +143,20 @@ public class MainActivity extends BaseActivity {
 
     public void setExtFuncData(FunctionBean funcData) {
         extFunction = funcData;
-        mRbZixun.setText(funcData.getMkmc());
-        mFunctionFragment.setUrl(funcData.getQqdz());
+        mRbZixun.setText(funcData.getData().get(0).getMkmc());
+        mFunctionFragment.setUrl(funcData.getData().get(0).getQqdz());
+
+    }
+    public void setExtSxData(FunctionBean funcData) {
+        extFunction = funcData;
+        rbCategory.setText(funcData.getData().get(0).getMkmc());
+        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
+
+    }
+    public void setExtGrData(FunctionBean funcData) {
+        extFunction = funcData;
+        rbContact.setText(funcData.getData().get(0).getMkmc());
+        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
 
     }
 }
