@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/menu_activity_height"
         android:layout_alignParentBottom="true"
         android:background="#333"
         android:orientation="horizontal">

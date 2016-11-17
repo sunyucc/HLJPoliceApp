@@ -24,6 +24,9 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration{
         // 从第二行开始 top = mSpace
 //            if (pos >= I.COLUM_NUM) {
         outRect.top = space;
+        outRect.bottom = space;
+        outRect.left = space;
+        outRect.right = space;
 //            } else {
 //                outRect.top = 0;
 //            }

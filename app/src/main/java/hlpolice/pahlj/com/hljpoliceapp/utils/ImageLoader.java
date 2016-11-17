@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -346,9 +345,9 @@ public class ImageLoader {
         }
     }
 
-    public static void downloadImg(Context context,ImageView imageView,String thumb){
-        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,true);
-    }
+//    public static void downloadImg(Context context,ImageView imageView,String thumb){
+//        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,true);
+//    }
 
     public static void downloadImg(Context context,ImageView imageView,String thumb,boolean isDragging){
         setImage(thumb,context,imageView,isDragging);

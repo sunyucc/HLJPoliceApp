@@ -21,6 +21,7 @@ import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
+import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 
 
 /**
@@ -29,7 +30,7 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
     Context mContext;
-    ArrayList<FunctionBean> mList;
+    private ArrayList<FunctionBean> mList;
 
     public HomePageAdapter(Context mContext, ArrayList mList) {
         this.mContext = mContext;
@@ -50,14 +51,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         if (mList != null) {
             mList.clear();
         }
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
-                if ("01".equals(list.get(i).getMklb())) {
-                    mList.add(list.get(i));
-                }
-            }
-
-        }
+        mList.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -66,6 +60,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
 
         FunctionBean bean = mList.get(position);
+        L.e("bean===="+bean.toString());
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
         gvh.recyclerView.setOnClickListener(new View.OnClickListener() {

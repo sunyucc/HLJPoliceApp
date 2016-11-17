@@ -4,11 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,17 +36,18 @@ public class HomePageFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRv;
     Context mContext;
-    HomePageAdapter mAdapter;
-    ArrayList<FunctionBean> mList;
+    HomePageAdapter mAdapter, mYwfwAdapter;
+    ArrayList<FunctionBean> mList, sList;
     MyGridLayoutManager glm;
-    GridLayoutManager glm1;
+    MyGridLayoutManager glm1;
     @BindView(R.id.salv)
     SlideAutoLoopView salv;
     @BindView(R.id.indicator)
     FlowIndicator indicator;
-//    @BindView(R.id.rv_ywfw)
-//    RecyclerView mRvywfw;
-//    YwfwAdapter mYwfwAdapter;
+    @BindView(R.id.rv)
+    RecyclerView rv;
+    @BindView(R.id.layout_image)
+    RelativeLayout loopView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,13 +57,17 @@ public class HomePageFragment extends Fragment {
         ButterKnife.bind(this, layout);
         mContext = getContext();
         mList = new ArrayList<>();
-//        mYwfwAdapter = new YwfwAdapter(mContext,mList);
+        sList = new ArrayList<>();
+        mYwfwAdapter = new HomePageAdapter(mContext, sList);
         mAdapter = new HomePageAdapter(mContext, mList);
         initView();
         initData();
         return layout;
     }
 
+    /**
+     * 下载模块信息
+     */
     private void downloadMoudles() {
         NetDao.downloadMoudles(mContext, new OkHttpUtils.OnCompleteListener<FunctionBean[]>() {
             @Override
@@ -72,10 +78,14 @@ public class HomePageFragment extends Fragment {
                     for (FunctionBean functionBean : list) {
                         if ("03".equals(functionBean.getMklb())) {
                             m.setExtFuncData(functionBean);
+                        } else if ("01".equals(functionBean.getMklb())) {
+                            mList.add(functionBean);
+                        } else if ("02".equals(functionBean.getMklb())) {
+                            sList.add(functionBean);
                         }
                     }
-//                    mYwfwAdapter.initData(list);
-                    mAdapter.initData(list);
+                    mAdapter.notifyDataSetChanged();
+                    mYwfwAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -92,6 +102,9 @@ public class HomePageFragment extends Fragment {
 
     }
 
+    /**
+     * 下载新闻信息
+     */
     private void downloadNews() {
         final ProgressDialog pd = new ProgressDialog(mContext);
         pd.setMessage("加载中...");
@@ -128,16 +141,16 @@ public class HomePageFragment extends Fragment {
 
     protected void initView() {
         glm = new MyGridLayoutManager(mContext, 3);
-        glm1 = new GridLayoutManager(mContext,3);
+        glm1 = new MyGridLayoutManager(mContext, 3);
         mRv.setLayoutManager(glm);
         mRv.setHasFixedSize(true);
         mRv.setAdapter(mAdapter);
-        mRv.addItemDecoration(new SpaceItemDecoration(12));
-//        mRvywfw.setLayoutManager(glm1);
-//        mRvywfw.setHasFixedSize(true);
-//        mRvywfw.setAdapter(mYwfwAdapter);
-
+        mRv.addItemDecoration(new SpaceItemDecoration(2));
+        rv.setLayoutManager(glm1);
+        rv.setAdapter(mYwfwAdapter);
+        rv.addItemDecoration(new SpaceItemDecoration(2));
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        loopView.getLayoutParams().height =  metrics.heightPixels/5;
     }
-
-
 }

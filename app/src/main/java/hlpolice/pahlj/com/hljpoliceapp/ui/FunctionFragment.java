@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 
 /**
+ * 咨询中心
  * A simple {@link Fragment} subclass.
  */
 public class FunctionFragment extends Fragment {
@@ -31,14 +32,12 @@ public class FunctionFragment extends Fragment {
     private void initView(View layout) {
         webView = (WebView) layout.findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
-//        MainActivity m = (MainActivity) getActivity();
-//        webView.loadUrl(m.getExtFuncData().getQqdz());
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //                view.loadUrl(url);
                 if (url != null) {
-                    Intent intent = new Intent(mContext,HtmlActivity.class).putExtra("url",url);
+                    Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
                     startActivity(intent);
                 }
                 return true;

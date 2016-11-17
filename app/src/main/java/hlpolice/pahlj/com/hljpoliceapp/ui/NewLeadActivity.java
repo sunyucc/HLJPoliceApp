@@ -2,7 +2,6 @@ package hlpolice.pahlj.com.hljpoliceapp.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 import hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView;
 
 /**
@@ -28,8 +28,8 @@ public class NewLeadActivity extends Activity implements
     private int currentItem;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initWidget();
     }
 
@@ -64,6 +64,6 @@ public class NewLeadActivity extends Activity implements
     }
 
     public void onClick(View v) {
-
+        MFGT.gotoMainActivity(this);
     }
 }

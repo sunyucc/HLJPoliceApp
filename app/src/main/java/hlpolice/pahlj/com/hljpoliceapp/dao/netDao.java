@@ -11,12 +11,23 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
  */
 
 public class NetDao {
+    /**
+     * 下载模块信息
+     * @param context
+     * @param listener
+     */
     public static void downloadMoudles(Context context,OkHttpUtils.OnCompleteListener<FunctionBean[]> listener){
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl("gyqq/htmlfuncApp/searchAll.go")
                 .targetClass(FunctionBean[].class)
                 .execute(listener);
     }
+
+    /**
+     * 下载新闻信息
+     * @param context
+     * @param listener
+     */
      public static void downloadNews(Context context,OkHttpUtils.OnCompleteListener<NewsBean> listener){
         OkHttpUtils<NewsBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl("gyqq/newsApp/searchPage.go?pageIndex=1&pageSize=5")
