@@ -1,8 +1,10 @@
 package hlpolice.pahlj.com.hljpoliceapp.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -48,6 +50,8 @@ public class OkHttpUtils<T> {
     private static OkHttpClient mOkHttpClient;
     private Handler mHandler;
 
+    private ProgressDialog pd ;
+    private Context mContext;
     /**
      * 存放post请求的实体，实体中存放File类型的文件
      */
@@ -69,6 +73,7 @@ public class OkHttpUtils<T> {
      * 都由mOkHttpClient一个对象处理所有的网络请求。
      */
     public OkHttpUtils(Context context) {
+        this.mContext = context;
         if (mOkHttpClient == null) {//线程安全的单例
             synchronized (OkHttpUtils.class) {
                 if (mOkHttpClient == null) {
@@ -146,6 +151,7 @@ public class OkHttpUtils<T> {
         mHandler = new Handler(HLJPoliceApplication.application.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
+                pd.dismiss();
                 switch (msg.what) {
                     case RESULT_ERROR:
                         mListener.onError(msg.obj==null?msg.toString():msg.obj.toString());
@@ -218,7 +224,7 @@ public class OkHttpUtils<T> {
         //http://120.26.242.249:8080/SuperWeChatServerV2.0/register?m_user_name=aaaaaa&m_user_nick=aaaaaa&m_user_password=aaaaaa
         mUrl = new StringBuilder(I.SERVER_ROOT);
         mUrl.append(request);
-//        Log.e("okhttp","1 murl="+ mUrl.toString());
+        Log.e("okhttp==","1 murl="+ mUrl.toString());
         return this;
     }
 
@@ -307,6 +313,9 @@ public class OkHttpUtils<T> {
      * @param listener：处理服务端返回结果的代码
      */
     public void execute(OnCompleteListener<T> listener) {
+        pd = new ProgressDialog(mContext);
+        pd.setMessage("加载中...");
+        pd.show();
         if (listener != null) {
             mListener = listener;
         }

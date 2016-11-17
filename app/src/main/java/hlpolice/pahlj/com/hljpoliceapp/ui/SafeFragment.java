@@ -24,7 +24,7 @@ public class SafeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_safe, container, false);
+        View layout = inflater.inflate(R.layout.fragment_function, container, false);
         mContext = (MainActivity) getActivity();
         initView(layout);
         return layout;

@@ -36,6 +36,9 @@ public class MainActivity extends BaseActivity {
     FunctionFragment mFunctionFragment;
     SafeFragment mSafeFragment;
     FunctionBean extFunction;
+    @BindView(R.id.txt_left)
+    TextView txtLeft;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -74,6 +77,7 @@ public class MainActivity extends BaseActivity {
         mRb = new RadioButton[]{rb_shouye, mRbZixun, rbCategory, rbContact};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
+        txtLeft.setVisibility(View.GONE);
     }
 
     @Override
@@ -105,8 +109,8 @@ public class MainActivity extends BaseActivity {
         if (index == 0) {
             txtTitle.setText("平安黑龙江");
         } else {
-            txtTitle.setText(mRb[index].getText() );
-            L.e(TAG,String.valueOf(mRb[index].getText()));
+            txtTitle.setText(mRb[index].getText());
+            L.e(TAG, String.valueOf(mRb[index].getText()));
         }
     }
 
@@ -147,12 +151,14 @@ public class MainActivity extends BaseActivity {
         mFunctionFragment.setUrl(funcData.getData().get(0).getQqdz());
 
     }
+
     public void setExtSxData(FunctionBean funcData) {
         extFunction = funcData;
         rbCategory.setText(funcData.getData().get(0).getMkmc());
         mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
 
     }
+
     public void setExtGrData(FunctionBean funcData) {
         extFunction = funcData;
         rbContact.setText(funcData.getData().get(0).getMkmc());

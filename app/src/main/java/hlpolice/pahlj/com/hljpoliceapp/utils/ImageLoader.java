@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import hlpolice.pahlj.com.hljpoliceapp.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -356,7 +355,7 @@ public class ImageLoader {
     public static void setImage(String url,Context context,ImageView imageView,boolean isDragging){
 //        mContext = context;
         ImageLoader.build(url)
-                .defaultPicture(R.drawable.nopic)
+                .defaultPicture(0)
                 .imageView(imageView)
                 .setDragging(isDragging)
                 .showImage(context);

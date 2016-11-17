@@ -8,9 +8,9 @@
         android:id="@+id/txt_left"
         style="@style/txt_titleStyle1"
         android:textSize="17sp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="@dimen/menu_icon_title"
         android:text="首页" />
     <ImageView
         android:id="@+id/img_back"

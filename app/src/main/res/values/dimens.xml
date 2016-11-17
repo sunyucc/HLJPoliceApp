@@ -9,4 +9,5 @@
     <dimen name="menu_icon_margin">10dp</dimen>
     <dimen name="view_padding" >10dp</dimen>
     <dimen name="menu_activity_height">60dp</dimen>
+    <dimen name="menu_icon_title">50dp</dimen>
 </resources>

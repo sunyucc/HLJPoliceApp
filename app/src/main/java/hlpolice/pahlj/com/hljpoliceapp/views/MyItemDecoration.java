@@ -42,7 +42,6 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
       c.drawLine(x, y, x, y + height, paint);
       c.drawLine(x + width, y, x + width, y + height, paint);
       c.drawLine(x, y + height, x + width, y + height, paint);
- 
       //当然了，这里大家肯定是要根据自己不同的设计稿进行画线，或者画一些其他的东西，都可以在这里搞，非常方便
     }
     super.onDraw(c, parent, state);

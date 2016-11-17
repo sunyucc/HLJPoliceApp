@@ -1,6 +1,5 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -139,8 +138,8 @@ public class HomePageFragment extends Fragment {
     }
 
     protected void initData(LayoutInflater inflater) {
-        downloadMoudles(inflater);
         downloadNews();
+        downloadMoudles(inflater);
 
     }
 
@@ -148,18 +147,18 @@ public class HomePageFragment extends Fragment {
      * 下载新闻信息
      */
     private void downloadNews() {
-        final ProgressDialog pd = new ProgressDialog(mContext);
-        pd.setMessage("加载中...");
-        pd.show();
+        L.e("=====downloadNews");
         NetDao.downloadNews(mContext, new OkHttpUtils.OnCompleteListener<NewsBean>() {
             @Override
             public void onSuccess(NewsBean result) {
+                L.e("reuslt=="+result.toString());
                 if (result != null) {
+
                     List<Map<String, String>> urlList = new ArrayList<>();
                     Map<String, String> urlMap;
                     List<NewsBean.DataBean> newsList = result.getData();
-
-                    for (int i = 3; i < newsList.size() - 3; i++) {
+                        L.e("newList=="+newsList.size());
+                    for (int i = 0; i < newsList.size(); i++) {
                         urlMap = new HashMap<>();
                         urlMap.put("imgUrl", newsList.get(i).getTplj());
                         urlMap.put("newsUrl", newsList.get(i).getXwdz());
@@ -170,13 +169,11 @@ public class HomePageFragment extends Fragment {
                     salv.startPlayLoop(indicator, urlList, newsList.size());
 
                 }
-                pd.dismiss();
             }
 
             @Override
             public void onError(String error) {
-                pd.dismiss();
-                L.e(error);
+                L.e("error==="+error);
             }
         });
     }

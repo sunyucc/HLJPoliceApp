@@ -28,7 +28,7 @@
             android:button="@null"
             android:checked="false"
             android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="加载中" />
+            android:text="@string/menu_icon_zaijia" />
 
         <RadioButton
             android:id="@+id/rbCategory"
@@ -36,7 +36,7 @@
             android:button="@null"
             android:checked="false"
             android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="事项中心" />
+            android:text="@string/menu_icon_zaijia" />
 
         <RadioButton
             android:id="@+id/rbContact"
@@ -44,7 +44,7 @@
             android:button="@null"
             android:checked="false"
             android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="个人中心" />
+            android:text="@string/menu_icon_zaijia" />
     </LinearLayout>
 
     <FrameLayout

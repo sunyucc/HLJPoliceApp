@@ -5,8 +5,8 @@ package hlpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String SERVER_ROOT = "http://61.180.150.46:8080/cs/";
+    String SERVER_ROOT = "http://61.180.150.46:8080/cs/gyqq/";
     String MENU_TITLE = "平安黑龙江";
-    String FUNCTION_MOUDLES = "gyqq/htmlfuncApp/searchAll.go";
-    String NEWS_MOUDLES = "gyqq/newsApp/searchPage.go?pageIndex=1&pageSize=5";
+    String FUNCTION_MOUDLES = "htmlfuncApp/searchAll.go";
+    String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
 }

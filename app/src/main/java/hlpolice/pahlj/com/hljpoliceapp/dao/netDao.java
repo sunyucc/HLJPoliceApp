@@ -21,6 +21,7 @@ public class NetDao {
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.FUNCTION_MOUDLES)
                 .targetClass(FunctionBean[].class)
+                .post()
                 .execute(listener);
     }
 
