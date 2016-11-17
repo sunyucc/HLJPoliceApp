@@ -421,6 +421,7 @@ public class OkHttpUtils<T> {
         return t;
     }
 
+
     /**
      * 专门针对Result类的json解析方法，不具有通用性，属性定制、专用的方法
      * @param result

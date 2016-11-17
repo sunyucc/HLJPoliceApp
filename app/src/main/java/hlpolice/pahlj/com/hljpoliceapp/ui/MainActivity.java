@@ -1,17 +1,30 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
+import hlpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hlpolice.pahlj.com.hljpoliceapp.utils.GetHttpImage;
 import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 
 
@@ -21,10 +34,9 @@ public class MainActivity extends BaseActivity {
     RadioButton rb_shouye;
     @BindView(R.id.rb_zixun)
     RadioButton mRbZixun;
-    @BindView(R.id.rbCategory)
+    @BindView(R.id.rb_shixiang)
     RadioButton rbCategory;
-    @BindView(R.id.rbContact)
-    RadioButton rbContact;
+
     Fragment[] mFragments;
     int index = 0;
     int currentIndex;
@@ -35,9 +47,14 @@ public class MainActivity extends BaseActivity {
     HomePageFragment mHomePageFragment;
     FunctionFragment mFunctionFragment;
     SafeFragment mSafeFragment;
-    FunctionBean extFunction;
     @BindView(R.id.txt_left)
     TextView txtLeft;
+    @BindView(R.id.rb_center)
+    RadioButton rbContact;
+    @BindView(R.id.menu)
+    LinearLayout menu;
+
+    private Map<String,Bitmap> snavImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +99,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        snavImage = new HashMap<>();
         initFragment();
     }
 
@@ -98,10 +116,10 @@ public class MainActivity extends BaseActivity {
             case R.id.rb_zixun:
                 index = 1;
                 break;
-            case R.id.rbCategory:
+            case R.id.rb_shixiang:
                 index = 2;
                 break;
-            case R.id.rbContact:
+            case R.id.rb_center:
                 index = 3;
                 break;
         }
@@ -145,24 +163,79 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
-    public void setExtFuncData(FunctionBean funcData) {
-        extFunction = funcData;
-        mRbZixun.setText(funcData.getData().get(0).getMkmc());
+    public void setExtFuncData(FunctionBean funcData,int x) {
+        RadioButton rb = null;
+        switch (x) {
+            case 1:
+                rb = mRbZixun;
+                break;
+            case 2:
+                rb = rbCategory;
+                break;
+            case 3:
+                rb = rbContact;
+                break;
+        }
+        rb.setText(funcData.getData().get(0).getMkmc());
+        NetDao.downloadImage(funcData.getData().get(0).getTbdz(),new GetHttpImage.CallBackListener() {
+            @Override
+            public void Callback(Bitmap resultBmp) {
+                snavImage.put("",resultBmp);
+                //setRadioButtonDrawableTop(rb,resultBmp,true);
+            }
+        });
         mFunctionFragment.setUrl(funcData.getData().get(0).getQqdz());
 
     }
 
-    public void setExtSxData(FunctionBean funcData) {
-        extFunction = funcData;
-        rbCategory.setText(funcData.getData().get(0).getMkmc());
-        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
+//    public void setExtSxData(FunctionBean funcData) {
+//        extFunction = funcData;
+//        rbCategory.setText(funcData.getData().get(0).getMkmc());
+//        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
+//        NetDao.downloadImage("http://www.83027110.com/stwx/images/1_07.png", new GetHttpImage.CallBackListener() {
+//            @Override
+//            public void Callback(Bitmap resultBmp) {
+//                //setRadioButtonDrawableTop(rbCategory,resultBmp,true);
+//            }
+//        });
+//
+//    }
+
+    public void setRadioButtonDrawableTop(RadioButton rb,Bitmap bmp,boolean isgray) {
+        Drawable drawableTop;
+        if (isgray) {
+            drawableTop = new BitmapDrawable(null, grey(bmp));
+        } else {
+            drawableTop = new BitmapDrawable(null,bmp);
+        }
+
+        rb.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null,null);
 
     }
+//    public void setExtGrData(FunctionBean funcData) {
+//        extFunction = funcData;
+//        rbContact.setText(funcData.getData().get(0).getMkmc());
+//        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
+//
+//    }
 
-    public void setExtGrData(FunctionBean funcData) {
-        extFunction = funcData;
-        rbContact.setText(funcData.getData().get(0).getMkmc());
-        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
+    public static final Bitmap grey(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
 
+        Bitmap faceIconGreyBitmap = Bitmap
+                .createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(faceIconGreyBitmap);
+        Paint paint = new Paint();
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(
+                colorMatrix);
+        paint.setColorFilter(colorMatrixFilter);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return faceIconGreyBitmap;
     }
+
+
 }

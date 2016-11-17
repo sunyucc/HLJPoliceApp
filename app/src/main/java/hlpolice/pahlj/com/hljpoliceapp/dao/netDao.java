@@ -5,6 +5,7 @@ import android.content.Context;
 import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
+import hlpolice.pahlj.com.hljpoliceapp.utils.GetHttpImage;
 import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 /**
@@ -37,4 +38,9 @@ public class NetDao {
                 .execute(listener);
     }
 
+    public static void downloadImage(String url,GetHttpImage.CallBackListener listener) {
+        GetHttpImage http = new GetHttpImage(url);
+        http.setListener(listener);
+        http.getImage();
+    }
 }

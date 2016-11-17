@@ -6,46 +6,6 @@
     <!--底部菜单栏-->
     <include layout="@layout/view_layout_title"
         android:id="@+id/relativelayout"/>
-    <LinearLayout
-        android:id="@+id/menu"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/menu_activity_height"
-        android:layout_alignParentBottom="true"
-        android:background="#333"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_shouye"
-            style="@style/menu_item_style"
-            android:button="@null"
-            android:checked="true"
-            android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="首页" />
-
-        <RadioButton
-            android:id="@+id/rb_zixun"
-            style="@style/menu_item_style"
-            android:button="@null"
-            android:checked="false"
-            android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="@string/menu_icon_zaijia" />
-
-        <RadioButton
-            android:id="@+id/rbCategory"
-            style="@style/menu_item_style"
-            android:button="@null"
-            android:checked="false"
-            android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="@string/menu_icon_zaijia" />
-
-        <RadioButton
-            android:id="@+id/rbContact"
-            style="@style/menu_item_style"
-            android:button="@null"
-            android:checked="false"
-            android:drawableTop="@drawable/selector_menu_item_boutique"
-            android:text="@string/menu_icon_zaijia" />
-    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragment_con"
@@ -53,5 +13,47 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/menu"
         android:layout_below="@id/relativelayout"/>
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menu_activity_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <RadioButton
+            android:id="@+id/rb_shouye"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@mipmap/menu_item_boutique_selected"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_zixun"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@mipmap/menu_item_boutique_selected"
+            android:text="@string/menu_icon_zaijia" />
+
+        <RadioButton
+            android:id="@+id/rb_shixiang"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+
+            android:text="@string/menu_icon_zaijia" />
+
+        <RadioButton
+            android:id="@+id/rb_center"
+            style="@style/menu_item_style"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@mipmap/menu_item_boutique_selected"
+            android:text="@string/menu_icon_zaijia" />
+    </LinearLayout>
 
 </RelativeLayout>
