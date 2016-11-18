@@ -13,10 +13,10 @@ import android.webkit.WebViewClient;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 
 /**
- * 咨询中心
+ * 个人中心
  * A simple {@link Fragment} subclass.
  */
-public class FunctionFragment extends Fragment {
+public class GeRenFragment extends Fragment {
     WebView webView ;
     MainActivity mContext;
 

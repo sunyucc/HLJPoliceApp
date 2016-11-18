@@ -15,7 +15,7 @@ import hlpolice.pahlj.com.hljpoliceapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SafeFragment extends Fragment {
+public class ShiXiangFragment extends Fragment {
 
     WebView webView ;
     MainActivity mContext;

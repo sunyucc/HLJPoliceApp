@@ -8,6 +8,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class Nav_Resource_Icon {
 
     private OnImageChangedListener listener;
 
-    public Nav_Resource_Icon(Context context,int x) {
+    public Nav_Resource_Icon(Context context, int x) {
         this.mContext = context;
         this.maxId = x;
         iconMap = new HashMap<>();
@@ -48,8 +50,15 @@ public class Nav_Resource_Icon {
     }
 
     public Bitmap getGrayNavIcon(int s) {
-        if (maxId<s) return null;
+        if (maxId < s) {
+            return null;
+        } else {
+            DisplayMetrics metrics = new DisplayMetrics();
+            WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+            imageHeight = wm.getDefaultDisplay().getHeight()/9;
+            imageWidth = imageHeight;
         return resizeImage(grey(iconMap.get(s)),imageWidth,imageHeight);
+        }
     }
 
     public void setImageSize(int width,int height) {
@@ -127,6 +136,6 @@ public class Nav_Resource_Icon {
     }
 
     public interface OnImageChangedListener {
-        public void isDown(int x);
+         void isDown(int x);
     }
 }

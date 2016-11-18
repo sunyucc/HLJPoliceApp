@@ -18,7 +18,7 @@ import hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView;
  * @author kymjs
  *
  */
-public class NewLeadActivity extends Activity implements
+public class XiangDaoActivity extends Activity implements
         WelcomeWizardView.OnViewChangeListener,OnClickListener {
     private LinearLayout pointLayout;
     private WelcomeWizardView scrollLayout;

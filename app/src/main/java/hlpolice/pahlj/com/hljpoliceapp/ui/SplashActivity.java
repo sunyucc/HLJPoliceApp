@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 import hlpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
 public class SplashActivity extends AppCompatActivity {
@@ -22,6 +24,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         mContext = this;
         preferences =getSharedPreferences("user", Context.MODE_PRIVATE);
+       String Imei = ((TelephonyManager)mContext.getSystemService(TELEPHONY_SERVICE))
+                .getDeviceId();
+        L.e("Imer=" + Imei);
     }
 
     @Override

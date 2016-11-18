@@ -35,14 +35,8 @@ import hlpolice.pahlj.com.hljpoliceapp.views.MyItemDecoration;
 import hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView;
 
 
-public class HomePageFragment extends Fragment {
-    //    @BindView(R.id.recyclerView)
-//    RecyclerView mRv;
+public class ShouyeFragment extends Fragment {
     Context mContext;
-    //    HomePageAdapter mAdapter, mYwfwAdapter;
-//    ArrayList<FunctionBean> mList, sList;
-//    MyGridLayoutManager glm;
-//    MyGridLayoutManager glm1;
     @BindView(R.id.salv)
     SlideAutoLoopView salv;
     @BindView(R.id.indicator)
@@ -58,14 +52,10 @@ public class HomePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_home_page, null);
         linearLayout = (LinearLayout) layout.findViewById(R.id.linearLayout);
         ButterKnife.bind(this, layout);
         mContext = getContext();
-//        sList = new ArrayList<>();
-//        mYwfwAdapter = new HomePageAdapter(mContext, sList);
-//        mAdapter = new HomePageAdapter(mContext, mList);
         initView();
         initData(inflater);
         return layout;
@@ -92,19 +82,6 @@ public class HomePageFragment extends Fragment {
                     for (int i = 0; i < result.length; i++) {
 
                         View funcView = inflater.inflate(R.layout.item_main_function, null);
- /*                       if ("01".equals(result[i].getMklb())) {
-                            extList.add(result[i]);
-//                            map.put(2, result[i].getData().get(0).getTbdz());
-//                            m.setExtFuncData(result[i]);
-                        } else if ("02".equals(result[i].getMklb())) {
-                            extList.add(result[i]);
-//                            map.put(3, result[i].getData().get(0).getTbdz());
-//                            m.setExtSxData(result[i]);
-                            extList.add(result[i]);
-                        } else */
-//                        if ("03".equals(result[i].getMklb())) {
-//                            map.put(4, result[i].getData().get(0).getTbdz());
-//                            m.setExtGrData(result[i]);
                         String str = result[i].getMklb();
                         if ("01".equals(str) || "02".equals(str)|| "03".equals(str)){
                             extList.add(result[i]);
@@ -128,17 +105,12 @@ public class HomePageFragment extends Fragment {
                                 rv.addItemDecoration(new MyItemDecoration());
                                 mAdapters[extid].notifyDataSetChanged();
                             }
-                            //mLinearLayout.addView(mViews[extid]);
                             linearLayout.addView(mViews[extid]);
                             extid++;
                         }
 
                     }
                     m.setExtFuncData(extList);
-
-
-//                    mAdapter.notifyDataSetChanged();
-//                    mYwfwAdapter.notifyDataSetChanged();
                 }
             }
 
