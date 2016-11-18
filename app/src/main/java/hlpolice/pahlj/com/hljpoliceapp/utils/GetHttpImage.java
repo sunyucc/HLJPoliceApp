@@ -16,7 +16,11 @@ public class GetHttpImage implements Runnable {
 	Bitmap bmp = null;
 	CallBackListener listener;
 	private String url;
-	
+	private static int id = 0;
+
+	private static final  int SUCCESS = 0;
+	private static final int ERROR = 1;
+
 	public GetHttpImage (String urlString) {
 		this.url = urlString;
 	}
@@ -24,12 +28,13 @@ public class GetHttpImage implements Runnable {
 	public void setListener(CallBackListener listener) {
 		this.listener = listener;
 	}
-	
+	public void setId(int id) { this.id = id; }
 	public void getImage() {
 		ConnectionManager.getInstance().push(this);
 	}
 	public interface CallBackListener {
-		public void Callback(Bitmap resultBmp);
+		public void Callback(int x, Bitmap resultBmp);
+		public void onError(String err);
 	}
 	
 
@@ -42,19 +47,22 @@ public class GetHttpImage implements Runnable {
 			is = new URL(url).openStream();
 			img = BitmapFactory.decodeStream(is); // 解析得到图片
 			is.close(); // 关闭数据流
+			this.sendMessage(img, SUCCESS);
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			sendMessage(null,ERROR);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			sendMessage(null,ERROR);
 		}
-		this.sendMessage(img);
+
 		ConnectionManager.getInstance().didComplete(this);
 	}
 
-	private void sendMessage(Bitmap result) {
-		Message message = Message.obtain(handler, 2 , listener);
+	private void sendMessage(Bitmap result,int did) {
+		Message message = Message.obtain(handler, did , listener);
 		Bundle data = new Bundle();
 		data.putParcelable("callbackbmp", result);
 		message.setData(data);
@@ -65,15 +73,17 @@ public class GetHttpImage implements Runnable {
 	private static final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message message) {
-			if (message.what == 2) {
-				CallBackListener listener = (CallBackListener) message.obj;
-				Object data = message.getData();
-				if (listener != null) {
+			CallBackListener listener = (CallBackListener) message.obj;
+			if (listener != null) {
+				if (message.what == SUCCESS) {
+					Object data = message.getData();
 					if (data != null) {
 						Bundle bundle = (Bundle) data;
 						Bitmap result = bundle.getParcelable("callbackbmp");
-						listener.Callback(result);
+						listener.Callback(id, result);
 					}
+				} else if (message.what == ERROR) {
+					listener.onError("图像信息请求失败");
 				}
 			}
 		}

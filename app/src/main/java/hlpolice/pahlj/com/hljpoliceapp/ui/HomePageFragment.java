@@ -87,16 +87,27 @@ public class HomePageFragment extends Fragment {
 
                     int extid = 0;
                     MainActivity m = (MainActivity) getActivity();
-
+//                    Map<Integer, String> map = new HashMap<>();
+                    List<FunctionBean> extList = new ArrayList<>();
                     for (int i = 0; i < result.length; i++) {
 
                         View funcView = inflater.inflate(R.layout.item_main_function, null);
-                        if ("01".equals(result[i].getMklb())) {
-                            m.setExtFuncData(result[i]);
+ /*                       if ("01".equals(result[i].getMklb())) {
+                            extList.add(result[i]);
+//                            map.put(2, result[i].getData().get(0).getTbdz());
+//                            m.setExtFuncData(result[i]);
                         } else if ("02".equals(result[i].getMklb())) {
-                            m.setExtSxData(result[i]);
-                        } else if ("03".equals(result[i].getMklb())) {
-                            m.setExtGrData(result[i]);
+                            extList.add(result[i]);
+//                            map.put(3, result[i].getData().get(0).getTbdz());
+//                            m.setExtSxData(result[i]);
+                            extList.add(result[i]);
+                        } else */
+//                        if ("03".equals(result[i].getMklb())) {
+//                            map.put(4, result[i].getData().get(0).getTbdz());
+//                            m.setExtGrData(result[i]);
+                        String str = result[i].getMklb();
+                        if ("01".equals(str) || "02".equals(str)|| "03".equals(str)){
+                            extList.add(result[i]);
                         } else {
                             Gson gson = new Gson();
                             String json = gson.toJson(result[i].getData());
@@ -123,6 +134,7 @@ public class HomePageFragment extends Fragment {
                         }
 
                     }
+                    m.setExtFuncData(extList);
 
 
 //                    mAdapter.notifyDataSetChanged();

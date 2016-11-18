@@ -1,10 +1,6 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -23,9 +19,8 @@ import butterknife.ButterKnife;
 import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
-import hlpolice.pahlj.com.hljpoliceapp.dao.NetDao;
-import hlpolice.pahlj.com.hljpoliceapp.utils.GetHttpImage;
 import hlpolice.pahlj.com.hljpoliceapp.utils.L;
+import hlpolice.pahlj.com.hljpoliceapp.utils.Nav_Resource_Icon;
 
 
 public class MainActivity extends BaseActivity {
@@ -35,7 +30,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rb_zixun)
     RadioButton mRbZixun;
     @BindView(R.id.rb_shixiang)
-    RadioButton rbCategory;
+    RadioButton rbShiXing;
 
     Fragment[] mFragments;
     int index = 0;
@@ -51,17 +46,20 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
-    RadioButton rbContact;
+    RadioButton rbCenter;
     @BindView(R.id.menu)
     LinearLayout menu;
 
-    private Map<String,Bitmap> snavImage;
-
+    private Nav_Resource_Icon nri;
+    Map<Integer, Bitmap> images;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         L.i("MainActivity.onCreate");
+        nri = new Nav_Resource_Icon(this, 4);
+        nri.setOnImageChanageListener(imageChangedListener);
         super.onCreate(savedInstanceState);
 
     }
@@ -92,7 +90,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mRb = new RadioButton[]{rb_shouye, mRbZixun, rbCategory, rbContact};
+        mRb = new RadioButton[]{rb_shouye, mRbZixun, rbShiXing, rbCenter};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
@@ -100,7 +98,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        snavImage = new HashMap<>();
         initFragment();
     }
 
@@ -151,9 +148,9 @@ public class MainActivity extends BaseActivity {
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
             if (i == index) {
-                mRb[i].setChecked(true);
+                setRadioButtonDrawableTop(mRb[i], i, false);
             } else {
-                mRb[i].setChecked(false);
+                setRadioButtonDrawableTop(mRb[i], i, true);
             }
         }
     }
@@ -164,74 +161,54 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
-    public void setExtFuncData(FunctionBean funcData,final RadioButton rb) {
-        //extFunction = funcData;
-        rb.setText(funcData.getData().get(0).getMkmc());
-        GetHttpImage getHttpImage = new GetHttpImage(funcData.getData().get(0).getTbdz());
-        getHttpImage.setListener(new GetHttpImage.CallBackListener() {
-            @Override
-            public void Callback(Bitmap resultBmp) {
-                setRadioButtonDrawableTop(rb,resultBmp,true);
+    /**
+     * 动态设置2，3，4按钮的图片文字
+     * @param funcList
+     */
+    public void setExtFuncData(List<FunctionBean> funcList) {
+        for (FunctionBean func : funcList) {
+            if ("01".equals(func.getMklb())) {
+                mRbZixun.setText(func.getData().get(0).getMkmc());
+                mFunctionFragment.setUrl(func.getData().get(0).getQqdz());
+                nri.setImageUrl(func.getData().get(0).getTbdz(), 2);
+            } else if ("02".equals(func.getMklb())) {
+                rbShiXing.setText(func.getData().get(0).getMkmc());
+                mSafeFragment.setUrl(func.getData().get(0).getQqdz());
+                nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
+            } else if ("03".equals(func.getMklb())) {
+                rbCenter.setText(func.getData().get(0).getMkmc());
+                mPersonCenterFragment.setUrl(func.getData().get(0).getQqdz());
+                nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
-        });
-        getHttpImage.getImage();
-        mFunctionFragment.setUrl(funcData.getData().get(0).getQqdz());
-
+        }
+        setRadioButtonDrawableTop(rb_shouye, 1, true);
     }
-
-    public void setExtSxData(FunctionBean funcData) {
-        extFunction = funcData;
-        rbCategory.setText(funcData.getData().get(0).getMkmc());
-        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
-        NetDao.downloadImage(funcData.getData().get(0).getTbdz(), new GetHttpImage.CallBackListener() {
-            @Override
-            public void Callback(Bitmap resultBmp) {
-                setRadioButtonDrawableTop(rbCategory,resultBmp,true);
-            }
-        });
-
-    }
-
-    public void setRadioButtonDrawableTop(RadioButton rb,Bitmap bmp,boolean isgray) {
+    /**
+     * 设置按钮的图片
+     * @param rb
+     * @param x
+     * @param isgray
+     */
+    public void setRadioButtonDrawableTop(RadioButton rb, int x, boolean isgray) {
         Drawable drawableTop;
         if (isgray) {
-            drawableTop = new BitmapDrawable(null, grey(bmp));
+            drawableTop = new BitmapDrawable(null, nri.getGrayNavIcon(x));
         } else {
-            drawableTop = new BitmapDrawable(null,bmp);
+            drawableTop = new BitmapDrawable(null, nri.getNavicon(x));
         }
 
-        rb.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null,null);
+        rb.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
 
     }
-    public void setExtGrData(FunctionBean funcData) {
-        extFunction = funcData;
-        rbContact.setText(funcData.getData().get(0).getMkmc());
-        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
-        NetDao.downloadImage(funcData.getData().get(0).getTbdz(), new GetHttpImage.CallBackListener() {
-            @Override
-            public void Callback(Bitmap resultBmp) {
-                setRadioButtonDrawableTop(rbContact,resultBmp,true);
-            }
-        });
-    }
 
-    public static final Bitmap grey(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
+    private Nav_Resource_Icon.OnImageChangedListener imageChangedListener = new Nav_Resource_Icon.OnImageChangedListener() {
+        @Override
+        public void isDown(int x) {
 
-        Bitmap faceIconGreyBitmap = Bitmap
-                .createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(faceIconGreyBitmap);
-        Paint paint = new Paint();
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(
-                colorMatrix);
-        paint.setColorFilter(colorMatrixFilter);
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-        return faceIconGreyBitmap;
-    }
-
+            setRadioButtonDrawableTop(mRbZixun, 2, true);
+            setRadioButtonDrawableTop(rbShiXing, 3, true);
+            setRadioButtonDrawableTop(rbCenter, 4, true);
+        }
+    };
 
 }
