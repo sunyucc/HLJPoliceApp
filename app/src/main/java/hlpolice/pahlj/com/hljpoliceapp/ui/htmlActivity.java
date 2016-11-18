@@ -71,6 +71,7 @@ public class HtmlActivity extends AppCompatActivity {
         mWebView.loadUrl(url);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        mWebView.requestFocus();
         WebSettings settings = mWebView.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -349,6 +350,7 @@ public class HtmlActivity extends AppCompatActivity {
                 MFGT.finish(this);
                 break;
             case R.id.img_back:
+                mWebView.goBack();
                 break;
         }
     }

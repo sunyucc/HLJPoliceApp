@@ -148,9 +148,9 @@ public class MainActivity extends BaseActivity {
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
             if (i == index) {
-                setRadioButtonDrawableTop(mRb[i], i, false);
+                setRadioButtonDrawableTop(mRb[i], i+1, false);
             } else {
-                setRadioButtonDrawableTop(mRb[i], i, true);
+                setRadioButtonDrawableTop(mRb[i], i+1, true);
             }
         }
     }

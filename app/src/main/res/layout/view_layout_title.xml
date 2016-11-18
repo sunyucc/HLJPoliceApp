@@ -11,7 +11,7 @@
         android:visibility="visible"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/menu_icon_title"
-        android:text="首页" />
+        android:text="关闭" />
     <ImageView
         android:id="@+id/img_back"
         android:layout_width="40dp"

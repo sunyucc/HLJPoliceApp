@@ -67,7 +67,9 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         gvh.recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent().putExtra("url",mList.get(position).getQqdz());
+                Intent intent = new Intent()
+                        .putExtra("url", mList.get(position).getQqdz())
+                        .putExtra("moudlesname", mList.get(position).getMkmc());
                 intent.setClass(mContext, HtmlActivity.class);
                 mContext.startActivity(intent);
             }

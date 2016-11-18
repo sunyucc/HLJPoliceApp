@@ -16,7 +16,7 @@ public class GetHttpImage implements Runnable {
 	Bitmap bmp = null;
 	CallBackListener listener;
 	private String url;
-	private static int id = 0;
+	private int id = 0;
 
 	private static final  int SUCCESS = 0;
 	private static final int ERROR = 1;
@@ -70,7 +70,7 @@ public class GetHttpImage implements Runnable {
 
 	}
 	
-	private static final Handler handler = new Handler() {
+	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message message) {
 			CallBackListener listener = (CallBackListener) message.obj;

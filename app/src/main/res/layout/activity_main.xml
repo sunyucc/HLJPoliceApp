@@ -13,7 +13,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/menu"
         android:layout_below="@id/relativelayout"/>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_pressed"
+        android:layout_above="@id/menu"/>
     <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"
