@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity {
     HomePageFragment mHomePageFragment;
     FunctionFragment mFunctionFragment;
     SafeFragment mSafeFragment;
+    FunctionBean extFunction;
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
@@ -163,43 +164,33 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
-    public void setExtFuncData(FunctionBean funcData,int x) {
-        RadioButton rb = null;
-        switch (x) {
-            case 1:
-                rb = mRbZixun;
-                break;
-            case 2:
-                rb = rbCategory;
-                break;
-            case 3:
-                rb = rbContact;
-                break;
-        }
+    public void setExtFuncData(FunctionBean funcData,final RadioButton rb) {
+        //extFunction = funcData;
         rb.setText(funcData.getData().get(0).getMkmc());
-        NetDao.downloadImage(funcData.getData().get(0).getTbdz(),new GetHttpImage.CallBackListener() {
+        GetHttpImage getHttpImage = new GetHttpImage(funcData.getData().get(0).getTbdz());
+        getHttpImage.setListener(new GetHttpImage.CallBackListener() {
             @Override
             public void Callback(Bitmap resultBmp) {
-                snavImage.put("",resultBmp);
-                //setRadioButtonDrawableTop(rb,resultBmp,true);
+                setRadioButtonDrawableTop(rb,resultBmp,true);
             }
         });
+        getHttpImage.getImage();
         mFunctionFragment.setUrl(funcData.getData().get(0).getQqdz());
 
     }
 
-//    public void setExtSxData(FunctionBean funcData) {
-//        extFunction = funcData;
-//        rbCategory.setText(funcData.getData().get(0).getMkmc());
-//        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
-//        NetDao.downloadImage("http://www.83027110.com/stwx/images/1_07.png", new GetHttpImage.CallBackListener() {
-//            @Override
-//            public void Callback(Bitmap resultBmp) {
-//                //setRadioButtonDrawableTop(rbCategory,resultBmp,true);
-//            }
-//        });
-//
-//    }
+    public void setExtSxData(FunctionBean funcData) {
+        extFunction = funcData;
+        rbCategory.setText(funcData.getData().get(0).getMkmc());
+        mSafeFragment.setUrl(funcData.getData().get(0).getQqdz());
+        NetDao.downloadImage(funcData.getData().get(0).getTbdz(), new GetHttpImage.CallBackListener() {
+            @Override
+            public void Callback(Bitmap resultBmp) {
+                setRadioButtonDrawableTop(rbCategory,resultBmp,true);
+            }
+        });
+
+    }
 
     public void setRadioButtonDrawableTop(RadioButton rb,Bitmap bmp,boolean isgray) {
         Drawable drawableTop;
@@ -212,12 +203,17 @@ public class MainActivity extends BaseActivity {
         rb.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null,null);
 
     }
-//    public void setExtGrData(FunctionBean funcData) {
-//        extFunction = funcData;
-//        rbContact.setText(funcData.getData().get(0).getMkmc());
-//        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
-//
-//    }
+    public void setExtGrData(FunctionBean funcData) {
+        extFunction = funcData;
+        rbContact.setText(funcData.getData().get(0).getMkmc());
+        mPersonCenterFragment.setUrl(funcData.getData().get(0).getQqdz());
+        NetDao.downloadImage(funcData.getData().get(0).getTbdz(), new GetHttpImage.CallBackListener() {
+            @Override
+            public void Callback(Bitmap resultBmp) {
+                setRadioButtonDrawableTop(rbContact,resultBmp,true);
+            }
+        });
+    }
 
     public static final Bitmap grey(Bitmap bitmap) {
         int width = bitmap.getWidth();
