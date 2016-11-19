@@ -1,10 +1,17 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -48,13 +55,14 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.menu)
     LinearLayout menu;
     private Nav_Resource_Icon nri;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         L.i("MainActivity.onCreate");
-        nri = new Nav_Resource_Icon(this, 4 ,menu);
+        nri = new Nav_Resource_Icon(this, 4, menu);
         nri.setOnImageChanageListener(imageChangedListener);
         super.onCreate(savedInstanceState);
 
@@ -86,6 +94,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if (!isConn(this)) {
+            setNetworkMethod(this);
+        }
         mRb = new RadioButton[]{rbShouye, rbZixun, rbShiXing, rbCenter};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
@@ -144,9 +155,9 @@ public class MainActivity extends BaseActivity {
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
             if (i == index) {
-                setRadioButtonDrawableTop(mRb[i], i+1, false);
+                setRadioButtonDrawableTop(mRb[i], i + 1, false);
             } else {
-                setRadioButtonDrawableTop(mRb[i], i+1, true);
+                setRadioButtonDrawableTop(mRb[i], i + 1, true);
             }
         }
     }
@@ -159,6 +170,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 动态设置2，3，4按钮的图片文字
+     *
      * @param funcList
      */
     public void setExtFuncData(List<FunctionBean> funcList) {
@@ -179,8 +191,10 @@ public class MainActivity extends BaseActivity {
         }
         setRadioButtonDrawableTop(rbShouye, 1, false);
     }
+
     /**
      * 设置按钮的图片
+     *
      * @param rb
      * @param x
      * @param isgray
@@ -207,4 +221,62 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    public static boolean isConn(Context context){
+        boolean bisConnFlag=false;
+        ConnectivityManager conManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo network = conManager.getActiveNetworkInfo();
+        if(network!=null){
+            bisConnFlag=conManager.getActiveNetworkInfo().isAvailable();
+        }
+        return bisConnFlag;
+    }
+
+//    protected void dialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("确认退出吗？");
+//        builder.setTitle("提示");
+//        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                finish();
+//            }
+//        });
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.create().show();
+//    }
+    public static void setNetworkMethod(final Context context){
+        //提示对话框
+        AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        builder.setTitle("网络设置提示").setMessage("网络连接不可用,是否进行设置?").setPositiveButton("设置", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                Intent intent=null;
+                //判断手机系统的版本  即API大于10 就是3.0或以上版本
+                if(android.os.Build.VERSION.SDK_INT>10){
+                    intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                }else{
+                    intent = new Intent();
+                    ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
+                    intent.setComponent(component);
+                    intent.setAction("android.intent.action.VIEW");
+                }
+                context.startActivity(intent);
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        }).show();
+    }
 }

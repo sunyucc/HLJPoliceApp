@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name=".HLJPoliceApplication"
         android:allowBackup="true"
@@ -26,7 +27,9 @@
         </activity>
         <activity android:name=".ui.XiangDaoActivity"/>
         <activity android:name=".ui.HtmlActivity"
-            android:theme="@style/AppTheme.HtmlActivity">
+            android:label="@string/title_activity_html"
+            android:theme="@style/AppTheme.TransparentActivity">
+
         </activity>
     </application>
 

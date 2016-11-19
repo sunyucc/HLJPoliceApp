@@ -65,5 +65,6 @@ public class XiangDaoActivity extends Activity implements
 
     public void onClick(View v) {
         MFGT.gotoMainActivity(this);
+        MFGT.finish(this);
     }
 }

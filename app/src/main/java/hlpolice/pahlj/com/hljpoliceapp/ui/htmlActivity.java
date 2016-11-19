@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
@@ -52,21 +53,22 @@ public class HtmlActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
     private Uri imageUri;
-
+    int pageId =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
-        initview();
+        initView();
 
         initData();
     }
-
     private void initData() {
         mWebView.setWebViewClient(new WebViewClient() {
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                pageId++;
                 return super.shouldOverrideUrlLoading(view, url);
             }
 
@@ -107,11 +109,19 @@ public class HtmlActivity extends AppCompatActivity {
         });
     }
 
-    private void initview() {
+//    @Override
+//    protected void setListener() {
+//
+//    }
+
+    private void initView() {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+        if (url.contains(I.App_OLD_TYPE)) {
+            url=intent.getStringExtra("url").replace(I.App_OLD_TYPE, I.APP_TYPE);
+        }
         rlBack.setVisibility(View.VISIBLE);
-        mTxtLeft.setVisibility(View.VISIBLE);
+
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(intent.getStringExtra("moudlesname"));
         WebSettings settings = mWebView.getSettings();
@@ -135,7 +145,13 @@ public class HtmlActivity extends AppCompatActivity {
                 MFGT.finish(this);
                 break;
             case R.id.rl_back:
+                if (pageId>0) {
+                    mTxtLeft.setVisibility(View.VISIBLE);
                 mWebView.goBack();
+                    pageId--;
+                }
+                mTxtLeft.setVisibility(View.INVISIBLE);
+                MFGT.finish(this);
                 System.out.println(mWebView.canGoBack());
                 break;
         }
@@ -240,6 +256,4 @@ public class HtmlActivity extends AppCompatActivity {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
-
-
 }

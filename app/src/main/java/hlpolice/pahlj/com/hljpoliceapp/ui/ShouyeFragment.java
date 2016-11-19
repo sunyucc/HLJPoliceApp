@@ -93,7 +93,6 @@ public class ShouyeFragment extends Fragment {
 
                     int extid = 0;
                     MainActivity m = (MainActivity) getActivity();
-//                    Map<Integer, String> map = new HashMap<>();
                     List<FunctionBean> extList = new ArrayList<>();
                     for (int i = 0; i < result.length; i++) {
 
@@ -112,7 +111,6 @@ public class ShouyeFragment extends Fragment {
                             mAdapters[extid] = new HomePageAdapter(mContext, mLists[extid]);
                             TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
                             tv.setText(result[i].getMc());
-                            for (int x = 0; x < result[i].getData().size(); x++) {
                                 RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
                                 rv.setAdapter(mAdapters[extid]);
                                 rv.setLayoutManager(mGlms[extid]);
@@ -120,7 +118,6 @@ public class ShouyeFragment extends Fragment {
                                 rv.setAdapter(mAdapters[extid]);
                                 rv.addItemDecoration(new MyItemDecoration());
                                 mAdapters[extid].notifyDataSetChanged();
-                            }
                             linearLayout.addView(mViews[extid]);
                             extid++;
                         }
