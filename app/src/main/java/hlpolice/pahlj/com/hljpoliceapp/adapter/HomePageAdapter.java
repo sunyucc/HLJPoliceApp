@@ -66,15 +66,16 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         L.e("bean====" + bean.toString());
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
-        url = mList.get(position).getQqdz();
-        L.e("url ===1"+url);
-        if (url.contains(I.App_OLD_TYPE)) {
-            url = mList.get(position).getQqdz().replaceAll(I.App_OLD_TYPE, I.APP_TYPE);
-        }
-        L.e("url ===2"+url);
+
         gvh.recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                url = mList.get(position).getQqdz();
+                L.e("url ===1"+url);
+                if (url.contains(I.App_OLD_TYPE)) {
+                    url = mList.get(position).getQqdz().replaceAll(I.App_OLD_TYPE, I.APP_TYPE);
+                }
+                L.e("url ===2"+url);
                 Intent intent = new Intent()
                         .putExtra("url", url)
                         .putExtra("moudlesname", mList.get(position).getMkmc());

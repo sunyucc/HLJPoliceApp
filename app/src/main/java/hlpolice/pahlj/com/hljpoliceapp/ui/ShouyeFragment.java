@@ -1,9 +1,11 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hlpolice.pahlj.com.hljpoliceapp.dao.NetDao;
 import hlpolice.pahlj.com.hljpoliceapp.utils.L;
+import hlpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 import hlpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
 import hlpolice.pahlj.com.hljpoliceapp.views.MyGridLayoutManager;
@@ -51,6 +54,7 @@ public class ShouyeFragment extends Fragment {
     LinearLayout linearLayout;
     @BindView(R.id.srl)
     SwipeRefreshLayout mSrl;
+    DialogInterface mDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +88,9 @@ public class ShouyeFragment extends Fragment {
             @Override
             public void onSuccess(FunctionBean[] result) {
                 mSrl.setRefreshing(false);
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 if (result != null && result.length > 0) {
 
                     mViews = new View[result.length - 3];
@@ -129,12 +136,16 @@ public class ShouyeFragment extends Fragment {
 
             @Override
             public void onError(String error) {
+
+                    setNetworkMethod(getContext(),inflater);
                 L.e("error:" + error);
+                mSrl.setRefreshing(false);
             }
         });
     }
 
     protected void initData(LayoutInflater inflater) {
+
         downloadNews();
         downloadMoudles(inflater);
 
@@ -148,6 +159,9 @@ public class ShouyeFragment extends Fragment {
         NetDao.downloadNews(mContext, new OkHttpUtils.OnCompleteListener<NewsBean>() {
             @Override
             public void onSuccess(NewsBean result) {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 L.e("reuslt==" + result.toString());
                 if (result != null) {
 
@@ -177,8 +191,36 @@ public class ShouyeFragment extends Fragment {
 
 
     protected void initView() {
+
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         loopView.getLayoutParams().height = metrics.heightPixels / 5;
+    }
+
+    /**
+     * 无网络弹窗
+     * @param context
+     * @param inflater
+     */
+    public void setNetworkMethod( Context context, final LayoutInflater inflater){
+        //提示对话框
+        AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        builder.setTitle("请检查网络").setMessage("数据请求失败请重试").setPositiveButton("刷新", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDialog = dialog;
+                initData(inflater);
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDialog = dialog;
+                dialog.dismiss();
+                MFGT.finish(getActivity());
+
+            }
+        }).show();
     }
 }

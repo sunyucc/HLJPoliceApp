@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
+import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 import hlpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
 /**
@@ -53,37 +54,50 @@ public class HtmlActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
     private Uri imageUri;
-    int pageId =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
         initView();
-
         initData();
+        setListener();
     }
+
+    private void setListener() {
+    }
+
     private void initData() {
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                pageId++;
-                return super.shouldOverrideUrlLoading(view, url);
+                if (view.canGoBack()) {
+                    L.e("fjodisjofijo"+view.canGoBack());
+                    mTxtLeft.setVisibility(View.VISIBLE);
+                } else {
+                    mTxtLeft.setVisibility(View.INVISIBLE);
+                }
+                return false;
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+
                 super.onPageFinished(view, url);
+
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
+
             @Override
+
             public boolean onShowFileChooser(WebView webView,
                                              ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
@@ -109,10 +123,6 @@ public class HtmlActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void setListener() {
-//
-//    }
 
     private void initView() {
         Intent intent = getIntent();
@@ -145,15 +155,14 @@ public class HtmlActivity extends AppCompatActivity {
                 MFGT.finish(this);
                 break;
             case R.id.rl_back:
-                if (pageId>0) {
-                    mTxtLeft.setVisibility(View.VISIBLE);
-                mWebView.goBack();
-                    pageId--;
-                }
-                mTxtLeft.setVisibility(View.INVISIBLE);
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
                 MFGT.finish(this);
+                }
                 System.out.println(mWebView.canGoBack());
                 break;
+
         }
     }
 
