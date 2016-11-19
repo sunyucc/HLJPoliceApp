@@ -3,6 +3,7 @@ package hlpolice.pahlj.com.hljpoliceapp.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -48,6 +49,8 @@ public class ShouyeFragment extends Fragment {
     HomePageAdapter[] mAdapters;
     MyGridLayoutManager[] mGlms;
     LinearLayout linearLayout;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout mSrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +61,19 @@ public class ShouyeFragment extends Fragment {
         mContext = getContext();
         initView();
         initData(inflater);
+        setListener(inflater);
         return layout;
+    }
+
+    private void setListener(final LayoutInflater inflater) {
+        mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSrl.setRefreshing(true);
+                linearLayout.removeAllViews();
+                downloadMoudles(inflater);
+            }
+        });
     }
 
     /**
@@ -68,6 +83,7 @@ public class ShouyeFragment extends Fragment {
         NetDao.downloadMoudles(mContext, new OkHttpUtils.OnCompleteListener<FunctionBean[]>() {
             @Override
             public void onSuccess(FunctionBean[] result) {
+                mSrl.setRefreshing(false);
                 if (result != null && result.length > 0) {
 
                     mViews = new View[result.length - 3];
@@ -83,7 +99,7 @@ public class ShouyeFragment extends Fragment {
 
                         View funcView = inflater.inflate(R.layout.item_main_function, null);
                         String str = result[i].getMklb();
-                        if ("01".equals(str) || "02".equals(str)|| "03".equals(str)){
+                        if ("01".equals(str) || "02".equals(str) || "03".equals(str)) {
                             extList.add(result[i]);
                         } else {
                             Gson gson = new Gson();
@@ -135,19 +151,19 @@ public class ShouyeFragment extends Fragment {
         NetDao.downloadNews(mContext, new OkHttpUtils.OnCompleteListener<NewsBean>() {
             @Override
             public void onSuccess(NewsBean result) {
-                L.e("reuslt=="+result.toString());
+                L.e("reuslt==" + result.toString());
                 if (result != null) {
 
                     List<Map<String, String>> urlList = new ArrayList<>();
                     Map<String, String> urlMap;
                     List<NewsBean.DataBean> newsList = result.getData();
-                        L.e("newList=="+newsList.size());
+                    L.e("newList==" + newsList.size());
                     for (int i = 0; i < newsList.size(); i++) {
                         urlMap = new HashMap<>();
                         urlMap.put("imgUrl", newsList.get(i).getTplj());
                         urlMap.put("newsUrl", newsList.get(i).getXwdz());
                         urlList.add(urlMap);
-                        L.e("urllist=="+urlList);
+                        L.e("urllist==" + urlList);
                     }
 
                     salv.startPlayLoop(indicator, urlList, newsList.size());
@@ -157,7 +173,7 @@ public class ShouyeFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                L.e("error==="+error);
+                L.e("error===" + error);
             }
         });
     }

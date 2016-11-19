@@ -10,7 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/menu_icon_title"
         android:text="关闭"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_back"
@@ -18,10 +18,17 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:visibility="gone">
-
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_back" />
         <TextView
            style="@style/txt_titleStyle1"
-            android:text="<返回" />
+            android:text="返回"
+            android:layout_toRightOf="@id/img_back" />
     </RelativeLayout>
 
     <TextView

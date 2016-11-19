@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.NewLeadActivity"/>
-        <activity android:name=".ui.HtmlActivity"/>
+        <activity android:name=".ui.XiangDaoActivity"/>
+        <activity android:name=".ui.HtmlActivity"
+            android:theme="@style/AppTheme.HtmlActivity">
+        </activity>
     </application>
 
 </manifest>

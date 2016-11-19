@@ -34,7 +34,7 @@ public class XiangDaoActivity extends Activity implements
     }
 
     public void initWidget() {
-        setContentView(R.layout.activity_new_lead);
+        setContentView(R.layout.activity_dao_xiang);
         pointLayout = (LinearLayout) findViewById(R.id.pointLayout);
         scrollLayout = (WelcomeWizardView) findViewById(R.id.scrollLayout);
         mBtnStart = (Button) findViewById(R.id.startBtn);

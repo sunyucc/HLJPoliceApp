@@ -8,8 +8,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
+import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +27,11 @@ public class Nav_Resource_Icon {
     private int imageHeight = 100;
 
     private OnImageChangedListener listener;
-
-    public Nav_Resource_Icon(Context context, int x) {
+    private View mView;
+    public Nav_Resource_Icon(Context context, int x , View view) {
         this.mContext = context;
         this.maxId = x;
+        this.mView = view;
         iconMap = new HashMap<>();
         iconMap.put(1,getResource(R.mipmap.ic_home));
         for (int i=2;i<=x;i++) {
@@ -45,7 +45,8 @@ public class Nav_Resource_Icon {
 
     public Bitmap getNavicon(int s) {
         if (maxId<s) return null;
-
+        imageHeight=   mView.getHeight();
+        imageWidth = imageHeight;
         return resizeImage(iconMap.get(s), imageWidth, imageHeight);
     }
 
@@ -53,15 +54,15 @@ public class Nav_Resource_Icon {
         if (maxId < s) {
             return null;
         } else {
-            DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-            imageHeight = wm.getDefaultDisplay().getHeight()/9;
+            imageHeight=   mView.getHeight();
             imageWidth = imageHeight;
         return resizeImage(grey(iconMap.get(s)),imageWidth,imageHeight);
         }
     }
 
     public void setImageSize(int width,int height) {
+        imageHeight=   mView.getHeight();
+        imageWidth = imageHeight;
         this.imageWidth = width;
         this.imageHeight = height;
     }

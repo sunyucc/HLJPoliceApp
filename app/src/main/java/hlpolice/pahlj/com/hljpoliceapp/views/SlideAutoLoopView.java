@@ -39,7 +39,7 @@ public class SlideAutoLoopView extends ViewPager {
     /** 图片数量*/
     int mCount;
     /** 图片轮播间隔时间*/
-    int mDuration=2000;
+    int mDuration=6000;
     /** 相册的图片下载地址数组*/
     String[] mAlbumImgUrl;
     String[] newsUrl;

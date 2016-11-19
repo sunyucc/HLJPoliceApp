@@ -6,7 +6,7 @@ import android.content.Intent;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hlpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
-import hlpolice.pahlj.com.hljpoliceapp.ui.NewLeadActivity;
+import hlpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity;
 
 
 public class  MFGT {
@@ -25,7 +25,7 @@ public class  MFGT {
     }
 
     public static void gotoNewLeadActivity(Activity context) {
-        startActivity(context, NewLeadActivity.class);
+        startActivity(context, XiangDaoActivity.class);
     }
     public static void gotoHtmlActivity(MainActivity mContext) {
         startActivity(mContext, HtmlActivity.class);

@@ -136,6 +136,7 @@ public class HtmlActivity extends AppCompatActivity {
                 break;
             case R.id.rl_back:
                 mWebView.goBack();
+                System.out.println(mWebView.canGoBack());
                 break;
         }
     }

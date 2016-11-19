@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hlpolice.pahlj.com.hljpoliceapp.I;
 import hlpolice.pahlj.com.hljpoliceapp.R;
 import hlpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hlpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
@@ -31,6 +32,7 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.L;
 public class HomePageAdapter extends RecyclerView.Adapter {
     Context mContext;
     private ArrayList<FunctionBean.DataBean> mList;
+    private String url = null;
 
     public HomePageAdapter(Context mContext, ArrayList mList) {
         this.mContext = mContext;
@@ -61,14 +63,18 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
 
         FunctionBean.DataBean bean = mList.get(position);
-        L.e("bean===="+bean.toString());
+        L.e("bean====" + bean.toString());
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
+        url = mList.get(position).getQqdz();
+        if (url.contains(I.App_OLD_TYPE)) {
+            url = mList.get(position).getQqdz().replaceAll(I.App_OLD_TYPE, I.APP_TYPE);
+        }
         gvh.recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent()
-                        .putExtra("url", mList.get(position).getQqdz())
+                        .putExtra("url", url)
                         .putExtra("moudlesname", mList.get(position).getMkmc());
                 intent.setClass(mContext, HtmlActivity.class);
                 mContext.startActivity(intent);
@@ -94,6 +100,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         ImageView imageView;
         @BindView(R.id.recyclerView)
         RelativeLayout recyclerView;
+
         HomePageViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

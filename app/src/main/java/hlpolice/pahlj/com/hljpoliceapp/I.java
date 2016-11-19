@@ -9,4 +9,6 @@ public interface I {
     String MENU_TITLE = "平安黑龙江";
     String FUNCTION_MOUDLES = "htmlfuncApp/searchAll.go";
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
+    String App_OLD_TYPE = "apptype=2";
+    String APP_TYPE = "apptype=3";
 }

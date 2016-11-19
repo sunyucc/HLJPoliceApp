@@ -1,6 +1,5 @@
 package hlpolice.pahlj.com.hljpoliceapp.ui;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,9 +24,9 @@ import hlpolice.pahlj.com.hljpoliceapp.utils.Nav_Resource_Icon;
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.rb_shouye)
-    RadioButton rb_shouye;
+    RadioButton rbShouye;
     @BindView(R.id.rb_zixun)
-    RadioButton mRbZixun;
+    RadioButton rbZixun;
     @BindView(R.id.rb_shixiang)
     RadioButton rbShiXing;
 
@@ -38,10 +36,10 @@ public class MainActivity extends BaseActivity {
     RadioButton[] mRb;
     @BindView(R.id.txt_title)
     TextView txtTitle;
-    PersonCenterFragment mPersonCenterFragment;
-    HomePageFragment mHomePageFragment;
-    FunctionFragment mFunctionFragment;
-    SafeFragment mSafeFragment;
+    GeRenFragment mPersonCenterFragment;
+    ShouyeFragment mHomePageFragment;
+    GongNengFragment mFunctionFragment;
+    ShiXiangFragment mSafeFragment;
     FunctionBean extFunction;
     @BindView(R.id.txt_left)
     TextView txtLeft;
@@ -49,16 +47,14 @@ public class MainActivity extends BaseActivity {
     RadioButton rbCenter;
     @BindView(R.id.menu)
     LinearLayout menu;
-
     private Nav_Resource_Icon nri;
-    Map<Integer, Bitmap> images;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         L.i("MainActivity.onCreate");
-        nri = new Nav_Resource_Icon(this, 4);
+        nri = new Nav_Resource_Icon(this, 4 ,menu);
         nri.setOnImageChanageListener(imageChangedListener);
         super.onCreate(savedInstanceState);
 
@@ -67,10 +63,10 @@ public class MainActivity extends BaseActivity {
 
     private void initFragment() {
         mFragments = new Fragment[4];
-        mPersonCenterFragment = new PersonCenterFragment();
-        mHomePageFragment = new HomePageFragment();
-        mFunctionFragment = new FunctionFragment();
-        mSafeFragment = new SafeFragment();
+        mPersonCenterFragment = new GeRenFragment();
+        mHomePageFragment = new ShouyeFragment();
+        mFunctionFragment = new GongNengFragment();
+        mSafeFragment = new ShiXiangFragment();
         mFragments[0] = mHomePageFragment;
         mFragments[1] = mFunctionFragment;
         mFragments[2] = mSafeFragment;
@@ -90,7 +86,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mRb = new RadioButton[]{rb_shouye, mRbZixun, rbShiXing, rbCenter};
+        mRb = new RadioButton[]{rbShouye, rbZixun, rbShiXing, rbCenter};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
@@ -168,7 +164,7 @@ public class MainActivity extends BaseActivity {
     public void setExtFuncData(List<FunctionBean> funcList) {
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
-                mRbZixun.setText(func.getData().get(0).getMkmc());
+                rbZixun.setText(func.getData().get(0).getMkmc());
                 mFunctionFragment.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);
             } else if ("02".equals(func.getMklb())) {
@@ -181,7 +177,7 @@ public class MainActivity extends BaseActivity {
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }
-        setRadioButtonDrawableTop(rb_shouye, 1, true);
+        setRadioButtonDrawableTop(rbShouye, 1, false);
     }
     /**
      * 设置按钮的图片
@@ -205,7 +201,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void isDown(int x) {
 
-            setRadioButtonDrawableTop(mRbZixun, 2, true);
+            setRadioButtonDrawableTop(rbZixun, 2, true);
             setRadioButtonDrawableTop(rbShiXing, 3, true);
             setRadioButtonDrawableTop(rbCenter, 4, true);
         }

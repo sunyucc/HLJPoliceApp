@@ -14,8 +14,6 @@ import android.view.ViewGroup;
  * Modification  History:
  * Date             Author                Version            Description
  * -----------------------------------------------------------------------------------
- * 2015/2/26        ZhuWenWu            1.0                    1.0
- * Why & What is modified:
  */
 public class MyGridLayoutManager extends GridLayoutManager {
     public MyGridLayoutManager(Context context, int spanCount) {
