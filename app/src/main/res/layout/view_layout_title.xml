@@ -15,7 +15,7 @@
     <RelativeLayout
         android:id="@+id/rl_back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:visibility="gone">
         <ImageView
@@ -28,7 +28,8 @@
         <TextView
            style="@style/txt_titleStyle1"
             android:text="返回"
-            android:layout_toRightOf="@id/img_back" />
+            android:layout_toRightOf="@id/img_back"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <TextView

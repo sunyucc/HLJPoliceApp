@@ -21,13 +21,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <hlpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView
+                <hljpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView
                     android:id="@+id/salv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@mipmap/app_top_default" />
 
-                <hlpolice.pahlj.com.hljpoliceapp.views.FlowIndicator
+                <hljpolice.pahlj.com.hljpoliceapp.views.FlowIndicator
                     android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

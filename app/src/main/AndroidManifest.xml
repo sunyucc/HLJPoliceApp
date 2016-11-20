@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hlpolice.pahlj.com.hljpoliceapp">
+    package="hljpolice.pahlj.com.hljpoliceapp"
+    android:versionCode="2"
+    android:versionName="1.0">
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -8,15 +10,17 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
-        android:name=".HLJPoliceApplication"
+        android:name="hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication"
         android:allowBackup="true"
         android:icon="@mipmap/menu_item_category_selected"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.SplashActivity"
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity"
+            android:theme="@style/AppTheme.TransparentActivity"/>
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +28,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.XiangDaoActivity"/>
-        <activity android:name=".ui.HtmlActivity"
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity"/>
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
             android:label="@string/title_activity_html"
             android:theme="@style/AppTheme.TransparentActivity">
 
         </activity>
+        <service
+            android:name="hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+        <service
+            android:name="hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <activity android:name=".ui.SlidingActivity" />
     </application>
 
 </manifest>

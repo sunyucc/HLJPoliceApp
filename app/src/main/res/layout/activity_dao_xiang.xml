@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000000" >
 
-    <hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView
+    <hljpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView
         android:id="@+id/scrollLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -47,7 +47,7 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
         </RelativeLayout>
-    </hlpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView>
+    </hljpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView>
 
     <LinearLayout
         android:id="@+id/pointLayout"
