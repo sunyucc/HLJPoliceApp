@@ -45,7 +45,6 @@
             android:exported="true">
         </service>
 
-        <activity android:name=".ui.SlidingActivity" />
     </application>
 
 </manifest>

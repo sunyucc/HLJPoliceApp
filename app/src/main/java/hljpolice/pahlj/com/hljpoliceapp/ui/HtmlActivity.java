@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +22,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
+import hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
@@ -54,6 +56,11 @@ public class HtmlActivity extends SlideBackActivity {
     TextView mTxtLeft;
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
+    @BindView(R.id.img_back)
+    ImageView imgBack;
+    @BindView(R.id.linearLayout)
+    LinearLayout mLinearLayout;
+    private String mUrl ;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
@@ -63,6 +70,8 @@ public class HtmlActivity extends SlideBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
+        Intent intent = new Intent(this, CheckAppVersionService.class);
+        startService(intent);
         initView();
         initData();
         setListener();
@@ -72,36 +81,35 @@ public class HtmlActivity extends SlideBackActivity {
     }
 
     private void initData() {
-        final ProgressBar bar = (ProgressBar)findViewById(R.id.myProgressBar);
+        final ProgressBar bar = (ProgressBar) findViewById(R.id.myProgressBar);
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                mUrl = url;
                 view.loadUrl(url);
                 if (view.canGoBack()) {
                     mTxtLeft.setVisibility(View.VISIBLE);
                 } else {
                     mTxtLeft.setVisibility(View.INVISIBLE);
                 }
-                return true;
+                return false;
             }
+
 
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-
+            public void onReceivedError(WebView view, final WebResourceRequest request, WebResourceError error) {
+                L.e("12345"+request.toString());
+                mWebView.setVisibility(View.INVISIBLE);
+                mLinearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mWebView.setVisibility(View.VISIBLE);
+                        mWebView.loadUrl(mUrl);
+                    }
+                });
             }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-                super.onPageFinished(view, url);
-            }
-
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                L.e("加载失败"+12306);
-            }
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -117,6 +125,7 @@ public class HtmlActivity extends SlideBackActivity {
                 }
                 super.onProgressChanged(view, newProgress);
             }
+
             @Override
 
             public boolean onShowFileChooser(WebView webView,
@@ -126,6 +135,7 @@ public class HtmlActivity extends SlideBackActivity {
                 take();
                 return true;
             }
+
             public void openFileChooser(ValueCallback<Uri> uploadMsg) {
                 mUploadMessage = uploadMsg;
                 take();
@@ -145,10 +155,11 @@ public class HtmlActivity extends SlideBackActivity {
 
 
     private void initView() {
+
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         if (url.contains(I.App_OLD_TYPE)) {
-            url=intent.getStringExtra("url").replace(I.App_OLD_TYPE, I.APP_TYPE);
+            url = intent.getStringExtra("url").replace(I.App_OLD_TYPE, I.APP_TYPE);
         }
         rlBack.setVisibility(View.VISIBLE);
 
@@ -179,7 +190,7 @@ public class HtmlActivity extends SlideBackActivity {
                 if (mWebView.canGoBack()) {
                     mWebView.goBack();
                 } else {
-                MFGT.finish(this);
+                    MFGT.finish(this);
                 }
                 System.out.println(mWebView.canGoBack());
                 break;

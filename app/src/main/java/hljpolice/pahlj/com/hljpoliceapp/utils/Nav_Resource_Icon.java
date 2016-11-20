@@ -131,8 +131,14 @@ public class Nav_Resource_Icon {
         matrix.postScale(scaleWidth, scaleHeight);
         // if you want to rotate the Bitmap
         // matrix.postRotate(45);
-        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
-                height, matrix, true);
+        Bitmap resizedBitmap = null;
+        try {
+
+            resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+                    height, matrix, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return resizedBitmap;
     }
 
