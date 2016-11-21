@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
-import hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService;
+import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
 import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
@@ -80,8 +80,6 @@ public class HtmlActivity extends SlideBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
-        Intent intent = new Intent(this, CheckAppVersionService.class);
-        startService(intent);
         initView();
         initData();
         setListener();
@@ -106,6 +104,15 @@ public class HtmlActivity extends SlideBackActivity {
                 return false;
             }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                bar.setVisibility(View.GONE);
+                if (url.contains("login.html")) {
+                    view.loadUrl(I.CHANGE_APPTYPE);
+                }
+                super.onPageFinished(view, url);
+
+            }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -119,12 +126,8 @@ public class HtmlActivity extends SlideBackActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 bar.setVisibility(View.VISIBLE);
-                if (newProgress == 100) {
-                    bar.setVisibility(View.GONE);
-                } else {
                     if (View.INVISIBLE == bar.getVisibility()) {
                         bar.setVisibility(View.VISIBLE);
-                    }
                     bar.setProgress(newProgress);
                 }
                 super.onProgressChanged(view, newProgress);
@@ -324,7 +327,6 @@ public class HtmlActivity extends SlideBackActivity {
         super.finish();
         overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
     }
-
     class JsInterface {
         @JavascriptInterface
         public void errorReload() {
@@ -339,6 +341,10 @@ public class HtmlActivity extends SlideBackActivity {
                 }
             });
 
+        }
+
+        public void showSource(String html) {
+            L.e("HTML"+html);
         }
     }
 

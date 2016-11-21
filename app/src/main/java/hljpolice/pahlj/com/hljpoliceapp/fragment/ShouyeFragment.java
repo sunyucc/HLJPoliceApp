@@ -1,4 +1,4 @@
-package hljpolice.pahlj.com.hljpoliceapp.ui;
+package hljpolice.pahlj.com.hljpoliceapp.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +30,7 @@ import hljpolice.pahlj.com.hljpoliceapp.adapter.HomePageAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hljpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
@@ -61,7 +62,7 @@ public class ShouyeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_home_page, null);
-        linearLayout = (LinearLayout) layout.findViewById(R.id.linearLayout);
+        linearLayout = (LinearLayout) layout.findViewById(R.id.ll_function);
         ButterKnife.bind(this, layout);
         mContext = getContext();
         initView();

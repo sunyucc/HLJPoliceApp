@@ -45,7 +45,8 @@ public class Nav_Resource_Icon {
 
     public Bitmap getNavicon(int s) {
         if (maxId<s) return null;
-        setImageSize(mLayout.getHeight(),mLayout.getHeight());
+        imageHeight = mLayout.getHeight();
+        imageWidth = imageHeight;
         return resizeImage(iconMap.get(s), imageWidth, imageHeight);
     }
 
@@ -53,7 +54,8 @@ public class Nav_Resource_Icon {
         if (maxId < s) {
             return null;
         } else {
-            setImageSize(mLayout.getHeight(),mLayout.getHeight());
+            imageHeight = mLayout.getHeight();
+            imageWidth = imageHeight;
         return resizeImage(grey(iconMap.get(s)),imageWidth,imageHeight);
         }
     }
@@ -115,11 +117,17 @@ public class Nav_Resource_Icon {
     private Bitmap resizeImage(Bitmap bitmap, int w, int h)
     {
         Bitmap BitmapOrg = bitmap;
+
         int width = BitmapOrg.getWidth();
         int height = BitmapOrg.getHeight();
         int newWidth = w;
         int newHeight = h;
 
+        if (w == 0 || h == 0) {
+            newHeight=180;
+            newWidth=180;
+        }
+        L.e("kaungao"+width+"   "+height+"   "+w+"   "+h);
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
 
@@ -127,7 +135,7 @@ public class Nav_Resource_Icon {
         matrix.postScale(scaleWidth, scaleHeight);
         // if you want to rotate the Bitmap
         // matrix.postRotate(45);
-            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+        Bitmap resizedBitmap =  Bitmap.createBitmap(BitmapOrg, 0, 0, width,
                     height, matrix, true);
         return resizedBitmap;
     }

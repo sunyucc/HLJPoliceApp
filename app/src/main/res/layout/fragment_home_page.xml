@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    app:count="5"
+                    app:count="3"
                     app:focus="0"
                     app:focus_color="@color/good_detaul_flow_indicator_focus"
                     app:normal_color="#a1d1d1d1"
@@ -41,7 +41,7 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/ll_function"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

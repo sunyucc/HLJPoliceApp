@@ -5,14 +5,14 @@
     android:background="@color/list_background">
     <!--底部菜单栏-->
     <include layout="@layout/view_layout_title"
-        android:id="@+id/relativelayout"/>
+        android:id="@+id/tl_title"/>
 
     <FrameLayout
         android:id="@+id/fragment_con"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/menu"
-        android:layout_below="@id/relativelayout"/>
+        android:layout_below="@id/tl_title"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -26,13 +26,14 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        >
 
         <RadioButton
             android:id="@+id/rb_shouye"
             style="@style/menu_item_style"
             android:button="@null"
-            android:text="@string/menu_icon_shouye" />
+            android:text="@string/menu_icon_shouye"/>
 
         <RadioButton
             android:id="@+id/rb_zixun"

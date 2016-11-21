@@ -39,4 +39,13 @@
         android:layout_centerInParent="true"
         android:text="@string/app_name"
         android:visibility="gone" />
+    <ImageView
+        android:id="@+id/iv_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_update"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="7dp"
+        android:visibility="gone"/>
 </RelativeLayout>

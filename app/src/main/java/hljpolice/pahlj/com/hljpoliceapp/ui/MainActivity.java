@@ -1,7 +1,9 @@
 package hljpolice.pahlj.com.hljpoliceapp.ui;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -13,23 +15,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
-import hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService;
+import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
+import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
+import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
+import hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.Nav_Resource_Icon;
-
+import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 
 public class MainActivity extends BaseActivity {
@@ -54,31 +64,93 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
-    RadioButton rbCenter;
+    RadioButton mRbPersonCenter;
     @BindView(R.id.menu)
     LinearLayout menu;
+    @BindView(R.id.iv_update)
+    ImageView mIvUpdate;
     private Nav_Resource_Icon nri;
     private String fileName;
     private UpdateCartReceiver mReceiver;
     private long firstTime = 0;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        L.i("MainActivity.onCreate");
         nri = new Nav_Resource_Icon(this, 4, menu);
-        nri.setOnImageChanageListener(imageChangedListener);
+        L.i("MainActivity.onCreate");
         super.onCreate(savedInstanceState);
+        nri.setOnImageChanageListener(imageChangedListener);
+        checkVersion();
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, CheckAppVersionService.class);
-        startService(intent);
+    private void checkVersion() {
+        NetDao.updateApp(HLJPoliceApplication.application, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String json) {
+                L.e(TAG, "json:" + json);
+                if (json != null) {
+                    Gson gson = new Gson();
+                        final Version version = gson.fromJson(json, Version.class);
+                    L.e(TAG, "Version:" + version);
+                    // 大于当前版本应该更新Apk
+                    L.e("getvercode" + HLJPoliceApplication.getInstance().getCurrentVersion());
+                    L.e("getcurrentVersion" + version.getVerCode());
+                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
+                        // 启动更新App服务
+                        mIvUpdate.setVisibility(View.VISIBLE);
+                        mIvUpdate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateVersion(version);
+                            }
+                        });
+
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
+
+    private void updateVersion(final Version version) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("有新版本啦!");
+        builder.setMessage("是否更新新版本");
+        builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {//添加确定按钮
+            @Override
+
+            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(MainActivity.this, DownloadNewVersionApkService.class);
+                intent.putExtra("app", version);
+                startService(intent);
+
+            }
+
+        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {//添加返回按钮
+
+
+            @Override
+
+            public void onClick(DialogInterface dialog, int which) {//响应事件
+
+                // TODO Auto-generated method stub
+
+
+            }
+
+        }).show();//在按键响应事件中
+    }
+
 
     private void initFragment() {
         mFragments = new Fragment[4];
@@ -109,7 +181,7 @@ public class MainActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter(I.UPDATE_APP);
         mReceiver = new UpdateCartReceiver();
         this.registerReceiver(mReceiver, filter);
-        mRb = new RadioButton[]{rbShouye, rbZixun, rbShiXing, rbCenter};
+        mRb = new RadioButton[]{rbShouye, rbZixun, rbShiXing, mRbPersonCenter};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
@@ -131,12 +203,15 @@ public class MainActivity extends BaseActivity {
                 index = 0;
                 break;
             case R.id.rb_zixun:
+                mFunctionFragment1.setUrl(rbZixun.getTag().toString());
                 index = 1;
                 break;
             case R.id.rb_shixiang:
+                mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
                 index = 2;
                 break;
             case R.id.rb_center:
+                mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
                 index = 3;
                 break;
         }
@@ -167,22 +242,20 @@ public class MainActivity extends BaseActivity {
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
             if (i == index) {
-                setRadioButtonDrawableTop(mRb[i], i +1, false);
-                mRb[i].setTextColor(Color.rgb(0,90,181));
+                setRadioButtonDrawableTop(mRb[i], i + 1, false);
+                mRb[i].setTextColor(Color.rgb(0, 90, 181));
             } else {
                 setRadioButtonDrawableTop(mRb[i], i + 1, true);
-                mRb[i].setTextColor(Color.rgb(180,180,180));
+                mRb[i].setTextColor(Color.rgb(180, 180, 180));
             }
         }
     }
 
 
-
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
-        switch(keyCode)
-        {
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 long secondTime = System.currentTimeMillis();
                 if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
@@ -206,20 +279,24 @@ public class MainActivity extends BaseActivity {
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
                 rbZixun.setText(func.getData().get(0).getMkmc());
-                mFunctionFragment1.setUrl(func.getData().get(0).getQqdz());
+                rbZixun.setTag(func.getData().get(0).getQqdz());
+//                mFunctionFragment1.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);
             } else if ("02".equals(func.getMklb())) {
+                L.e("url===="+func.getData().get(0).getQqdz());
                 rbShiXing.setText(func.getData().get(0).getMkmc());
-                mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
+                rbShiXing.setTag(func.getData().get(0).getQqdz());
+//                mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
             } else if ("03".equals(func.getMklb())) {
-                rbCenter.setText(func.getData().get(0).getMkmc());
-                mFunctionFragment3.setUrl(func.getData().get(0).getQqdz());
+                mRbPersonCenter.setText(func.getData().get(0).getMkmc());
+                mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
+//                mFunctionFragment3.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }
         setRadioButtonDrawableTop(rbShouye, 1, false);
-        rbShouye.setTextColor(Color.rgb(58,97,173));
+        rbShouye.setTextColor(Color.rgb(58, 97, 173));
     }
 
     /**
@@ -246,9 +323,10 @@ public class MainActivity extends BaseActivity {
         public void isDown(int x) {
             setRadioButtonDrawableTop(rbZixun, 2, true);
             setRadioButtonDrawableTop(rbShiXing, 3, true);
-            setRadioButtonDrawableTop(rbCenter, 4, true);
+            setRadioButtonDrawableTop(mRbPersonCenter, 4, true);
         }
     };
+
     private class UpdateCartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -257,6 +335,7 @@ public class MainActivity extends BaseActivity {
             installAPK(fileName);
         }
     }
+
     private void installAPK(String filename) {
         // TODO Auto-generated method stub
         // 安装程序的apk文件路径
@@ -273,10 +352,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        if (mReceiver.isOrderedBroadcast()) {
-
-            this.unregisterReceiver(mReceiver);
-        }
         super.onStop();
     }
 
@@ -285,4 +360,5 @@ public class MainActivity extends BaseActivity {
         this.unregisterReceiver(mReceiver);
         super.onDestroy();
     }
+
 }

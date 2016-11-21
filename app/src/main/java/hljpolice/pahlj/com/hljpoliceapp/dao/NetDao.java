@@ -2,14 +2,11 @@ package hljpolice.pahlj.com.hljpoliceapp.dao;
 
 import android.content.Context;
 
-import java.io.File;
-
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.utils.GetHttpImage;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
-import okhttp3.Response;
 
 /**
  * Created by sunyu on 2016/11/15.
@@ -47,17 +44,6 @@ public class NetDao {
         http.getImage();
     }
 
-    public static void downVersionInfo(Context context,OkHttpUtils.OnCompleteListener<String> listener) {
-        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.VERSION_INFO)
-                .targetClass(String.class)
-                .execute(listener);
-    }
-    public static void downApkFile(Context context, Response response, File file, OkHttpUtils.OnCompleteListener<String> listener){
-        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
-        utils.downloadFile(response,file);
-        utils.execute(listener);
-    }
     public static void updateApp(Context mContext, OkHttpUtils.OnCompleteListener<String> listener) {
 
         OkHttpUtils<String> utils = new OkHttpUtils<>(mContext);
