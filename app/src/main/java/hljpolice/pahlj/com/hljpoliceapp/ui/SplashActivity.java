@@ -51,4 +51,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         },sleepTime);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

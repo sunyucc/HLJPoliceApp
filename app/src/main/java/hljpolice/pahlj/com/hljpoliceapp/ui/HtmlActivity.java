@@ -1,5 +1,6 @@
 package hljpolice.pahlj.com.hljpoliceapp.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
@@ -7,18 +8,22 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -38,7 +43,6 @@ import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService;
-import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 
 import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
@@ -46,6 +50,7 @@ import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
 /**
  * 用于显示点击Html的跳转
  */
+@SuppressLint("SetJavaScriptEnabled")
 public class HtmlActivity extends SlideBackActivity {
     private static final String TAG = HtmlActivity.class.getSimpleName();
     @BindView(R.id.txt_title)
@@ -60,11 +65,16 @@ public class HtmlActivity extends SlideBackActivity {
     ImageView imgBack;
     @BindView(R.id.linearLayout)
     LinearLayout mLinearLayout;
-    private String mUrl ;
+    @BindView(R.id.rl_layout)
+    RelativeLayout rlLayout;
+    private String mUrl;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
     private Uri imageUri;
+    private String mFailingUrl = null;
+    private Handler handler1 = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,18 +108,12 @@ public class HtmlActivity extends SlideBackActivity {
 
 
             @Override
-            public void onReceivedError(WebView view, final WebResourceRequest request, WebResourceError error) {
-                L.e("12345"+request.toString());
-                mWebView.setVisibility(View.INVISIBLE);
-                mLinearLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mWebView.setVisibility(View.VISIBLE);
-                        mWebView.loadUrl(mUrl);
-                    }
-                });
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                mFailingUrl = failingUrl;
+                //加载出错的自定义界面
+                view.loadUrl("file:///android_asset/error.html");
             }
-
         });
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -151,6 +155,21 @@ public class HtmlActivity extends SlideBackActivity {
                 take();
             }
         });
+        mWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_UP:
+                        if (!v.hasFocus()) {
+                            v.requestFocus();
+                            v.requestFocusFromTouch();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -175,7 +194,9 @@ public class HtmlActivity extends SlideBackActivity {
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setSupportMultipleWindows(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        mWebView.addJavascriptInterface(new JsInterface(), "jsinterface");
         mWebView.loadUrl(url);
         mWebView.requestFocus();
     }
@@ -302,5 +323,64 @@ public class HtmlActivity extends SlideBackActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
+    }
+
+    class JsInterface {
+        @JavascriptInterface
+        public void errorReload() {
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (mFailingUrl != null) {
+                        mWebView.loadUrl(mFailingUrl);
+                    }
+                }
+            });
+
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (mWebView != null) {
+            mWebView.onResume();
+            mWebView.resumeTimers();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (mWebView != null) {
+            mWebView.onPause();
+            mWebView.pauseTimers();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 返回键监听 点击返回如果有上一页面不会马上退出
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        rlLayout.removeView(mWebView);
+        mWebView.stopLoading();
+        mWebView.removeAllViews();
+        mWebView.destroy();
+        mWebView=null;
     }
 }

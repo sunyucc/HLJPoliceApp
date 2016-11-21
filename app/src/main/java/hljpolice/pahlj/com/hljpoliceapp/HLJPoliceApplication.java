@@ -20,7 +20,6 @@ public class HLJPoliceApplication extends Application {
         try {
             PackageInfo packageInfo = application.getPackageManager().getPackageInfo(application.getPackageName(), 0);
             currentVersion = packageInfo.versionCode;// 得到当前App的版本
-            // 启动检查版本的Service
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

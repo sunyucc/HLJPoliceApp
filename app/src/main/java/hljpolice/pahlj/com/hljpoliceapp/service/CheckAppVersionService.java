@@ -36,9 +36,9 @@ public class CheckAppVersionService extends Service {
                     Version version = gson.fromJson(json, Version.class);
                     L.e(TAG, "Version:" + version);
                     // 大于当前版本应该更新Apk
-                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                         L.e("getvercode"+HLJPoliceApplication.getInstance().getCurrentVersion());
                         L.e("getcurrentVersion"+version.getVerCode());
+                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                         // 启动更新App服务
                         Intent intent = new Intent(CheckAppVersionService.this, DownloadNewVersionApkService.class);
                         intent.putExtra("app",version);

@@ -8,7 +8,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +27,11 @@ public class Nav_Resource_Icon {
     private int imageHeight = 100;
 
     private OnImageChangedListener listener;
-    private View mView;
-    public Nav_Resource_Icon(Context context, int x , View view) {
+    private LinearLayout mLayout;
+    public Nav_Resource_Icon(Context context, int x , LinearLayout layout) {
         this.mContext = context;
         this.maxId = x;
-        this.mView = view;
+        this.mLayout = layout;
         iconMap = new HashMap<>();
         iconMap.put(1,getResource(R.mipmap.ic_home));
         for (int i=2;i<=x;i++) {
@@ -45,8 +45,7 @@ public class Nav_Resource_Icon {
 
     public Bitmap getNavicon(int s) {
         if (maxId<s) return null;
-        imageHeight=   mView.getHeight();
-        imageWidth = imageHeight;
+        setImageSize(mLayout.getHeight(),mLayout.getHeight());
         return resizeImage(iconMap.get(s), imageWidth, imageHeight);
     }
 
@@ -54,15 +53,12 @@ public class Nav_Resource_Icon {
         if (maxId < s) {
             return null;
         } else {
-            imageHeight=   mView.getHeight();
-            imageWidth = imageHeight;
+            setImageSize(mLayout.getHeight(),mLayout.getHeight());
         return resizeImage(grey(iconMap.get(s)),imageWidth,imageHeight);
         }
     }
 
     public void setImageSize(int width,int height) {
-        imageHeight=   mView.getHeight();
-        imageWidth = imageHeight;
         this.imageWidth = width;
         this.imageHeight = height;
     }
@@ -131,14 +127,8 @@ public class Nav_Resource_Icon {
         matrix.postScale(scaleWidth, scaleHeight);
         // if you want to rotate the Bitmap
         // matrix.postRotate(45);
-        Bitmap resizedBitmap = null;
-        try {
-
-            resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
                     height, matrix, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return resizedBitmap;
     }
 

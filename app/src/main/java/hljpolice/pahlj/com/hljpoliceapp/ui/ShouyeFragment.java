@@ -135,7 +135,9 @@ public class ShouyeFragment extends Fragment {
                         }
 
                     }
+                    if (extList != null) {
                     m.setExtFuncData(extList);
+                    }
                 }
             }
 

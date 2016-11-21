@@ -11,10 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
@@ -24,6 +26,7 @@ import butterknife.ButterKnife;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
+import hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.Nav_Resource_Icon;
 
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity {
     private Nav_Resource_Icon nri;
     private String fileName;
     private UpdateCartReceiver mReceiver;
+    private long firstTime = 0;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,12 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, CheckAppVersionService.class);
+        startService(intent);
+    }
 
     private void initFragment() {
         mFragments = new Fragment[4];
@@ -167,9 +177,24 @@ public class MainActivity extends BaseActivity {
     }
 
 
+
     @Override
-    public void onBackPressed() {
-        finish();
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        switch(keyCode)
+        {
+            case KeyEvent.KEYCODE_BACK:
+                long secondTime = System.currentTimeMillis();
+                if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    firstTime = secondTime;//更新firstTime
+                    return true;
+                } else {                                                    //两次按键小于2秒时，退出应用
+                    System.exit(0);
+                }
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     /**
@@ -244,6 +269,15 @@ public class MainActivity extends BaseActivity {
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
         // 执行意图进行安装
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        if (mReceiver.isOrderedBroadcast()) {
+
+            this.unregisterReceiver(mReceiver);
+        }
+        super.onStop();
     }
 
     @Override
