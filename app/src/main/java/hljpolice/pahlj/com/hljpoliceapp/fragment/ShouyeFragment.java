@@ -73,6 +73,7 @@ public class ShouyeFragment extends Fragment {
 
     /**
      * 下拉刷新模块信息
+     *
      * @param inflater
      */
     private void setListener(final LayoutInflater inflater) {
@@ -124,20 +125,20 @@ public class ShouyeFragment extends Fragment {
                             mAdapters[extid] = new HomePageAdapter(mContext, mLists[extid]);
                             TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
                             tv.setText(result[i].getMc());
-                                RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
-                                rv.setAdapter(mAdapters[extid]);
-                                rv.setLayoutManager(mGlms[extid]);
-                                rv.setHasFixedSize(true);
-                                rv.setAdapter(mAdapters[extid]);
-                                rv.addItemDecoration(new MyItemDecoration());
-                                mAdapters[extid].notifyDataSetChanged();
+                            RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
+                            rv.setAdapter(mAdapters[extid]);
+                            rv.setLayoutManager(mGlms[extid]);
+                            rv.setHasFixedSize(true);
+                            rv.setAdapter(mAdapters[extid]);
+                            rv.addItemDecoration(new MyItemDecoration());
+                            mAdapters[extid].notifyDataSetChanged();
                             linearLayout.addView(mViews[extid]);
                             extid++;
                         }
 
                     }
                     if (extList != null) {
-                    m.setExtFuncData(extList);
+                        m.setExtFuncData(extList);
                     }
                 }
             }
@@ -145,8 +146,7 @@ public class ShouyeFragment extends Fragment {
             @Override
             public void onError(String error) {
 
-                    setNetworkMethod(getContext(),inflater);
-                L.e("error:" + error);
+                setNetworkMethod(getContext(), inflater);
                 mSrl.setRefreshing(false);
             }
         });
@@ -209,12 +209,13 @@ public class ShouyeFragment extends Fragment {
 
     /**
      * 首页加载失败Dialog提示
+     *
      * @param context
      * @param inflater
      */
-    public void setNetworkMethod( Context context, final LayoutInflater inflater){
+    public void setNetworkMethod(Context context, final LayoutInflater inflater) {
         //提示对话框
-        AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("请检查网络").setMessage("数据请求失败请重试").setPositiveButton("刷新", new DialogInterface.OnClickListener() {
 
             @Override

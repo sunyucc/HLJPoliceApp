@@ -18,17 +18,17 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = SplashActivity .class.getSimpleName();
 
-    private final long sleepTime = 2000;
+    private final long sleepTime = 2000;        //  闪屏时间2s
     SplashActivity mContext;
-    SharedPreferences preferences ;
+    SharedPreferences preferences ;             //  用于判断程序是否打开过
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mContext = this;
         preferences =getSharedPreferences("user", Context.MODE_PRIVATE);
-       String Imei = ((TelephonyManager)mContext.getSystemService(TELEPHONY_SERVICE))
-                .getDeviceId();
+       String Imei = ((TelephonyManager)mContext
+               .getSystemService(TELEPHONY_SERVICE)).getDeviceId();     //获取设备的IMEI号
         L.e("Imer=" + Imei);
     }
 

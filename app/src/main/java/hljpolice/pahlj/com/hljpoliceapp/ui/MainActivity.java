@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
 import hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
-import hljpolice.pahlj.com.hljpoliceapp.utils.Nav_Resource_Icon;
+import hljpolice.pahlj.com.hljpoliceapp.utils.NavResourceIcon;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 
@@ -69,17 +70,17 @@ public class MainActivity extends BaseActivity {
     LinearLayout menu;
     @BindView(R.id.iv_update)
     ImageView mIvUpdate;
-    private Nav_Resource_Icon nri;
+    private NavResourceIcon nri;
     private String fileName;
     private UpdateCartReceiver mReceiver;
     private long firstTime = 0;
-
+    RelativeLayout mRlTitle;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        nri = new Nav_Resource_Icon(this, 4, menu);
+        nri = new NavResourceIcon(this, 4, menu);
         L.i("MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         nri.setOnImageChanageListener(imageChangedListener);
@@ -94,23 +95,28 @@ public class MainActivity extends BaseActivity {
                 L.e(TAG, "json:" + json);
                 if (json != null) {
                     Gson gson = new Gson();
-                    final Version version = gson.fromJson(json, Version.class);
-                    L.e(TAG, "Version:" + version);
-                    // 大于当前版本应该更新Apk
-                    L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
-                    L.e("getvercode" + version.getVerCode());
-                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
-                        // 启动更新App服务
-                        mIvUpdate.setVisibility(View.VISIBLE);
-                        mIvUpdate.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                updateVersion(version);
-                            }
-                        });
+                    try {
+                        final Version version = gson.fromJson(json, Version.class);
+                        L.e(TAG, "Version:" + version);
+                        // 大于当前版本应该更新Apk
+                        L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
+                        L.e("getvercode" + version.getVerCode());
+                        if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
+                            // 启动更新App服务
+                            mIvUpdate.setVisibility(View.VISIBLE);
+                            mIvUpdate.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    updateVersion(version);
+                                }
+                            });
 
-                    } else {
-                        mIvUpdate.setVisibility(View.GONE);
+                        } else {
+                            mIvUpdate.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "获取版本信息失败,请稍后再试!", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                 }
             }
@@ -122,6 +128,10 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 更新版本对话框
+     * @param version
+     */
     private void updateVersion(final Version version) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("有新版本啦!");
@@ -134,7 +144,7 @@ public class MainActivity extends BaseActivity {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(MainActivity.this, DownloadNewVersionApkService.class);
                 intent.putExtra("app", version);
-                startService(intent);
+                startService(intent);       // 隐式意图启动服务
 
             }
 
@@ -143,17 +153,15 @@ public class MainActivity extends BaseActivity {
 
             @Override
 
-            public void onClick(DialogInterface dialog, int which) {//响应事件
-
-                // TODO Auto-generated method stub
-
-
+            public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
             }
 
         }).show();//在按键响应事件中
     }
 
-
+    /**
+     * 初始化Fragment
+     */
     private void initFragment() {
         mFragments = new Fragment[4];
         mHomePageFragment = new ShouyeFragment();
@@ -178,6 +186,9 @@ public class MainActivity extends BaseActivity {
                 .commit();
     }
 
+    /**
+     * 初始化控件
+     */
     @Override
     protected void initView() {
         IntentFilter filter = new IntentFilter(I.UPDATE_APP);
@@ -190,6 +201,7 @@ public class MainActivity extends BaseActivity {
         rbZixun.setEnabled(false);
         rbShiXing.setEnabled(false);
         mRbPersonCenter.setEnabled(false);
+        mRlTitle = (RelativeLayout) findViewById(R.id.tl_title);
     }
 
     @Override
@@ -202,6 +214,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /**
+     * 按钮的点击事件
+     * @param view
+     */
     public void onCheckedChange(View view) {
         switch (view.getId()) {
             case R.id.rb_shouye:
@@ -222,10 +238,10 @@ public class MainActivity extends BaseActivity {
         }
         setFragment();
         if (index == 0) {
+            mRlTitle.setVisibility(View.VISIBLE);
             txtTitle.setText("平安黑龙江");
         } else {
-            txtTitle.setText(mRb[index].getText());
-            L.e(TAG, String.valueOf(mRb[index].getText()));
+            mRlTitle.setVisibility(View.GONE);
         }
     }
 
@@ -283,28 +299,29 @@ public class MainActivity extends BaseActivity {
     public void setExtFuncData(List<FunctionBean> funcList) {
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
-                rbZixun.setText(func.getData().get(0).getMkmc());
-                rbZixun.setTag(func.getData().get(0).getQqdz());
-                rbZixun.setEnabled(true);
-//                mFunctionFragment1.setUrl(func.getData().get(0).getQqdz());
-                nri.setImageUrl(func.getData().get(0).getTbdz(), 2);
+                mFunctionFragment1.setTxtTitle(func.getData().get(0).getMkmc());        //设置第二页的标题
+                rbZixun.setText(func.getData().get(0).getMkmc());       //设置第二个按钮的文字
+                rbZixun.setTag(func.getData().get(0).getQqdz());        //设置第二页加载的网址
+                rbZixun.setEnabled(true);                               //当rbzixun设置tag以后使控件可用，否则会出现空指针
+                nri.setImageUrl(func.getData().get(0).getTbdz(), 2);    //设置按钮图片的url
             } else if ("02".equals(func.getMklb())) {
-                L.e("url====" + func.getData().get(0).getQqdz());
+
+                mFunctionFragment2.setTxtTitle(func.getData().get(0).getMkmc());
                 rbShiXing.setText(func.getData().get(0).getMkmc());
                 rbShiXing.setTag(func.getData().get(0).getQqdz());
                 rbShiXing.setEnabled(true);
-//                mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
             } else if ("03".equals(func.getMklb())) {
+
+                mFunctionFragment3.setTxtTitle(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setText(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
-//                mFunctionFragment3.setUrl(func.getData().get(0).getQqdz());
                 mRbPersonCenter.setEnabled(true);
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }
-        setRadioButtonDrawableTop(rbShouye, 1, false);
-        rbShouye.setTextColor(Color.rgb(58, 97, 173));
+        setRadioButtonDrawableTop(rbShouye, 1, false);      // 设置第一个按钮的图片
+        rbShouye.setTextColor(Color.rgb(58, 97, 173));      // 设置第一个按钮的颜色
     }
 
     /**
@@ -316,7 +333,7 @@ public class MainActivity extends BaseActivity {
      */
     public void setRadioButtonDrawableTop(RadioButton rb, int x, boolean isgray) {
         Drawable drawableTop;
-        if (isgray) {
+        if (isgray) { //是否将图片置成灰色
             drawableTop = new BitmapDrawable(null, nri.getGrayNavIcon(x));
         } else {
             drawableTop = new BitmapDrawable(null, nri.getNavicon(x));
@@ -326,24 +343,31 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private Nav_Resource_Icon.OnImageChangedListener imageChangedListener = new Nav_Resource_Icon.OnImageChangedListener() {
+    private NavResourceIcon.OnImageChangedListener imageChangedListener = new NavResourceIcon.OnImageChangedListener() {
         @Override
         public void isDown(int x) {
-            setRadioButtonDrawableTop(rbZixun, 2, true);
-            setRadioButtonDrawableTop(rbShiXing, 3, true);
-            setRadioButtonDrawableTop(mRbPersonCenter, 4, true);
+            setRadioButtonDrawableTop(rbZixun, 2, true);        //设置第二个按钮的图片
+            setRadioButtonDrawableTop(rbShiXing, 3, true);        //设置第三个按钮的图片
+            setRadioButtonDrawableTop(mRbPersonCenter, 4, true);          //设置第四个按钮的图片
         }
     };
 
+    /**
+     * 用于接收安装apk的广播
+     */
     private class UpdateCartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            fileName = intent.getStringExtra(I.FILE_NAME);
+            fileName = intent.getStringExtra(I.FILE_NAME); //通过广播得到要安装apk的文件名
             L.e(TAG, "file:" + fileName);
             installAPK(fileName);
         }
     }
 
+    /**
+     * 安装apk
+     * @param filename
+     */
     private void installAPK(String filename) {
         // TODO Auto-generated method stub
         // 安装程序的apk文件路径
@@ -358,14 +382,10 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     @Override
     protected void onDestroy() {
-        this.unregisterReceiver(mReceiver);
+        this.unregisterReceiver(mReceiver);//注销广播
         super.onDestroy();
     }
 

@@ -13,4 +13,8 @@
         <attr name="focus_color" format="color|reference"/>
         <attr name="focus" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="MyRadioButton">
+        <attr name="rbDrawableTopSize" format="dimension"/>
+        <attr name="rbDrawableTop" format="reference"/>
+    </declare-styleable>
 </resources>

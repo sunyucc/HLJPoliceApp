@@ -63,7 +63,7 @@ public class XiangDaoActivity extends Activity implements
         currentItem = postion;
     }
 
-    public void onClick(View v) {
+    public void onClick(View v) {           // 跳转到首页
         MFGT.gotoMainActivity(this);
         MFGT.finish(this);
     }

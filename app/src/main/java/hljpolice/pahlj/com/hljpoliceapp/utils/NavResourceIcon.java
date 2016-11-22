@@ -20,18 +20,18 @@ import hljpolice.pahlj.com.hljpoliceapp.R;
 /**
  * Created by Carklote on 2016/11/18.
  */
-public class Nav_Resource_Icon {
+public class NavResourceIcon {
     private Map<Integer, Bitmap> iconMap;
     private Context mContext;
     private int maxId;
 
-    private int imageWidth = 100;
-    private int imageHeight = 100;
+    private int imageWidth = 60;
+    private int imageHeight = 60;
 
     private OnImageChangedListener listener;
     private LinearLayout mLayout;
 
-    public Nav_Resource_Icon(Context context, int x, LinearLayout layout) {
+    public NavResourceIcon(Context context, int x, LinearLayout layout) {
         this.mContext = context;
         this.maxId = x;
         this.mLayout = layout;
@@ -47,17 +47,26 @@ public class Nav_Resource_Icon {
     }
 
     public Bitmap getNavicon(int s) {
-        if (maxId < s) return null;
-        imageHeight = mLayout.getHeight();
-        imageWidth = imageHeight;
-        return resizeImage(iconMap.get(s), imageWidth, imageHeight);
+        if (maxId < s) {
+            return null;
+        } else {
+            if (getScreenWidth(mContext) <= 480) {
+                imageHeight = mLayout.getWidth() / 8;
+                imageWidth = imageHeight;
+            } else {
+                imageHeight = mLayout.getHeight();
+                imageWidth = imageHeight;
+
+            }
+            return resizeImage(iconMap.get(s), imageWidth, imageHeight);
+        }
     }
 
     public Bitmap getGrayNavIcon(int s) {
         if (maxId < s) {
             return null;
         } else {
-            if (getScreenWidth(mContext) < 720) {
+            if (getScreenWidth(mContext) <= 480) {
                 imageHeight = mLayout.getWidth() / 8;
                 imageWidth = imageHeight;
             } else {

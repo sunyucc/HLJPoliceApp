@@ -98,11 +98,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mUrl = url;
                 view.loadUrl(url);
-                if (view.canGoBack()) {
-                    mTxtLeft.setVisibility(View.VISIBLE);
-                } else {
-                    mTxtLeft.setVisibility(View.INVISIBLE);
-                }
+
                 return false;
             }
 
@@ -111,6 +107,11 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
                 bar.setVisibility(View.GONE);
                 if (url.contains("login.html")) {
                     view.loadUrl(I.CHANGE_APPTYPE);
+                }
+                if (view.canGoBack()) {
+                    mTxtLeft.setVisibility(View.VISIBLE);
+                } else {
+                    mTxtLeft.setVisibility(View.INVISIBLE);
                 }
                 super.onPageFinished(view, url);
 
@@ -205,7 +206,6 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         mWebView.loadUrl(url);
         mWebView.requestFocus();
     }
-
     @OnClick({R.id.txt_left, R.id.rl_back})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -218,7 +218,6 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
                 } else {
                     MFGT.finish(this);
                 }
-                System.out.println(mWebView.canGoBack());
                 break;
 
         }
@@ -293,7 +292,9 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         return;
     }
 
-
+    /**
+     * 在webview中调用系统相机
+     */
     private void take() {
         File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyApp");
         // Create the storage directory if it does not exist
@@ -324,10 +325,10 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
 
+
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
+    public void onBackPressed() {
+        MFGT.finish(this);
     }
 
     private void initSwipeBackFinish() {
@@ -437,7 +438,5 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         rlLayout.removeView(mWebView);
         mWebView.stopLoading();
         mWebView.removeAllViews();
-        mWebView.destroy();
-        mWebView=null;
     }
 }

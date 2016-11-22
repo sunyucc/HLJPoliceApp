@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +20,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 用于下载apk的服务
+ */
 public class DownloadNewVersionApkService extends Service {
     private static final String TAG = DownloadNewVersionApkService.class.getSimpleName();
     DownloadNewVersionApkService mContext;
@@ -34,16 +38,16 @@ public class DownloadNewVersionApkService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 启动更新下载文件
-         final Version bean = (Version) intent.getSerializableExtra("app");
-        L.e(TAG, "bean:" + bean);
+         final Version bean = (Version) intent.getSerializableExtra("app");    //获取版本信息
         OkHttpClient client = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        Request request = builder.url("http://gdown.baidu.com/data/wisegame/81cce5bbe49b4301/QQ_422.apk").build();
+        Request request = builder.url(I.UPDATE_APK).build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Toast.makeText(DownloadNewVersionApkService.this, "版本更新失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
 
             @Override

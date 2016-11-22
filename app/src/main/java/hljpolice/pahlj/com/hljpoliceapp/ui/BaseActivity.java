@@ -16,12 +16,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
-        
+
     }
 
     protected abstract void initView();
+
     protected abstract void initData();
+
     protected abstract void setListener();
+
+    /**
+     * 点击间隔时间
+     */
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            if (ClickTimeUtils.isFastDoubleClick()) {
+//                return true;
+//            }
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
+
 
     @Override
     public void onBackPressed() {
