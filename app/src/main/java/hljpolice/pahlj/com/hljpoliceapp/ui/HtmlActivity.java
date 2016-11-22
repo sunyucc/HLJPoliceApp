@@ -17,10 +17,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.v4.widget.SlidingPaneLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -34,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +55,7 @@ import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
  * 用于显示点击Html的跳转
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class HtmlActivity extends SlideBackActivity {
+public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout.PanelSlideListener  {
     private static final String TAG = HtmlActivity.class.getSimpleName();
     @BindView(R.id.txt_title)
     TextView txtTitle;
@@ -80,13 +84,11 @@ public class HtmlActivity extends SlideBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
+        initSwipeBackFinish();
         initView();
         initData();
-        setListener();
     }
 
-    private void setListener() {
-    }
 
     private void initData() {
         final ProgressBar bar = (ProgressBar) findViewById(R.id.myProgressBar);
@@ -327,6 +329,55 @@ public class HtmlActivity extends SlideBackActivity {
         super.finish();
         overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
     }
+
+    private void initSwipeBackFinish() {
+        if (isSupportSwipeBack()) {
+            SlidingPaneLayout slidingPaneLayout = new SlidingPaneLayout(this);
+            //通过反射改变mOverhangSize的值为0，这个mOverhangSize值为菜单到右边屏幕的最短距离，默认
+            //是32dp，现在给它改成0
+            try {
+                //属性
+                Field f_overHang = SlidingPaneLayout.class.getDeclaredField("mOverhangSize");
+                f_overHang.setAccessible(true);
+                f_overHang.set(slidingPaneLayout, 0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            slidingPaneLayout.setPanelSlideListener(this);
+            slidingPaneLayout.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
+
+            View leftView = new View(this);
+            leftView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            slidingPaneLayout.addView(leftView, 0);
+
+            ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+            ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
+            decorChild.setBackgroundColor(getResources().getColor(android.R.color.white));
+            decor.removeView(decorChild);
+            decor.addView(slidingPaneLayout);
+            slidingPaneLayout.addView(decorChild, 1);
+        }
+    }
+
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+    @Override
+    public void onPanelSlide(View panel, float slideOffset) {
+
+    }
+
+    @Override
+    public void onPanelOpened(View panel) {
+        finish();
+        this.overridePendingTransition(0, R.anim.slide_out_right);
+    }
+
+    @Override
+    public void onPanelClosed(View panel) {
+
+    }
+
     class JsInterface {
         @JavascriptInterface
         public void errorReload() {

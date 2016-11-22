@@ -94,11 +94,11 @@ public class MainActivity extends BaseActivity {
                 L.e(TAG, "json:" + json);
                 if (json != null) {
                     Gson gson = new Gson();
-                        final Version version = gson.fromJson(json, Version.class);
+                    final Version version = gson.fromJson(json, Version.class);
                     L.e(TAG, "Version:" + version);
                     // 大于当前版本应该更新Apk
-                    L.e("getvercode" + HLJPoliceApplication.getInstance().getCurrentVersion());
-                    L.e("getcurrentVersion" + version.getVerCode());
+                    L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
+                    L.e("getvercode" + version.getVerCode());
                     if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                         // 启动更新App服务
                         mIvUpdate.setVisibility(View.VISIBLE);
@@ -109,6 +109,8 @@ public class MainActivity extends BaseActivity {
                             }
                         });
 
+                    } else {
+                        mIvUpdate.setVisibility(View.GONE);
                     }
                 }
             }
@@ -185,6 +187,9 @@ public class MainActivity extends BaseActivity {
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
+        rbZixun.setEnabled(false);
+        rbShiXing.setEnabled(false);
+        mRbPersonCenter.setEnabled(false);
     }
 
     @Override
@@ -203,16 +208,16 @@ public class MainActivity extends BaseActivity {
                 index = 0;
                 break;
             case R.id.rb_zixun:
-                mFunctionFragment1.setUrl(rbZixun.getTag().toString());
-                index = 1;
+                    mFunctionFragment1.setUrl(rbZixun.getTag().toString());
+                    index = 1;
                 break;
             case R.id.rb_shixiang:
-                mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
-                index = 2;
+                    mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
+                    index = 2;
                 break;
             case R.id.rb_center:
-                mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
-                index = 3;
+                    mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
+                    index=3;
                 break;
         }
         setFragment();
@@ -280,18 +285,21 @@ public class MainActivity extends BaseActivity {
             if ("01".equals(func.getMklb())) {
                 rbZixun.setText(func.getData().get(0).getMkmc());
                 rbZixun.setTag(func.getData().get(0).getQqdz());
+                rbZixun.setEnabled(true);
 //                mFunctionFragment1.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);
             } else if ("02".equals(func.getMklb())) {
-                L.e("url===="+func.getData().get(0).getQqdz());
+                L.e("url====" + func.getData().get(0).getQqdz());
                 rbShiXing.setText(func.getData().get(0).getMkmc());
                 rbShiXing.setTag(func.getData().get(0).getQqdz());
+                rbShiXing.setEnabled(true);
 //                mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
             } else if ("03".equals(func.getMklb())) {
                 mRbPersonCenter.setText(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
 //                mFunctionFragment3.setUrl(func.getData().get(0).getQqdz());
+                mRbPersonCenter.setEnabled(true);
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }

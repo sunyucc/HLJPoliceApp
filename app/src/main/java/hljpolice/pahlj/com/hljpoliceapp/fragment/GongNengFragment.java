@@ -46,10 +46,6 @@ public class GongNengFragment extends Fragment {
 
                 view.loadUrl(url);
                 }
-//                if (url != null) {
-//                    Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
-//                    startActivity(intent);
-//                }
                 return true;
             }
             @Override

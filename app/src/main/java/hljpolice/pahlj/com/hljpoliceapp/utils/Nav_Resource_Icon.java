@@ -8,6 +8,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import hljpolice.pahlj.com.hljpoliceapp.R;
  * Created by Carklote on 2016/11/18.
  */
 public class Nav_Resource_Icon {
-    private Map<Integer,Bitmap> iconMap;
+    private Map<Integer, Bitmap> iconMap;
     private Context mContext;
     private int maxId;
 
@@ -28,23 +30,24 @@ public class Nav_Resource_Icon {
 
     private OnImageChangedListener listener;
     private LinearLayout mLayout;
-    public Nav_Resource_Icon(Context context, int x , LinearLayout layout) {
+
+    public Nav_Resource_Icon(Context context, int x, LinearLayout layout) {
         this.mContext = context;
         this.maxId = x;
         this.mLayout = layout;
         iconMap = new HashMap<>();
-        iconMap.put(1,getResource(R.mipmap.ic_home));
-        for (int i=2;i<=x;i++) {
+        iconMap.put(1, getResource(R.mipmap.ic_home));
+        for (int i = 2; i <= x; i++) {
             iconMap.put(i, getResource(R.mipmap.ic_cloud));
         }
     }
 
     private Bitmap getResource(int resId) {
-        return BitmapFactory.decodeResource(mContext.getResources(),resId);
+        return BitmapFactory.decodeResource(mContext.getResources(), resId);
     }
 
     public Bitmap getNavicon(int s) {
-        if (maxId<s) return null;
+        if (maxId < s) return null;
         imageHeight = mLayout.getHeight();
         imageWidth = imageHeight;
         return resizeImage(iconMap.get(s), imageWidth, imageHeight);
@@ -54,13 +57,19 @@ public class Nav_Resource_Icon {
         if (maxId < s) {
             return null;
         } else {
-            imageHeight = mLayout.getHeight();
-            imageWidth = imageHeight;
-        return resizeImage(grey(iconMap.get(s)),imageWidth,imageHeight);
+            if (getScreenWidth(mContext) < 720) {
+                imageHeight = mLayout.getWidth() / 8;
+                imageWidth = imageHeight;
+            } else {
+                imageHeight = mLayout.getHeight();
+                imageWidth = imageHeight;
+
+            }
+            return resizeImage(grey(iconMap.get(s)), imageWidth, imageHeight);
         }
     }
 
-    public void setImageSize(int width,int height) {
+    public void setImageSize(int width, int height) {
         this.imageWidth = width;
         this.imageHeight = height;
     }
@@ -68,16 +77,17 @@ public class Nav_Resource_Icon {
     public void setOnImageChanageListener(OnImageChangedListener listener) {
         this.listener = listener;
     }
-    public void setImageUrl(String url,int id) {
+
+    public void setImageUrl(String url, int id) {
         GetHttpImage httpImage = new GetHttpImage(url);
         httpImage.setId(id);
         httpImage.setListener(new GetHttpImage.CallBackListener() {
 
             @Override
             public void Callback(int x, Bitmap resultBmp) {
-                L.e("x=="+x);
-                iconMap.put(x,resultBmp);
-                if (listener!=null) {
+                L.e("x==" + x);
+                iconMap.put(x, resultBmp);
+                if (listener != null) {
                     listener.isDown(x);
                 }
             }
@@ -90,9 +100,9 @@ public class Nav_Resource_Icon {
         httpImage.getImage();
     }
 
-    public void setImageUrl(Map<Integer,String> reqData) {
-        for (int x:reqData.keySet()) {
-            setImageUrl(reqData.get(x),x);
+    public void setImageUrl(Map<Integer, String> reqData) {
+        for (int x : reqData.keySet()) {
+            setImageUrl(reqData.get(x), x);
         }
     }
 
@@ -114,8 +124,7 @@ public class Nav_Resource_Icon {
         return faceIconGreyBitmap;
     }
 
-    private Bitmap resizeImage(Bitmap bitmap, int w, int h)
-    {
+    private Bitmap resizeImage(Bitmap bitmap, int w, int h) {
         Bitmap BitmapOrg = bitmap;
 
         int width = BitmapOrg.getWidth();
@@ -124,10 +133,10 @@ public class Nav_Resource_Icon {
         int newHeight = h;
 
         if (w == 0 || h == 0) {
-            newHeight=180;
-            newWidth=180;
+            newHeight = 180;
+            newWidth = 180;
         }
-        L.e("kaungao"+width+"   "+height+"   "+w+"   "+h);
+        L.e("kaungao" + width + "   " + height + "   " + w + "   " + h);
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
 
@@ -135,12 +144,24 @@ public class Nav_Resource_Icon {
         matrix.postScale(scaleWidth, scaleHeight);
         // if you want to rotate the Bitmap
         // matrix.postRotate(45);
-        Bitmap resizedBitmap =  Bitmap.createBitmap(BitmapOrg, 0, 0, width,
-                    height, matrix, true);
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+                height, matrix, true);
         return resizedBitmap;
     }
 
     public interface OnImageChangedListener {
-         void isDown(int x);
+        void isDown(int x);
+    }
+
+    public static int getScreenWidth(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        return display.getWidth();
+    }
+
+    public static int getScreenHeight(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        return display.getHeight();
     }
 }

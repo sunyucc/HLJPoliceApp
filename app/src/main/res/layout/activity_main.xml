@@ -19,21 +19,21 @@
         android:background="@color/gray_pressed"
         android:layout_above="@id/menu"/>
 
-    <LinearLayout
+    <RadioGroup
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/menu_activity_height"
         android:background="@color/white"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:weightSum="4"
         >
 
         <RadioButton
             android:id="@+id/rb_shouye"
             style="@style/menu_item_style"
             android:button="@null"
-            android:text="@string/menu_icon_shouye"/>
+            android:text="@string/menu_icon_shouye" />
 
         <RadioButton
             android:id="@+id/rb_zixun"
@@ -55,6 +55,6 @@
             android:button="@null"
             android:text="@string/menu_icon_zaijia"
             android:background="@null"/>
-    </LinearLayout>
+    </RadioGroup>
 
 </RelativeLayout>

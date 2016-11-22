@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -363,7 +365,15 @@ public class OkHttpUtils<T> {
                     mHandler.sendMessage(msg);
                 }else {
                     Gson gson = new Gson();
-                    T value = gson.fromJson(json, mClazz);
+
+                    T value = null;
+                    try {
+
+                        value = gson.fromJson(json, mClazz);
+                    } catch (JsonSyntaxException e) {
+                        Toast.makeText(mContext, "连接服务器失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                     Message msg = Message.obtain();
                     msg.what = RESULT_SUCCESS;
                     msg.obj = value;
