@@ -21,6 +21,7 @@ import hljpolice.pahlj.com.hljpoliceapp.R;
  * Created by Carklote on 2016/11/18.
  */
 public class Nav_Resource_Icon {
+    int i=1;
     private Map<Integer, Bitmap> iconMap;
     private Context mContext;
     private int maxId;
