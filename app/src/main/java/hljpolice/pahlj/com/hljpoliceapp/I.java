@@ -5,7 +5,7 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String SERVER_ROOT = "http://192.168.16.220:8088/cs/gyqq/";
+    String SERVER_ROOT = "http://61.180.150.46:8088/cs/gyqq/";
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息

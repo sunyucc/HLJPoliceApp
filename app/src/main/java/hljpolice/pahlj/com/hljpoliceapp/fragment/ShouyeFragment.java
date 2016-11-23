@@ -216,14 +216,14 @@ public class ShouyeFragment extends Fragment {
     public void setNetworkMethod(Context context, final LayoutInflater inflater) {
         //提示对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("请检查网络").setMessage("数据请求失败请重试").setPositiveButton("刷新", new DialogInterface.OnClickListener() {
+        builder.setTitle("提示").setMessage("请检查网络").setPositiveButton("尝试刷新", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mDialog = dialog;
                 initData(inflater);
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("离开", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -183,9 +183,6 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        if (url.contains(I.App_OLD_TYPE)) {
-            url = intent.getStringExtra("url").replace(I.App_OLD_TYPE, I.APP_TYPE);
-        }
         rlBack.setVisibility(View.VISIBLE);
 
         txtTitle.setVisibility(View.VISIBLE);

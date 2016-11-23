@@ -352,7 +352,6 @@ public class OkHttpUtils<T> {
                 msg.obj = e.getMessage();
                 mHandler.sendMessage(msg);
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String json = response.body().string();
@@ -363,17 +362,18 @@ public class OkHttpUtils<T> {
                     mHandler.sendMessage(msg);
                 }else {
                     Gson gson = new Gson();
+                    Message msg = Message.obtain();
 
                     T value = null;
                     try {
 
                         value = gson.fromJson(json, mClazz);
+                        msg.what = RESULT_SUCCESS;
+                        msg.obj = value;
                     } catch (Exception e) {
                         e.printStackTrace();
+                        msg.what = RESULT_ERROR;
                     }
-                    Message msg = Message.obtain();
-                    msg.what = RESULT_SUCCESS;
-                    msg.obj = value;
                     mHandler.sendMessage(msg);
                 }
             }

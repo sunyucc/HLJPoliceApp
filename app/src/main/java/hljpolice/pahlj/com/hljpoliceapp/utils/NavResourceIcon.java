@@ -51,7 +51,7 @@ public class NavResourceIcon {
             return null;
         } else {
             if (getScreenWidth(mContext) <= 480) {
-                imageHeight = mLayout.getWidth() / 8;
+                imageHeight = mLayout.getWidth() / 10;
                 imageWidth = imageHeight;
             } else {
                 imageHeight = mLayout.getHeight();
@@ -67,7 +67,7 @@ public class NavResourceIcon {
             return null;
         } else {
             if (getScreenWidth(mContext) <= 480) {
-                imageHeight = mLayout.getWidth() / 8;
+                imageHeight = mLayout.getWidth() / 10;
                 imageWidth = imageHeight;
             } else {
                 imageHeight = mLayout.getHeight();
