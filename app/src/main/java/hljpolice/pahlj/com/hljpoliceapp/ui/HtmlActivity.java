@@ -30,7 +30,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,8 +65,6 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
     RelativeLayout rlBack;
     @BindView(R.id.img_back)
     ImageView imgBack;
-    @BindView(R.id.linearLayout)
-    LinearLayout mLinearLayout;
     @BindView(R.id.rl_layout)
     RelativeLayout rlLayout;
     String mUrl;
@@ -90,7 +87,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
 
     private void initData() {
-        final ProgressBar bar = (ProgressBar) findViewById(R.id.myProgressBar);
+        final ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -195,16 +192,18 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setAppCacheEnabled(true);
-        settings.setLoadWithOverviewMode(true);
+//        settings.setLoadWithOverviewMode(true);
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setSupportMultipleWindows(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
+        mWebView.setVerticalScrollBarEnabled(true);
         L.e("url+++"+url);
         mWebView.loadUrl(url);
         mWebView.requestFocus();
+
     }
     @OnClick({R.id.txt_left, R.id.rl_back})
     public void onClick(View view) {

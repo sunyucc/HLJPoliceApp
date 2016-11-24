@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
 import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 /**
@@ -87,9 +89,11 @@ public class ShiXiangFragment extends Fragment {
             @Override
             public void itemClickListener(ShiXiangModuleBean bean) {
                 tvQuanBu.setText(bean.getMc());
-                searchData.put("sxywlb", bean.getBm());
+                searchData.put("sxywdl", bean.getBm());
                 mPageId =1 ;
+                L.e("search="+searchData.toString());
                 downloadShiXiang(ACTION_DOWNLOAD,mPageId,searchData);
+                window.dismiss();
             }
         });
         rg_sxywdl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -98,14 +102,14 @@ public class ShiXiangFragment extends Fragment {
                 switch(checkedId) {
                     case R.id.rb_quanbu:
                         //searchData.setSxywdl("");
-                        searchData.put("sxywdl","");
+                        searchData.put("sxywlb","");
                         break;
                     case R.id.rb_geren:
-                        searchData.put("sxywdl","01");
+                        searchData.put("sxywlb","01");
                         //searchData.setSxywdl("01"); //个人字典id，需要在网络上获取
                         break;
                     case R.id.rb_danwei:
-                        searchData.put("sxywdl","02");
+                        searchData.put("sxywlb","02");
                         //searchData.setSxywdl("02"); //单位字典id，需要在网上获取
                 }
             }
@@ -181,7 +185,7 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void initView() {
-        mList = new ArrayList<>();
+        mList = new ArrayList<>();          //初始化事项中心的Arraylist
         mModuleList = new ArrayList<>();
         mPopupAdapter = new PopupWindowAdapter(mContext, mModuleList);
         mAdapter = new ShiXiangAdapter(mContext, mList);
@@ -191,13 +195,14 @@ public class ShiXiangFragment extends Fragment {
         mRv.setLayoutManager(mLayoutManager);
         View popupView = mContext.getLayoutInflater().inflate(R.layout.pop_window, null);
         rg_sxywdl = (RadioGroup) popupView.findViewById(R.id.rg_sxywdl);
+        //设置popup中recycleview的适配器和布局管理器
         rvjingzhong = (RecyclerView) popupView.findViewById(R.id.rv_popup);
         rvjingzhong.setAdapter(mPopupAdapter);
         rvjingzhong.setLayoutManager(mGridlayoutManager);
-
+        //设置popup的高度
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        window = new PopupWindow(popupView, metrics.widthPixels, metrics.heightPixels / 2);
+        window = new PopupWindow(popupView, metrics.widthPixels, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
     private void showPopupWindow() {
@@ -207,7 +212,6 @@ public class ShiXiangFragment extends Fragment {
         window.update();
         window.showAsDropDown(tvQuanBu, 0, 0);
     }
-
     @OnClick({R.id.tb_quanbu, R.id.btn_search})
     public void onClick(View view) {
         switch (view.getId()) {

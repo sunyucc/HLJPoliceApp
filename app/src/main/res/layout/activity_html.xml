@@ -10,7 +10,7 @@
         />
 
     <ProgressBar
-        android:id="@+id/myProgressBar"
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="5px"
@@ -19,30 +19,9 @@
         android:progress="1"
         android:progressDrawable="@drawable/progressbg" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/error_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="重新加载" />
-    </LinearLayout>
-
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/myProgressBar"/>
+        android:layout_height="fill_parent"
+        android:layout_below="@id/progressBar"/>
 </RelativeLayout>
