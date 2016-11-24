@@ -81,13 +81,13 @@ public class GongNengFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 bar.setVisibility(View.GONE);
                 boolean isLogin = url.contains("login.html");   //判断是否为登录页
-//                if (isLogin || url.equals(defaultUrl)) {       //如果是登录页或者是默认页
-//                    rlBack.setVisibility(View.GONE);            //不显示返回按钮
-//                } else {
-//                    if (view.canGoBack() && !url.contains("index.html")) {  //如果不是首页并且包含上一页
-//                        rlBack.setVisibility(View.VISIBLE);     //显示返回按钮
-//                    }
-//                }
+                if (isLogin || url.equals(defaultUrl)) {       //如果是登录页或者是默认页
+                    rlBack.setVisibility(View.GONE);            //不显示返回按钮
+                } else {
+                    if (view.canGoBack() && !url.contains("index.html")) {  //如果不是首页并且包含上一页
+                        rlBack.setVisibility(View.VISIBLE);     //显示返回按钮
+                    }
+                }
 
                 //在这里与JS代码交互
                 if (isLogin) {      //登录页

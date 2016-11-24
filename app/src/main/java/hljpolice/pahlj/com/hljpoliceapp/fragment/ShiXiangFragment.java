@@ -28,6 +28,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.adapter.PopupWindowAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.adapter.ShiXiangAdapter;
@@ -64,8 +65,10 @@ public class ShiXiangFragment extends Fragment {
     RecyclerView rvjingzhong;
     RadioGroup rg_sxywdl;
 
-//    private  ShiXiangSearch searchData;
-    Map<String,String> searchData;
+    //    private  ShiXiangSearch searchData;
+    Map<String, String> searchData;
+    @BindView(R.id.txt_title)
+    TextView txtTitle;
 
     public ShiXiangFragment() {
         // Required empty public constructor
@@ -90,26 +93,26 @@ public class ShiXiangFragment extends Fragment {
             public void itemClickListener(ShiXiangModuleBean bean) {
                 tvQuanBu.setText(bean.getMc());
                 searchData.put("sxywdl", bean.getBm());
-                mPageId =1 ;
-                L.e("search="+searchData.toString());
-                downloadShiXiang(ACTION_DOWNLOAD,mPageId,searchData);
+                mPageId = 1;
+                L.e("search=" + searchData.toString());
+                downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
                 window.dismiss();
             }
         });
         rg_sxywdl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId) {
+                switch (checkedId) {
                     case R.id.rb_quanbu:
                         //searchData.setSxywdl("");
-                        searchData.put("sxywlb","");
+                        searchData.put("sxywlb", "");
                         break;
                     case R.id.rb_geren:
-                        searchData.put("sxywlb","01");
+                        searchData.put("sxywlb", "01");
                         //searchData.setSxywdl("01"); //个人字典id，需要在网络上获取
                         break;
                     case R.id.rb_danwei:
-                        searchData.put("sxywlb","02");
+                        searchData.put("sxywlb", "02");
                         //searchData.setSxywdl("02"); //单位字典id，需要在网上获取
                 }
             }
@@ -132,8 +135,8 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void initData() {
-        searchData= new HashMap<>();
-        downloadShiXiang(ACTION_DOWNLOAD, mPageId,searchData);
+        searchData = new HashMap<>();
+        downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
         downloadSXModule();
     }
 
@@ -157,7 +160,7 @@ public class ShiXiangFragment extends Fragment {
         });
     }
 
-    private void downloadShiXiang(final int action, int pageId, Map<String,String> data) {
+    private void downloadShiXiang(final int action, int pageId, Map<String, String> data) {
 //        L.e(action+pageId+ sxmc+ sxywdl+ sxywlb);
         NetDao.downShiXiang(mContext, pageId, data, new OkHttpUtils.OnCompleteListener<ShiXiangBean>() {
             @Override
@@ -185,6 +188,8 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void initView() {
+        txtTitle.setVisibility(View.VISIBLE);
+        txtTitle.setText(I.SHIXIANG_TITLE);
         mList = new ArrayList<>();          //初始化事项中心的Arraylist
         mModuleList = new ArrayList<>();
         mPopupAdapter = new PopupWindowAdapter(mContext, mModuleList);
@@ -212,6 +217,7 @@ public class ShiXiangFragment extends Fragment {
         window.update();
         window.showAsDropDown(tvQuanBu, 0, 0);
     }
+
     @OnClick({R.id.tb_quanbu, R.id.btn_search})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -220,10 +226,10 @@ public class ShiXiangFragment extends Fragment {
                 break;
             case R.id.btn_search:
                 mPageId = 1;
-                if (etSearch.getText().toString().length()>0 ) {
-                    searchData.put("sxmc",etSearch.getText().toString());
+                if (etSearch.getText().toString().length() > 0) {
+                    searchData.put("sxmc", etSearch.getText().toString());
                 }
-                downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData );
+                downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
                 break;
         }
     }

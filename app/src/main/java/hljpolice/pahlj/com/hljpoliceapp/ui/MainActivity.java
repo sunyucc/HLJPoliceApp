@@ -46,11 +46,11 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.rb_shouye)
-    RadioButton rbShouye;
+    RadioButton mRbShouYe;
     @BindView(R.id.rb_zixun)
-    RadioButton rbZixun;
+    RadioButton mRbZiXun;
     @BindView(R.id.rb_shixiang)
-    RadioButton rbShiXing;
+    RadioButton mRbShiXing;
 
     Fragment[] mFragments;
     int index = 0;
@@ -191,14 +191,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         IntentFilter filter = new IntentFilter(I.UPDATE_APP);
-        mReceiver = new UpdateCartReceiver();
+        mReceiver = new UpdateCartReceiver();           
         this.registerReceiver(mReceiver, filter);
-        mRb = new RadioButton[]{rbShouye, rbZixun, rbShiXing, mRbPersonCenter};
+        mRb = new RadioButton[]{mRbShouYe, mRbZiXun, mRbShiXing, mRbPersonCenter};
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
-        rbZixun.setEnabled(false);
-        rbShiXing.setEnabled(false);
+        mRbZiXun.setEnabled(false);
+        mRbShiXing.setEnabled(false);
         mRbPersonCenter.setEnabled(false);
         mRlTitle = (RelativeLayout) findViewById(R.id.tl_title);
 
@@ -224,11 +224,10 @@ public class MainActivity extends BaseActivity {
                 index = 0;
                 break;
             case R.id.rb_zixun:
-                    mFunctionFragment1.setUrl(rbZixun.getTag().toString());
+                    mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());        
                     index = 1;
                 break;
             case R.id.rb_shixiang:
-//                    mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
                     index = 2;
                 break;
             case R.id.rb_center:
@@ -249,22 +248,22 @@ public class MainActivity extends BaseActivity {
         L.e(TAG, "index:" + index);
         if (index != currentIndex) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.hide(mFragments[currentIndex]);
-            if (!mFragments[index].isAdded()) {
+            ft.hide(mFragments[currentIndex]);              // 隐藏前一个Fragment
+            if (!mFragments[index].isAdded()) {         
                 ft.add(R.id.fragment_con, mFragments[index]);
 
             }
             ft.show(mFragments[index]).commit();
         }
-        setRadioButtonStatus();
+        setRadioButtonStatus();    //   设置按钮的状态
         currentIndex = index;
     }
 
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
             if (i == index) {
-                setRadioButtonDrawableTop(mRb[i], i + 1, false);
-                mRb[i].setTextColor(Color.rgb(0, 90, 181));
+                setRadioButtonDrawableTop(mRb[i], i + 1, false);        //设置RadioButton的图片
+                mRb[i].setTextColor(Color.rgb(0, 90, 181));             //设置RadioButton的文字颜色
             } else {
                 setRadioButtonDrawableTop(mRb[i], i + 1, true);
                 mRb[i].setTextColor(Color.rgb(180, 180, 180));
@@ -304,16 +303,16 @@ public class MainActivity extends BaseActivity {
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
                 mFunctionFragment1.setTxtTitle(func.getData().get(0).getMkmc());        //设置第二页的标题
-                rbZixun.setText(func.getData().get(0).getMkmc());       //设置第二个按钮的文字
-                rbZixun.setTag(func.getData().get(0).getQqdz());        //设置第二页加载的网址
-                rbZixun.setEnabled(true);                               //当rbzixun设置tag以后使控件可用，否则会出现空指针
+                mRbZiXun.setText(func.getData().get(0).getMkmc());       //设置第二个按钮的文字
+                mRbZiXun.setTag(func.getData().get(0).getQqdz());        //设置第二页加载的网址
+                mRbZiXun.setEnabled(true);                               //当mRbZiXun设置tag以后使控件可用，否则会出现空指针
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);    //设置按钮图片的url
             } else if ("02".equals(func.getMklb())) {
 
 //                mFunctionFragment2.setTxtTitle(func.getData().get(0).getMkmc());
-                rbShiXing.setText(func.getData().get(0).getMkmc());
-                rbShiXing.setTag(func.getData().get(0).getQqdz());
-                rbShiXing.setEnabled(true);
+                mRbShiXing.setText(func.getData().get(0).getMkmc());
+                mRbShiXing.setTag(func.getData().get(0).getQqdz());
+                mRbShiXing.setEnabled(true);
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
             } else if ("03".equals(func.getMklb())) {
 
@@ -324,8 +323,8 @@ public class MainActivity extends BaseActivity {
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }
-        setRadioButtonDrawableTop(rbShouye, 1, false);      // 设置第一个按钮的图片
-        rbShouye.setTextColor(Color.rgb(58, 97, 173));      // 设置第一个按钮的颜色
+        setRadioButtonDrawableTop(mRbShouYe, 1, false);      // 设置第一个按钮的图片
+        mRbShouYe.setTextColor(Color.rgb(58, 97, 173));      // 设置第一个按钮的颜色
     }
 
     /**
@@ -352,10 +351,10 @@ public class MainActivity extends BaseActivity {
         public void isDown(int x) {
             switch (x) {
                 case 2:
-                    setRadioButtonDrawableTop(rbZixun,x,true);  //设置第二个按钮的图片
+                    setRadioButtonDrawableTop(mRbZiXun,x,true);  //设置第二个按钮的图片
                     break;
                 case 3:
-                    setRadioButtonDrawableTop(rbShiXing,x,true);//设置第三个按钮的图片
+                    setRadioButtonDrawableTop(mRbShiXing,x,true);//设置第三个按钮的图片
                     break;
                 case 4:
                     setRadioButtonDrawableTop(mRbPersonCenter,x,true);//设置第四个按钮的图片
