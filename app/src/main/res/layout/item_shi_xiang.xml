@@ -16,7 +16,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/menu_icon_margin"
         android:background="@color/bg_gray_light" />
 </LinearLayout>
 

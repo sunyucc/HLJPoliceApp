@@ -201,7 +201,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         settings.setSupportMultipleWindows(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        settings.setUseWideViewPort(true);
         L.e("url+++"+url);
         mWebView.loadUrl(url);
         mWebView.requestFocus();

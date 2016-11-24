@@ -3,15 +3,18 @@
 
     <!-- 实心 -->
     <solid android:color="@android:color/white" />
+    <!-- 边框 -->
     <stroke
         android:width="0.5dp"
         android:color="@android:color/black" />
-    <!--&lt;!&ndash; 圆角 &ndash;&gt;-->
-    <!--<corners android:radius="3dp" />-->
+    <!-- 圆角 -->
+    <corners android:radius="3dp" />
     <!-- 边距 -->
-    <padding
-        android:left="10dp"
-        android:right="10dp"/>
+    <!--<padding-->
+        <!--android:bottom="10dp"-->
+        <!--android:left="10dp"-->
+        <!--android:right="10dp"-->
+        <!--android:top="10dp" />-->
     <!-- 渐变 -->
     <gradient
         android:angle="270"

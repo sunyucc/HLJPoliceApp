@@ -83,6 +83,15 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void setListener() {
+        mPopupAdapter.setOnItemClickListener(new PopupWindowAdapter.OnItemClickListener() {
+            @Override
+            public void itemClickListener(ShiXiangModuleBean bean) {
+                tvQuanBu.setText(bean.getMc());
+                searchData.put("sxywlb", bean.getBm());
+                mPageId =1 ;
+                downloadShiXiang(ACTION_DOWNLOAD,mPageId,searchData);
+            }
+        });
         rg_sxywdl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -102,17 +111,6 @@ public class ShiXiangFragment extends Fragment {
             }
         });
 
-//        rvjingzhong.addOnItemTouchListener(new ItemClickListener(rvjingzhong, new ItemClickListener.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                L.e("position: " + position);
-//            }
-//
-//            @Override
-//            public void onItemLongClick(View view, int position) {
-//
-//            }
-//        }));
 
         mRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -196,13 +194,7 @@ public class ShiXiangFragment extends Fragment {
         rvjingzhong = (RecyclerView) popupView.findViewById(R.id.rv_popup);
         rvjingzhong.setAdapter(mPopupAdapter);
         rvjingzhong.setLayoutManager(mGridlayoutManager);
-        mPopupAdapter.setOnItemClickListener(new PopupWindowAdapter.OnItemClickListener() {
-            @Override
-            public void itemClickListener(ShiXiangModuleBean bean) {
-                tvQuanBu.setText(bean.getMc());
-                searchData.put("sxywlb", bean.getBm());
-            }
-        });
+
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         window = new PopupWindow(popupView, metrics.widthPixels, metrics.heightPixels / 2);
