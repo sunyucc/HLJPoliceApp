@@ -60,7 +60,7 @@ public class OkHttpUtils<T> {
     MultipartBody.Builder mMultipartBodyBuilder;
 
     public interface OnCompleteListener<T> {
-        void onSuccess(T result) throws IOException;
+        void onSuccess(T result) ;
 
         void onError(String error);
     }
@@ -160,7 +160,7 @@ public class OkHttpUtils<T> {
                         T result = (T) msg.obj;
                         try {
                             mListener.onSuccess(result);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         break;
@@ -257,7 +257,8 @@ public class OkHttpUtils<T> {
         try {
             //post请求的request参数也要拼接到url中
             if (mFormBodyBuilder != null) {//post请求的参数添加方式
-                mFormBodyBuilder.add(key, URLEncoder.encode(value, UTF_8));
+//                mFormBodyBuilder.add(key, URLEncoder.encode(value, UTF_8));
+                mFormBodyBuilder.add(key,value);
             } else {//get请求的参数添加方式
                 if (mUrl.indexOf("?") == -1) {
                     mUrl.append("?");
@@ -265,6 +266,7 @@ public class OkHttpUtils<T> {
                     mUrl.append("&");
                 }
                 mUrl.append(key).append("=").append(URLEncoder.encode(value, UTF_8));
+//                mUrl.append(key).append("=").append(value);
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -324,7 +326,7 @@ public class OkHttpUtils<T> {
             mListener = listener;
         }
         Request.Builder builder = new Request.Builder().url(mUrl.toString());
-        L.e("url="+mUrl);
+//        L.e("url="+mUrl);
         if (mFormBodyBuilder != null) {
             RequestBody body = mFormBodyBuilder.build();
             builder.post(body);

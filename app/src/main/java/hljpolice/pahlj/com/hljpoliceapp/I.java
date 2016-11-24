@@ -6,12 +6,23 @@ package hljpolice.pahlj.com.hljpoliceapp;
 
 public interface I {
     String SERVER_ROOT = "http://61.180.150.46:8088/cs/gyqq/";
+    //事项地址
+    String SHIXIANG_ADDRESS="http://www.83027110.com/stwx/sxzn.html";
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息
     String VERSION_INFO = "../mobile/version.json";
     //功能模块
+    String SHIXIANG_SXMC = "sxmc";
+    String SHIXIANG_SXYWDL = "sxywdl";
+    String SHIXIANG_SXYWLB = "sxywlb";
     String FUNCTION_MOUDLES = "htmlfuncApp/searchAll.go";
+    String SHIXIANG_SEARCH = "jcShixiang/searchPager.go";
+    String SHIXIANG_MODULE_NAME = "zdBiaozhun/1/getBiaoZhunByGlid.go";
+//    http://www.83027110.com/stwx/sxzn.html?bmid=101201&sxid=10090&zn=Y&yy=Y&sb=Y&sxmc=随军家属户口迁入
+
+    String PAGE_INDEX = "pageIndex";
+    String PAGE_SIZE = "pageSize" ;
 
     String App_OLD_TYPE = "apptype=2";
     String APP_TYPE = "apptype=3";

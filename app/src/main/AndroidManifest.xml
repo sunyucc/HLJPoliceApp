@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
     <application
         android:name="hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication"
         android:allowBackup="true"
@@ -34,11 +36,6 @@
             android:theme="@style/AppTheme.TransparentActivity">
 
         </activity>
-        <service
-            android:name="hljpolice.pahlj.com.hljpoliceapp.service.CheckAppVersionService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
         <service
             android:name="hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService"
             android:enabled="true"

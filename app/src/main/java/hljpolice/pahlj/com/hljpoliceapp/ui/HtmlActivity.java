@@ -9,12 +9,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.widget.SlidingPaneLayout;
@@ -24,7 +24,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -71,7 +70,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
     LinearLayout mLinearLayout;
     @BindView(R.id.rl_layout)
     RelativeLayout rlLayout;
-    private String mUrl;
+    String mUrl;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
@@ -96,10 +95,14 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                mUrl = url;
-                view.loadUrl(url);
+//                view.loadUrl(url);
 
                 return false;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
             }
 
             @Override
@@ -111,7 +114,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
                 if (view.canGoBack()) {
                     mTxtLeft.setVisibility(View.VISIBLE);
                 } else {
-                    mTxtLeft.setVisibility(View.INVISIBLE);
+                    mTxtLeft.setVisibility(View.GONE);
                 }
                 super.onPageFinished(view, url);
 
@@ -180,11 +183,10 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
 
     private void initView() {
-
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         rlBack.setVisibility(View.VISIBLE);
-
+        L.e("url+++"+url);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(intent.getStringExtra("moudlesname"));
         WebSettings settings = mWebView.getSettings();
@@ -197,9 +199,10 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setSupportMultipleWindows(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.addJavascriptInterface(new JsInterface(), "jsinterface");
+        L.e("url+++"+url);
         mWebView.loadUrl(url);
         mWebView.requestFocus();
     }
@@ -376,27 +379,6 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
     }
 
-    class JsInterface {
-        @JavascriptInterface
-        public void errorReload() {
-
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (mFailingUrl != null) {
-                        mWebView.loadUrl(mFailingUrl);
-                    }
-                }
-            });
-
-        }
-
-        public void showSource(String html) {
-            L.e("HTML"+html);
-        }
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -436,4 +418,5 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         mWebView.stopLoading();
         mWebView.removeAllViews();
     }
+
 }

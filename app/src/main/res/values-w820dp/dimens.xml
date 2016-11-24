@@ -13,4 +13,9 @@
     <dimen name="menu_title_height">50dp</dimen>
     <dimen name="menu_icon_diat">100dp</dimen>
     <dimen name="menu_title_marginRight">7dp</dimen>
+    <dimen name="menu_height_title">40dp</dimen>
+    <dimen name="menu_search_left">20dp</dimen>
+    <dimen name="menu_btn_search">60dp</dimen>
+    <dimen name="shixiang_textsize">17sp</dimen>
+    <dimen name="popup_textsize">17sp</dimen>
 </resources>

@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +15,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +35,7 @@ import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
+import hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
 import hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
@@ -60,17 +60,18 @@ public class MainActivity extends BaseActivity {
     TextView txtTitle;
     ShouyeFragment mHomePageFragment;
     GongNengFragment mFunctionFragment1;
-    GongNengFragment mFunctionFragment2;
+    ShiXiangFragment mFunctionFragment2;
     GongNengFragment mFunctionFragment3;
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
     RadioButton mRbPersonCenter;
     @BindView(R.id.menu)
-    LinearLayout menu;
+    RadioGroup menu;
     @BindView(R.id.iv_update)
     ImageView mIvUpdate;
     private NavResourceIcon nri;
+
     private String fileName;
     private UpdateCartReceiver mReceiver;
     private long firstTime = 0;
@@ -80,10 +81,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        nri = new NavResourceIcon(this, 4, menu);
-        L.i("MainActivity.onCreate");
+
         super.onCreate(savedInstanceState);
-        nri.setOnImageChanageListener(imageChangedListener);
         checkVersion();
 
     }
@@ -166,7 +165,7 @@ public class MainActivity extends BaseActivity {
         mFragments = new Fragment[4];
         mHomePageFragment = new ShouyeFragment();
         mFunctionFragment1 = new GongNengFragment();
-        mFunctionFragment2 = new GongNengFragment();
+        mFunctionFragment2 = new ShiXiangFragment();
         mFunctionFragment3 = new GongNengFragment();
 
         mFragments[0] = mHomePageFragment;
@@ -202,6 +201,7 @@ public class MainActivity extends BaseActivity {
         rbShiXing.setEnabled(false);
         mRbPersonCenter.setEnabled(false);
         mRlTitle = (RelativeLayout) findViewById(R.id.tl_title);
+
     }
 
     @Override
@@ -228,7 +228,7 @@ public class MainActivity extends BaseActivity {
                     index = 1;
                 break;
             case R.id.rb_shixiang:
-                    mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
+//                    mFunctionFragment2.setUrl(rbShiXing.getTag().toString());
                     index = 2;
                 break;
             case R.id.rb_center:
@@ -297,6 +297,10 @@ public class MainActivity extends BaseActivity {
      * @param funcList
      */
     public void setExtFuncData(List<FunctionBean> funcList) {
+        if (nri==null) {
+            nri = new NavResourceIcon(this, menu);
+            nri.setOnImageChanageListener(imageChangedListener);
+        }
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
                 mFunctionFragment1.setTxtTitle(func.getData().get(0).getMkmc());        //设置第二页的标题
@@ -306,7 +310,7 @@ public class MainActivity extends BaseActivity {
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);    //设置按钮图片的url
             } else if ("02".equals(func.getMklb())) {
 
-                mFunctionFragment2.setTxtTitle(func.getData().get(0).getMkmc());
+//                mFunctionFragment2.setTxtTitle(func.getData().get(0).getMkmc());
                 rbShiXing.setText(func.getData().get(0).getMkmc());
                 rbShiXing.setTag(func.getData().get(0).getQqdz());
                 rbShiXing.setEnabled(true);
@@ -331,12 +335,12 @@ public class MainActivity extends BaseActivity {
      * @param x
      * @param isgray
      */
-    public void setRadioButtonDrawableTop(RadioButton rb, int x, boolean isgray) {
+    private void setRadioButtonDrawableTop(RadioButton rb, int x, boolean isgray) {
         Drawable drawableTop;
         if (isgray) { //是否将图片置成灰色
-            drawableTop = new BitmapDrawable(null, nri.getGrayNavIcon(x));
+            drawableTop = nri.getGrayNavIcon(x);// new BitmapDrawable(null, nri.getGrayNavIcon(x));
         } else {
-            drawableTop = new BitmapDrawable(null, nri.getNavicon(x));
+            drawableTop = nri.getNavicon(x); // new BitmapDrawable(null, nri.getNavicon(x));
         }
 
         rb.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
@@ -346,9 +350,16 @@ public class MainActivity extends BaseActivity {
     private NavResourceIcon.OnImageChangedListener imageChangedListener = new NavResourceIcon.OnImageChangedListener() {
         @Override
         public void isDown(int x) {
-            setRadioButtonDrawableTop(rbZixun, 2, true);        //设置第二个按钮的图片
-            setRadioButtonDrawableTop(rbShiXing, 3, true);        //设置第三个按钮的图片
-            setRadioButtonDrawableTop(mRbPersonCenter, 4, true);          //设置第四个按钮的图片
+            switch (x) {
+                case 2:
+                    setRadioButtonDrawableTop(rbZixun,x,true);  //设置第二个按钮的图片
+                    break;
+                case 3:
+                    setRadioButtonDrawableTop(rbShiXing,x,true);//设置第三个按钮的图片
+                    break;
+                case 4:
+                    setRadioButtonDrawableTop(mRbPersonCenter,x,true);//设置第四个按钮的图片
+            }
         }
     };
 

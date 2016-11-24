@@ -145,7 +145,6 @@ public class ShouyeFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-
                 setNetworkMethod(getContext(), inflater);
                 mSrl.setRefreshing(false);
             }

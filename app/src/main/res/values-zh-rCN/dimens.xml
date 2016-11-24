@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="menu_height_title">40dp</dimen>
+    <dimen name="menu_search_left">20dp</dimen>
+    <dimen name="menu_btn_search">60dp</dimen>
+    <dimen name="shixiang_textsize">18sp</dimen>
+    <dimen name="popup_textsize">17sp</dimen>
+</resources>

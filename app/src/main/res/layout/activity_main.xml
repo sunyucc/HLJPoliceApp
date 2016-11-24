@@ -26,30 +26,29 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:weightSum="4"
-        >
+        android:weightSum="4" >
 
-        <hljpolice.pahlj.com.hljpoliceapp.views.MyRadioButton
+        <RadioButton
             android:id="@+id/rb_shouye"
             style="@style/menu_item_style"
             android:button="@null"
             android:text="@string/menu_icon_shouye" />
 
-        <hljpolice.pahlj.com.hljpoliceapp.views.MyRadioButton
+        <RadioButton
             android:id="@+id/rb_zixun"
             style="@style/menu_item_style"
             android:button="@null"
             android:text="@string/menu_icon_zaijia"
             android:background="@null"/>
 
-        <hljpolice.pahlj.com.hljpoliceapp.views.MyRadioButton
+        <RadioButton
             android:id="@+id/rb_shixiang"
             style="@style/menu_item_style"
             android:button="@null"
-            android:text="@string/menu_icon_zaijia"
+            android:text="@string/menu_sxzx"
             android:background="@null"/>
 
-        <hljpolice.pahlj.com.hljpoliceapp.views.MyRadioButton
+        <RadioButton
             android:id="@+id/rb_center"
             style="@style/menu_item_style"
             android:button="@null"

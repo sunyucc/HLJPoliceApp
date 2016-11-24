@@ -8,9 +8,10 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.view.Display;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.widget.RadioGroup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,83 +19,45 @@ import java.util.Map;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 
 /**
- * Created by Carklote on 2016/11/18.
+ * Created by Carklote on 2016/11/23.
  */
+
 public class NavResourceIcon {
-    private Map<Integer, Bitmap> iconMap;
     private Context mContext;
-    private int maxId;
-
-    private int imageWidth = 60;
-    private int imageHeight = 60;
-
+    private Map<Integer,Bitmap> iconMap;
+    private RadioGroup radioGroup;
     private OnImageChangedListener listener;
-    private LinearLayout mLayout;
 
-    public NavResourceIcon(Context context, int x, LinearLayout layout) {
+    public NavResourceIcon(Context context, RadioGroup rg) {
+        this.iconMap = new HashMap<>();
+        this.radioGroup = rg;
         this.mContext = context;
-        this.maxId = x;
-        this.mLayout = layout;
-        iconMap = new HashMap<>();
-        iconMap.put(1, getResource(R.mipmap.ic_home));
-        for (int i = 2; i <= x; i++) {
-            iconMap.put(i, getResource(R.mipmap.ic_cloud));
-        }
+        initData();
     }
 
-    private Bitmap getResource(int resId) {
-        return BitmapFactory.decodeResource(mContext.getResources(), resId);
+    private void initData() {
+        iconMap.put(1,resourceToBitmap(R.mipmap.ic_home));
+        iconMap.put(2,resourceToBitmap(R.mipmap.ic_cloud));
+        iconMap.put(3,resourceToBitmap(R.mipmap.ic_matter));
+        iconMap.put(4,resourceToBitmap(R.mipmap.ic_cloud));
+
     }
 
-    public Bitmap getNavicon(int s) {
-        if (maxId < s) {
-            return null;
-        } else {
-            if (getScreenWidth(mContext) <= 480) {
-                imageHeight = mLayout.getWidth() / 10;
-                imageWidth = imageHeight;
-            } else {
-                imageHeight = mLayout.getHeight();
-                imageWidth = imageHeight;
-
-            }
-            return resizeImage(iconMap.get(s), imageWidth, imageHeight);
-        }
+    private Bitmap resourceToBitmap(int resId) {     //从资源文件中根据id获取bitmap
+        return  BitmapFactory.decodeResource(mContext.getResources(), resId);
     }
 
-    public Bitmap getGrayNavIcon(int s) {
-        if (maxId < s) {
-            return null;
-        } else {
-            if (getScreenWidth(mContext) <= 480) {
-                imageHeight = mLayout.getWidth() / 10;
-                imageWidth = imageHeight;
-            } else {
-                imageHeight = mLayout.getHeight();
-                imageWidth = imageHeight;
-
-            }
-            return resizeImage(grey(iconMap.get(s)), imageWidth, imageHeight);
-        }
-    }
-
-    public void setImageSize(int width, int height) {
-        this.imageWidth = width;
-        this.imageHeight = height;
-    }
-
-    public void setOnImageChanageListener(OnImageChangedListener listener) {
+    public void setOnImageChanageListener(OnImageChangedListener listener) {        //处理完图标后的通知监听
         this.listener = listener;
     }
 
-    public void setImageUrl(String url, int id) {
+    public void setImageUrl(String url, int id) {           //新增自定义图片
         GetHttpImage httpImage = new GetHttpImage(url);
         httpImage.setId(id);
         httpImage.setListener(new GetHttpImage.CallBackListener() {
 
             @Override
             public void Callback(int x, Bitmap resultBmp) {
-                L.e("x==" + x);
                 iconMap.put(x, resultBmp);
                 if (listener != null) {
                     listener.isDown(x);
@@ -109,13 +72,22 @@ public class NavResourceIcon {
         httpImage.getImage();
     }
 
-    public void setImageUrl(Map<Integer, String> reqData) {
-        for (int x : reqData.keySet()) {
-            setImageUrl(reqData.get(x), x);
+    public Drawable getNavicon(int s) {           //根据ID返回导航图标
+        if (iconMap.size() < s) {
+            return null;
+        } else {
+            return resizeImage(iconMap.get(s));
         }
     }
 
-    private Bitmap grey(Bitmap bitmap) {
+    public Drawable getGrayNavIcon(int s) {          //根据ID返回导航灰度图标
+        if (iconMap.size() < s) {
+            return null;
+        } else {
+            return resizeImage(grey(iconMap.get(s)));
+        }
+    }
+    private Bitmap grey(Bitmap bitmap) {            //图片置灰
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
@@ -133,44 +105,36 @@ public class NavResourceIcon {
         return faceIconGreyBitmap;
     }
 
-    private Bitmap resizeImage(Bitmap bitmap, int w, int h) {
-        Bitmap BitmapOrg = bitmap;
+    private Drawable resizeImage(Bitmap originalBitmap) {
+        L.e("resize srcBitmap width: " + originalBitmap.getWidth());
+        L.e("resize srcBitmap height: " + originalBitmap.getHeight());
+        int originalWidth = originalBitmap.getWidth();
+        int originalHeight = originalBitmap.getHeight();
 
-        int width = BitmapOrg.getWidth();
-        int height = BitmapOrg.getHeight();
-        int newWidth = w;
-        int newHeight = h;
-
-        if (w == 0 || h == 0) {
-            newHeight = 180;
-            newWidth = 180;
-        }
-        L.e("kaungao" + width + "   " + height + "   " + w + "   " + h);
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-
+        DisplayMetrics metrics = new DisplayMetrics();
+        metrics = mContext.getResources().getDisplayMetrics();
+        float newWidth = radioGroup.getLayoutParams().height * 0.40f * metrics.density ;
+        float scale = newWidth / originalHeight;
         Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        // if you want to rotate the Bitmap
-        // matrix.postRotate(45);
-        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
-                height, matrix, true);
-        return resizedBitmap;
+        matrix.postScale(scale, scale);
+
+        Bitmap changedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalWidth, originalHeight, matrix, true);
+
+//        L.e("resize changeBitmap width: " + changedBitmap.getWidth());
+//        L.e("resize changeBitmap height: " + changedBitmap.getHeight());
+
+//        Drawable drawable = new BitmapDrawable(null,changedBitmap);
+//        L.e("resize changeDrawable width: " + drawable.getIntrinsicWidth());
+//        L.e("resize changeDrawable height: " + drawable.getIntrinsicHeight());
+
+//        drawable.setBounds(0,0,imageWidth,imageHeight);
+//
+//        L.e("resize Drawable width: " + drawable.getIntrinsicWidth());
+//        L.e("resize Drawable height: " + drawable.getIntrinsicHeight());
+        return new BitmapDrawable(null,changedBitmap);
     }
 
     public interface OnImageChangedListener {
         void isDown(int x);
-    }
-
-    public static int getScreenWidth(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        return display.getWidth();
-    }
-
-    public static int getScreenHeight(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        return display.getHeight();
     }
 }

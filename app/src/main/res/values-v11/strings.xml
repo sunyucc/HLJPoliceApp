@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quanbu">全部</string>
+    <string name="geren">个人</string>
+    <string name="danwei">单位</string>
+    <string name="jingzhong">警种</string>
+    <string name="feilei">分类</string>
+</resources>

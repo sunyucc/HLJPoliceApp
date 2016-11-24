@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment">
+
+    <include layout="@layout/view_layout_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/tb_quanbu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/menu_height_title"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/popup_textsize"
+            android:text="@string/quanbu"
+            android:layout_weight="7"
+            android:background="@drawable/searchbar"/>
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/menu_height_title"
+            android:layout_centerVertical="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/sx_name"
+            android:imeOptions="actionSearch"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:layout_weight="3"
+            android:background="@drawable/edittextbar" />
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="@dimen/menu_btn_search"
+            android:layout_height="@dimen/menu_height_title"
+            android:text="@string/search"
+            android:background="@drawable/searchbar"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_shixiang"
+        android:layout_marginTop="@dimen/menu_icon_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
