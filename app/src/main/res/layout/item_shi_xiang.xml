@@ -11,7 +11,8 @@
         android:layout_marginLeft="@dimen/menu_icon_margin"
         android:background="@color/white"
         android:padding="@dimen/view_padding"
-        android:textSize="@dimen/shixiang_textsize" />
+        android:textSize="@dimen/shixiang_textsize"
+        android:textColor="@color/black"/>
 
     <View
         android:layout_width="match_parent"
