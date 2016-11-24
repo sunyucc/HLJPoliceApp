@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,6 +70,8 @@ public class ShiXiangFragment extends Fragment {
     Map<String, String> searchData;
     @BindView(R.id.txt_title)
     TextView txtTitle;
+    @BindView(R.id.srl_shixiang)
+    SwipeRefreshLayout srlShixiang;
 
     public ShiXiangFragment() {
         // Required empty public constructor
@@ -88,6 +91,13 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void setListener() {
+        srlShixiang.setRefreshing(true);
+        srlShixiang.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
         mPopupAdapter.setOnItemClickListener(new PopupWindowAdapter.OnItemClickListener() {
             @Override
             public void itemClickListener(ShiXiangModuleBean bean) {
@@ -136,6 +146,7 @@ public class ShiXiangFragment extends Fragment {
 
     private void initData() {
         searchData = new HashMap<>();
+        mPageId =1 ;
         downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
         downloadSXModule();
     }
@@ -165,6 +176,7 @@ public class ShiXiangFragment extends Fragment {
         NetDao.downShiXiang(mContext, pageId, data, new OkHttpUtils.OnCompleteListener<ShiXiangBean>() {
             @Override
             public void onSuccess(ShiXiangBean result) {
+                srlShixiang.setRefreshing(false);
                 if (result != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(result.getData());
@@ -182,7 +194,7 @@ public class ShiXiangFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-
+                srlShixiang.setRefreshing(false);
             }
         });
     }

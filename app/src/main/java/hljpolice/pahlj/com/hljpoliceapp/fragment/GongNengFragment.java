@@ -66,9 +66,9 @@ public class GongNengFragment extends Fragment {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!url.equals(defaultUrl) && url.contains("index.html")) {
-                    view.loadUrl(defaultUrl);
-                }
+//                if (!url.equals(defaultUrl) && url.contains("index.html")) {
+//                    view.loadUrl(defaultUrl);
+//                }
                 return false;
             }
 
@@ -90,7 +90,7 @@ public class GongNengFragment extends Fragment {
                 }
 
                 //在这里与JS代码交互
-                if (isLogin) {      //登录页
+                if (url.contains("login.html") | url.contains("grzx/index.html")) {      //登录页
                     view.loadUrl(I.CHANGE_APPTYPE); //修改apptype
                 }
 
@@ -154,10 +154,6 @@ public class GongNengFragment extends Fragment {
             webView.goBack();
         }
 
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }
 

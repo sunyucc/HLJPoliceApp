@@ -64,7 +64,12 @@ public class XiangDaoActivity extends Activity implements
     }
 
     public void onClick(View v) {           // 跳转到首页
+        finish();
         MFGT.gotoMainActivity(this);
-        MFGT.finish(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

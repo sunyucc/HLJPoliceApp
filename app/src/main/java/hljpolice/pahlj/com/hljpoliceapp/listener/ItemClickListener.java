@@ -11,6 +11,7 @@ import android.view.View;
  * Created by DevWiki on 2016/7/16.
  */
 
+
 public class ItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
 
     private OnItemClickListener clickListener;
