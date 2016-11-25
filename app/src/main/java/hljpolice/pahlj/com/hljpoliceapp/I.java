@@ -34,7 +34,7 @@ public interface I {
     // 改变登录时的标签，用于判断当前登录的设备
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
     // 更新apk
-    String UPDATE_APK = "http://ftp-apk.pconline.com.cn/1df1d50d5f636bc3df7cb539a4cb3115/pub/download/201010/wandoujia-yundongshidai4_ad_1116.apk";
+    String UPDATE_APK = "../mobile/app-release.apk";
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
 }

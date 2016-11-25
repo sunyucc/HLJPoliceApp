@@ -344,9 +344,6 @@ public class ImageLoader {
         }
     }
 
-//    public static void downloadImg(Context context,ImageView imageView,String thumb){
-//        setImage(I.DOWNLOAD_IMG_URL+thumb,context,imageView,true);
-//    }
 
     public static void downloadImg(Context context,ImageView imageView,String thumb,boolean isDragging){
         setImage(thumb,context,imageView,isDragging);
@@ -360,24 +357,4 @@ public class ImageLoader {
                 .setDragging(isDragging)
                 .showImage(context);
     }
-    //http://101.251.196.90:8000/FuLiCenterServerV2.0/downloadAvatar?
-    // name_or_hxid=a952700&avatarType=user_avatar&m_avatar_suffix=.jpg&width=200&height=200
-    //http://101.251.196.90:8000/FuLiCenterServerV2.0/downloadAvatar?
-    // name_or_hxid=a952700&avatarType=0&m_avatar_suffix=.jpg&width=200&height=200
-//    public static String getAvatarUrl(User user){
-//        if(user!=null) {
-//            String url = I.DOWNLOAD_AVATAR_URL + I.NAME_OR_HXID + "=" + user.getMuserName()
-//                    + I.AND + I.AVATAR_TYPE + "=" + user.getMavatarPath() + I.AND + I.AVATAR_SUFFIX
-//                    + "=" + user.getMavatarSuffix() + I.AND + "width=200&height=200"+"&"+ user.getMavatarLastUpdateTime();
-//            L.e("useravatar=" + url);
-//            return url;
-//        }
-//        return null;
-//    }
-//    public static void setAvatar(String url,Context context,ImageView imageView){
-//        ImageLoader.build(url)
-//                .defaultPicture(R.drawable.contactlogo)
-//                .imageView(imageView)
-//                .showImage(context);
-//    }
 }

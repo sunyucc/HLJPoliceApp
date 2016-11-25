@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,10 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -42,10 +39,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
+import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
+import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebChromeClient;
+import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebViewClient;
 
 import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
 
@@ -53,7 +52,7 @@ import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
  * 用于显示点击Html的跳转
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout.PanelSlideListener  {
+public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout.PanelSlideListener {
     private static final String TAG = HtmlActivity.class.getSimpleName();
     @BindView(R.id.txt_title)
     TextView txtTitle;
@@ -87,53 +86,8 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
     private void initData() {
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
-        mWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-
-                return false;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                bar.setVisibility(View.GONE);
-                if (url.contains("login.html")) {
-                    view.loadUrl(I.CHANGE_APPTYPE);
-                }
-                if (view.canGoBack()) {
-                    mTxtLeft.setVisibility(View.VISIBLE);
-                } else {
-                    mTxtLeft.setVisibility(View.GONE);
-                }
-                super.onPageFinished(view, url);
-
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                mFailingUrl = failingUrl;
-                //加载出错的自定义界面
-                view.loadUrl("file:///android_asset/error.html");
-            }
-        });
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                bar.setVisibility(View.VISIBLE);
-                    if (View.INVISIBLE == bar.getVisibility()) {
-                        bar.setVisibility(View.VISIBLE);
-                    bar.setProgress(newProgress);
-                }
-                super.onProgressChanged(view, newProgress);
-            }
+        mWebView.setWebViewClient(new Gn_WebViewClient(pageListener));
+        mWebView.setWebChromeClient(new Gn_WebChromeClient(bar, txtTitle) {
 
             @Override
 
@@ -177,12 +131,22 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         });
     }
 
+    private OnWebPageChangedListener pageListener = new OnWebPageChangedListener() {
+        @Override
+        public void pageCount(int count) {
+            if (count > 0) {
+                mTxtLeft.setVisibility(View.VISIBLE);
+            } else {
+                mTxtLeft.setVisibility(View.GONE);
+            }
+        }
+    };
 
     private void initView() {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         rlBack.setVisibility(View.VISIBLE);
-        L.e("url+++"+url);
+        L.e("url+++" + url);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(intent.getStringExtra("moudlesname"));
         WebSettings settings = mWebView.getSettings();
@@ -199,11 +163,12 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
         mWebView.setVerticalScrollBarEnabled(true);
-        L.e("url+++"+url);
+        L.e("url+++" + url);
         mWebView.loadUrl(url);
         mWebView.requestFocus();
 
     }
+
     @OnClick({R.id.txt_left, R.id.rl_back})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -361,6 +326,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
     protected boolean isSupportSwipeBack() {
         return true;
     }
+
     @Override
     public void onPanelSlide(View panel, float slideOffset) {
 

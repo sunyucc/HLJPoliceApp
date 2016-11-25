@@ -88,44 +88,45 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkVersion() {
-        NetDao.updateApp(HLJPoliceApplication.application, new OkHttpUtils.OnCompleteListener<String>() {
-            @Override
-            public void onSuccess(String json) {
-                L.e(TAG, "json:" + json);
-                if (json != null) {
-                    Gson gson = new Gson();
-                    try {
-                        final Version version = gson.fromJson(json, Version.class);
-                        L.e(TAG, "Version:" + version);
-                        // 大于当前版本应该更新Apk
-                        L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
-                        L.e("getvercode" + version.getVerCode());
-                        if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
-                            // 启动更新App服务
-                            mIvUpdate.setVisibility(View.VISIBLE);
-                            mIvUpdate.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    updateVersion(version);
-                                }
-                            });
+        NetDao.updateApp(HLJPoliceApplication.application,listener );
+    }
+    private OkHttpUtils.OnCompleteListener listener = new OkHttpUtils.OnCompleteListener<String>() {
+        @Override
+        public void onSuccess(String json) {
+            L.e(TAG, "json:" + json);
+            if (json != null) {
+                Gson gson = new Gson();
+                try {
+                    final Version version = gson.fromJson(json, Version.class);
+                    L.e(TAG, "Version:" + version);
+                    // 大于当前版本应该更新Apk
+                    L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
+                    L.e("getvercode" + version.getVerCode());
+                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
+                        // 启动更新App服务
+                        mIvUpdate.setVisibility(View.VISIBLE);
+                        mIvUpdate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateVersion(version);
+                            }
+                        });
 
-                        } else {
-                            mIvUpdate.setVisibility(View.GONE);
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(MainActivity.this, "获取版本信息失败,请稍后再试!", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
+                    } else {
+                        mIvUpdate.setVisibility(View.GONE);
                     }
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, "获取版本信息失败,请稍后再试!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
             }
+        }
 
-            @Override
-            public void onError(String error) {
+        @Override
+        public void onError(String error) {
 
-            }
-        });
-    }
+        }
+    };
 
     /**
      * 更新版本对话框

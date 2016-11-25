@@ -1,6 +1,8 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
+import android.app.AlertDialog;
 import android.view.View;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -32,5 +34,19 @@ public class Gn_WebChromeClient extends WebChromeClient {
     public void onReceivedTitle(WebView view, String title) {
         textView.setText(title);
         super.onReceivedTitle(view, title);
+    }
+    @Override
+    public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+        builder.setTitle("提示")
+                .setMessage(message)
+                .setPositiveButton("确定", null);
+        // 禁止响应按back键的事件
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        result.confirm();// 因为没有绑定事件，需要强行confirm,否则页面会变黑显示不了内容。
+        return true;
     }
 }
