@@ -58,7 +58,7 @@ public class GongNengFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
-        webViewClient = new Gn_WebViewClient(getContext(),webPageChangedListener);
+        webViewClient = new Gn_WebViewClient(getActivity(),webPageChangedListener);
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(new Gn_WebChromeClient(bar,txtTitle));
     }

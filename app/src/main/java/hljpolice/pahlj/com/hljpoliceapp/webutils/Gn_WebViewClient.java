@@ -1,6 +1,6 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.webkit.CookieManager;
@@ -22,10 +22,10 @@ import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 public class Gn_WebViewClient extends WebViewClient {
     private String defaultUrl;
     private OnWebPageChangedListener listener;
-    private Context mContext;
+    private Activity mContext;
 
     private CookieManager cookieManager;
-    public Gn_WebViewClient(Context context, OnWebPageChangedListener listener) {
+    public Gn_WebViewClient(Activity context, OnWebPageChangedListener listener) {
         mContext = context;
         this.listener = listener;
     }
@@ -40,6 +40,9 @@ public class Gn_WebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (url.contains("index.html")) {
+            mContext.finish();
+        }
         return false;
     }
 

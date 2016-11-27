@@ -243,6 +243,7 @@ public class MainActivity extends BaseActivity {
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(I.MENU_TITLE);
         txtLeft.setVisibility(View.GONE);
+        mRbShouYe.setEnabled(false);
         mRbZiXun.setEnabled(false);
         mRbShiXing.setEnabled(false);
         mRbPersonCenter.setEnabled(false);
@@ -364,6 +365,7 @@ public class MainActivity extends BaseActivity {
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
             }
         }
+        mRbShouYe.setEnabled(true);
         setRadioButtonDrawableTop(mRbShouYe, 1, false);      // 设置第一个按钮的图片
         mRbShouYe.setTextColor(Color.rgb(58, 97, 173));      // 设置第一个按钮的颜色
     }
@@ -444,7 +446,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        MainActivity.this.unbindService(serviceConnection);
         this.unregisterReceiver(mReceiver);     //注销广播
         super.onDestroy();
     }
