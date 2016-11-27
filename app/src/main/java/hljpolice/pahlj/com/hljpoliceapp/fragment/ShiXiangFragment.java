@@ -234,11 +234,11 @@ public class ShiXiangFragment extends Fragment {
         window.showAsDropDown(tvQuanBu, 0, 0);
     }
 
+
     @OnClick({R.id.tb_quanbu,R.id.tv_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tb_quanbu:
-
                 showPopupWindow();
                 break;
             case R.id.tv_search:

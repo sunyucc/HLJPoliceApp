@@ -70,17 +70,17 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 listener.itemClickListener(mList.get(position));
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
-//                ≈
+//                String sxmc = mList.get(position).getSxmc();
+//                String url = null;
+//                url = I.SHIXIANG_ADDRESS +
+//                        "?bmid=" + mList.get(position).getZdBsckid() +
+//                        "&sxid=" + mList.get(position).getSxid() +
+//                        "&zn=" + mList.get(position).getZn() +
+//                        "&yy=" + mList.get(position).getYy() +
+//                        "&sb=" + mList.get(position).getSb() +
+//                        "&sxmc=" + Escape.escape(sxmc);
+//                Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
+//                mContext.startActivity(intent);
             }
         });
     }
