@@ -37,7 +37,7 @@
 
         </activity>
         <service
-            android:name="hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService"
+            android:name=".download.DownloadApkFileService"
             android:enabled="true"
             android:exported="true">
         </service>

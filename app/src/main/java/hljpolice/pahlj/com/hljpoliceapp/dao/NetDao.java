@@ -11,7 +11,6 @@ import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
-import hljpolice.pahlj.com.hljpoliceapp.utils.GetHttpImage;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 /**
@@ -20,11 +19,12 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 public class NetDao {
     /**
-     * 下载模块信息
+     * 下载首页模块信息
+     *
      * @param context
      * @param listener
      */
-    public static void downloadMoudles(Context context,OkHttpUtils.OnCompleteListener<FunctionBean[]> listener){
+    public static void downloadMoudles(Context context, OkHttpUtils.OnCompleteListener<FunctionBean[]> listener) {
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.FUNCTION_MOUDLES)
                 .targetClass(FunctionBean[].class)
@@ -33,23 +33,24 @@ public class NetDao {
     }
 
     /**
-     * 下载新闻信息
+     * 下载首页轮播新闻信息
+     *
      * @param context
      * @param listener
      */
-     public static void downloadNews(Context context,OkHttpUtils.OnCompleteListener<NewsBean> listener){
+    public static void downloadNews(Context context, OkHttpUtils.OnCompleteListener<NewsBean> listener) {
         OkHttpUtils<NewsBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.NEWS_MOUDLES)
                 .targetClass(NewsBean.class)
                 .execute(listener);
     }
 
-    public static void downloadImage(String url,GetHttpImage.CallBackListener listener) {
-        GetHttpImage http = new GetHttpImage(url);
-        http.setListener(listener);
-        http.getImage();
-    }
-
+    /**
+     * 更新app，获取版本信息
+     *
+     * @param mContext
+     * @param listener
+     */
     public static void updateApp(Context mContext, OkHttpUtils.OnCompleteListener<String> listener) {
 
         OkHttpUtils<String> utils = new OkHttpUtils<>(mContext);
@@ -57,23 +58,38 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(listener);
     }
-    public static void downShiXiang(Context mContext, int pageIndex, Map<String,String> data, OkHttpUtils.OnCompleteListener<ShiXiangBean> listener) {
+
+    /**
+     * 下载事项列表
+     *
+     * @param mContext
+     * @param pageIndex
+     * @param data
+     * @param listener
+     */
+    public static void downShiXiang(Context mContext, int pageIndex, Map<String, String> data, OkHttpUtils.OnCompleteListener<ShiXiangBean> listener) {
 
         OkHttpUtils<ShiXiangBean> utils = new OkHttpUtils<>(mContext);
         Gson gson = new Gson();
         String json = "{}";
-        if (data!=null) {
+        if (data != null) {
             json = gson.toJson(data);
         }
         utils.setRequestUrl(I.SHIXIANG_SEARCH)
                 .post()
-                .addParam(I.PAGE_INDEX,String.valueOf(pageIndex))
-                .addParam(I.PAGE_SIZE,String.valueOf(20))
-                .addParam("json",json)
+                .addParam(I.PAGE_INDEX, String.valueOf(pageIndex))
+                .addParam(I.PAGE_SIZE, String.valueOf(20))
+                .addParam("json", json)
                 .targetClass(ShiXiangBean.class)
                 .execute(listener);
     }
- public static void downShiXiangModule(Context mContext, OkHttpUtils.OnCompleteListener<ShiXiangModuleBean[]> listener) {
+
+    /**
+     * 下载警种模块列表
+     * @param mContext
+     * @param listener
+     */
+    public static void downShiXiangModule(Context mContext, OkHttpUtils.OnCompleteListener<ShiXiangModuleBean[]> listener) {
 
         OkHttpUtils<ShiXiangModuleBean[]> utils = new OkHttpUtils<>(mContext);
         utils.setRequestUrl(I.SHIXIANG_MODULE_NAME)

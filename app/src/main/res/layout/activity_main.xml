@@ -55,5 +55,4 @@
             android:text="@string/menu_icon_zaijia"
             android:background="@null"/>
     </RadioGroup>
-
 </RelativeLayout>

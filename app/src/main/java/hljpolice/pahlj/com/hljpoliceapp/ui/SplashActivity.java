@@ -40,14 +40,13 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if (preferences.getBoolean("isOpened", false)) {
                     MFGT.gotoMainActivity(mContext);
-                    MFGT.finish(mContext);
                 } else {
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putBoolean("isOpened", true);
                     editor.commit();
                     MFGT.gotoNewLeadActivity(mContext);
-                    MFGT.finish(mContext);
                 }
+                MFGT.finish(mContext);
             }
         },sleepTime);
     }

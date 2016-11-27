@@ -36,7 +36,9 @@
                     android:gravity="center"
                     android:text="@string/quanbu"
                     android:textSize="@dimen/popup_textsize"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:selectAllOnFocus="true"
+                    android:drawableRight="@drawable/selector_btn_down" />
 
                 <EditText
                     android:id="@+id/et_search"

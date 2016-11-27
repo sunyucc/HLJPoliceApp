@@ -167,4 +167,12 @@ public class ShiXiangBean {
             this.djs = djs;
         }
     }
+
+    @Override
+    public String toString() {
+        return "ShiXiangBean{" +
+                "total=" + total +
+                ", data=" + data +
+                '}';
+    }
 }

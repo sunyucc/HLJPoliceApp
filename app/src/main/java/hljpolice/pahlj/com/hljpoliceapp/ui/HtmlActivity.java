@@ -86,7 +86,7 @@ public class HtmlActivity extends AppCompatActivity implements SlidingPaneLayout
 
     private void initData() {
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
-        mWebView.setWebViewClient(new Gn_WebViewClient(pageListener));
+        mWebView.setWebViewClient(new Gn_WebViewClient(this,pageListener));
         mWebView.setWebChromeClient(new Gn_WebChromeClient(bar, txtTitle) {
 
             @Override

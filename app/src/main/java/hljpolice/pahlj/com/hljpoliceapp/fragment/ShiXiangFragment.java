@@ -1,6 +1,7 @@
 package hljpolice.pahlj.com.hljpoliceapp.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,7 +37,9 @@ import hljpolice.pahlj.com.hljpoliceapp.adapter.ShiXiangAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.utils.Escape;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
@@ -72,7 +75,7 @@ public class ShiXiangFragment extends Fragment {
     TextView txtTitle;
     @BindView(R.id.srl_shixiang)
     SwipeRefreshLayout srlShixiang;
-
+    private String defaultUrl;
     public ShiXiangFragment() {
         // Required empty public constructor
     }
@@ -172,7 +175,6 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void downloadShiXiang(final int action, int pageId, Map<String, String> data) {
-//        L.e(action+pageId+ sxmc+ sxywdl+ sxywlb);
         NetDao.downShiXiang(mContext, pageId, data, new OkHttpUtils.OnCompleteListener<ShiXiangBean>() {
             @Override
             public void onSuccess(ShiXiangBean result) {
@@ -182,6 +184,7 @@ public class ShiXiangFragment extends Fragment {
                     String json = gson.toJson(result.getData());
                     mList = gson.fromJson(json, new TypeToken<ArrayList<ShiXiangBean.DataBean>>() {
                     }.getType());
+                    L.e("mlist=="+mList.toString());
                     if (action == ACTION_DOWNLOAD) {
 
                         mAdapter.initSXList(mList);
@@ -208,6 +211,7 @@ public class ShiXiangFragment extends Fragment {
         mAdapter = new ShiXiangAdapter(mContext, mList);
         mLayoutManager = new LinearLayoutManager(mContext);
         mGridlayoutManager = new GridLayoutManager(mContext, 3);
+        mAdapter.setOnItemClickListener(shixiangClickListener);
         mRv.setAdapter(mAdapter);
         mRv.setLayoutManager(mLayoutManager);
         View popupView = mContext.getLayoutInflater().inflate(R.layout.pop_window, null);
@@ -234,6 +238,7 @@ public class ShiXiangFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tb_quanbu:
+
                 showPopupWindow();
                 break;
             case R.id.tv_search:
@@ -243,5 +248,24 @@ public class ShiXiangFragment extends Fragment {
                 downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
                 break;
         }
+    }
+    private ShiXiangAdapter.OnItemClickListener shixiangClickListener = new ShiXiangAdapter.OnItemClickListener() {
+        @Override
+        public void itemClickListener(ShiXiangBean.DataBean bean) {
+            String sxmc = bean.getSxmc();
+            String url = null;
+            url = defaultUrl+
+                    "?bmid=" + bean.getZdBsckid() +
+                    "&sxid=" + bean.getSxid() +
+                    "&zn=" + bean.getZn() +
+                    "&yy=" + bean.getYy() +
+                    "&sb=" + bean.getSb() +
+                    "&sxmc=" + Escape.escape(sxmc);
+            Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
+            mContext.startActivity(intent);
+        }
+    };
+    public void setUrl(String url){
+        defaultUrl = url;
     }
 }

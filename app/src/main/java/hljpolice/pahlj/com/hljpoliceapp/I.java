@@ -5,9 +5,9 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String SERVER_ROOT = "http://61.180.150.46:8088/cs/gyqq/";
+    String SERVER_ROOT = "http://61.180.150.46:8088/cs/mhnmcz/";
     //事项地址
-    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
+//    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息
@@ -34,7 +34,10 @@ public interface I {
     // 改变登录时的标签，用于判断当前登录的设备
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
     // 更新apk
-    String UPDATE_APK = "../mobile/app-release.apk";
+    String UPDATE_APK = "../mobile/";
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
+
+    String PROGRESS_UPDATE = "更新下载进度";
+
 }

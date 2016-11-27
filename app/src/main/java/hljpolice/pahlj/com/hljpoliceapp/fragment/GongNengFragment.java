@@ -29,7 +29,6 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 public class GongNengFragment extends Fragment {
     WebView webView;
     MainActivity mContext;
-    boolean isLoad = false;
     String defaultUrl;
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -59,7 +58,7 @@ public class GongNengFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
-        webViewClient = new Gn_WebViewClient(webPageChangedListener);
+        webViewClient = new Gn_WebViewClient(getContext(),webPageChangedListener);
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(new Gn_WebChromeClient(bar,txtTitle));
     }
@@ -86,10 +85,7 @@ public class GongNengFragment extends Fragment {
     public void setUrl(String url) {
         defaultUrl = url;
         webViewClient.setDefaultUrl(url);
-        if (!isLoad) {      //是否首次加载网页
             webView.loadUrl(url);
-            isLoad = true;
-        }
     }
 
     /**

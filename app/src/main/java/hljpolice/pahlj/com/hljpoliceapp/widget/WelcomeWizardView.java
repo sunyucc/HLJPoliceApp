@@ -140,7 +140,7 @@ public class WelcomeWizardView extends ViewGroup {
             int deltaX = whichScreen * getWidth() - getScrollX();
 
             scroller.startScroll(getScrollX(), 0, deltaX, 0,
-                    Math.abs(deltaX * 2));
+                    Math.abs(deltaX));
             currentScreen = whichScreen;
             invalidate();
 

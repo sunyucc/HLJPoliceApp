@@ -26,6 +26,7 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 
 
 /**
+ * 首页列表的适配器
  * Created by sunyu on 2016/11/15.
  */
 
@@ -50,13 +51,6 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         return holder;
     }
 
-    public void initData(ArrayList<FunctionBean.DataBean> list) {
-        if (mList != null) {
-            mList.clear();
-        }
-        mList.addAll(list);
-        notifyDataSetChanged();
-    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {

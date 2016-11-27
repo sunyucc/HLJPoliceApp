@@ -15,6 +15,7 @@ import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment;
 
 /**
+ * 事项中心窗口列表的适配器
  * Created by sunyu on 2016/11/23.
  */
 
@@ -26,15 +27,6 @@ public class PopupWindowAdapter extends RecyclerView.Adapter {
     ArrayList<ShiXiangModuleBean> mList;
     boolean isMore;//是否有更多的数据可加载
     private OnItemClickListener listener;
-
-    public boolean isMore() {
-        return isMore;
-    }
-
-    public void setMore(boolean more) {
-        isMore = more;
-    }
-
     public void initSXList(ArrayList<ShiXiangModuleBean> list) {
         this.mList.clear();
         this.mList.addAll(list);

@@ -2,19 +2,24 @@ package hljpolice.pahlj.com.hljpoliceapp.ui;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -34,15 +39,18 @@ import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hljpolice.pahlj.com.hljpoliceapp.download.DownloadApkFileService;
+import hljpolice.pahlj.com.hljpoliceapp.download.DownloadBinder;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
-import hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService;
+import hljpolice.pahlj.com.hljpoliceapp.listener.ProgressListener;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.NavResourceIcon;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 
+@SuppressWarnings("ALL")
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.rb_shouye)
@@ -70,12 +78,20 @@ public class MainActivity extends BaseActivity {
     RadioGroup menu;
     @BindView(R.id.iv_update)
     ImageView mIvUpdate;
+    @BindView(R.id.ll_jindu)
+    LinearLayout mLinearlayoutJinDu;
+    @BindView(R.id.down_pb)
+    ProgressBar downPb;
     private NavResourceIcon nri;
-
+    private boolean isGeRenClicked = true;
+    private boolean isZiXunClicked = true;
     private String fileName;
     private UpdateCartReceiver mReceiver;
-    private long firstTime = 0;
     RelativeLayout mRlTitle;
+    private int fileProgress;
+    private DownloadBinder binder ;
+    private Version version ;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +102,37 @@ public class MainActivity extends BaseActivity {
         checkVersion();
 
     }
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            L.e("onServiceDisconnected");
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder = (DownloadBinder) service;
+            binder.setDownloadFile(version.getApkname());
+            binder.setProgressListener(new ProgressListener() {
+                @Override
+                public void progressValue(int value) {
+                    downPb.setProgress(value);
+                }
+
+                @Override
+                public void downloadComplete() {
+//                    MainActivity.this.unbindService(serviceConnection);
+                    installAPK(version.getApkname());
+                }
+            });
+            binder.startDownload();
+        }
+    };
 
     private void checkVersion() {
-        NetDao.updateApp(HLJPoliceApplication.application,listener );
+        NetDao.updateApp(HLJPoliceApplication.application, listener);
     }
+
     private OkHttpUtils.OnCompleteListener listener = new OkHttpUtils.OnCompleteListener<String>() {
         @Override
         public void onSuccess(String json) {
@@ -97,7 +140,7 @@ public class MainActivity extends BaseActivity {
             if (json != null) {
                 Gson gson = new Gson();
                 try {
-                    final Version version = gson.fromJson(json, Version.class);
+                    version = gson.fromJson(json, Version.class);
                     L.e(TAG, "Version:" + version);
                     // 大于当前版本应该更新Apk
                     L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
@@ -130,6 +173,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 更新版本对话框
+     *
      * @param version
      */
     private void updateVersion(final Version version) {
@@ -140,11 +184,11 @@ public class MainActivity extends BaseActivity {
             @Override
 
             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(MainActivity.this, DownloadNewVersionApkService.class);
-                intent.putExtra("app", version);
-                startService(intent);       // 隐式意图启动服务
+                mLinearlayoutJinDu.setVisibility(View.VISIBLE);
+                mIvUpdate.setVisibility(View.GONE);
+                Intent intent = new Intent(MainActivity.this,DownloadApkFileService.class);
+                MainActivity.this.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
             }
 
@@ -192,7 +236,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         IntentFilter filter = new IntentFilter(I.UPDATE_APP);
-        mReceiver = new UpdateCartReceiver();           
+        mReceiver = new UpdateCartReceiver();
+        filter.addAction("hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService");
         this.registerReceiver(mReceiver, filter);
         mRb = new RadioButton[]{mRbShouYe, mRbZiXun, mRbShiXing, mRbPersonCenter};
         txtTitle.setVisibility(View.VISIBLE);
@@ -217,23 +262,36 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 按钮的点击事件
+     *
      * @param view
      */
     public void onCheckedChange(View view) {
         switch (view.getId()) {
             case R.id.rb_shouye:
                 index = 0;
+                isZiXunClicked = true;
+                isGeRenClicked = true;
                 break;
             case R.id.rb_zixun:
-                    mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());        
+                if (isZiXunClicked) {
+                    isZiXunClicked = false;
+                    mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
                     index = 1;
+                }
+                isGeRenClicked = true;
                 break;
             case R.id.rb_shixiang:
-                    index = 2;
+                index = 2;
+                isGeRenClicked = true;
+                isZiXunClicked = true;
                 break;
             case R.id.rb_center:
+                if (isGeRenClicked) {
                     mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
-                    index=3;
+                    index = 3;
+                    isGeRenClicked = false;
+                }
+                isZiXunClicked = true;
                 break;
         }
         setFragment();
@@ -250,7 +308,7 @@ public class MainActivity extends BaseActivity {
         if (index != currentIndex) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.hide(mFragments[currentIndex]);              // 隐藏前一个Fragment
-            if (!mFragments[index].isAdded()) {         
+            if (!mFragments[index].isAdded()) {
                 ft.add(R.id.fragment_con, mFragments[index]);
 
             }
@@ -273,31 +331,13 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                long secondTime = System.currentTimeMillis();
-                if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                    firstTime = secondTime;//更新firstTime
-                    return true;
-                } else {                                                    //两次按键小于2秒时，退出应用
-                    System.exit(0);
-                }
-                break;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     /**
      * 动态设置首页下方按钮的图片文字
      *
      * @param funcList
      */
     public void setExtFuncData(List<FunctionBean> funcList) {
-        if (nri==null) {
+        if (nri == null) {
             nri = new NavResourceIcon(this, menu);
             nri.setOnImageChanageListener(imageChangedListener);
         }
@@ -310,13 +350,13 @@ public class MainActivity extends BaseActivity {
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);    //设置按钮图片的url
             } else if ("02".equals(func.getMklb())) {
 
-//                mFunctionFragment2.setTxtTitle(func.getData().get(0).getMkmc());
                 mRbShiXing.setText(func.getData().get(0).getMkmc());
-                mRbShiXing.setTag(func.getData().get(0).getQqdz());
+//                mRbShiXing.setTag(func.getData().get(0).getQqdz());
                 mRbShiXing.setEnabled(true);
+                mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
+                L.e("nri-a"+func.getData().get(0).getQqdz());
             } else if ("03".equals(func.getMklb())) {
-
                 mFunctionFragment3.setTxtTitle(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setText(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
@@ -352,13 +392,13 @@ public class MainActivity extends BaseActivity {
         public void isDown(int x) {
             switch (x) {
                 case 2:
-                    setRadioButtonDrawableTop(mRbZiXun,x,true);  //设置第二个按钮的图片
+                    setRadioButtonDrawableTop(mRbZiXun, x, true);  //设置第二个按钮的图片
                     break;
                 case 3:
-                    setRadioButtonDrawableTop(mRbShiXing,x,true);//设置第三个按钮的图片
+                    setRadioButtonDrawableTop(mRbShiXing, x, true);//设置第三个按钮的图片
                     break;
                 case 4:
-                    setRadioButtonDrawableTop(mRbPersonCenter,x,true);//设置第四个按钮的图片
+                    setRadioButtonDrawableTop(mRbPersonCenter, x, true);//设置第四个按钮的图片
             }
         }
     };
@@ -377,12 +417,15 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 安装apk
+     *
      * @param filename
      */
     private void installAPK(String filename) {
         // TODO Auto-generated method stub
         // 安装程序的apk文件路径
-        String fileName = filename;
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        L.e("dir==="+dir.toString());
+        fileName = dir+"/"+filename;
         // 创建URI
         Uri uri = Uri.fromFile(new File(fileName));
         // 创建Intent意图
@@ -393,11 +436,16 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onStop() {
+        mLinearlayoutJinDu.setVisibility(View.GONE);
+        super.onStop();
+    }
 
     @Override
     protected void onDestroy() {
-        this.unregisterReceiver(mReceiver);//注销广播
+        MainActivity.this.unbindService(serviceConnection);
+        this.unregisterReceiver(mReceiver);     //注销广播
         super.onDestroy();
     }
-
 }

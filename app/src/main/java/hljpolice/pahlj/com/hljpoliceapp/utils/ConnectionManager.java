@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ConnectionManager {
 	
-	public static final int MAX_CONNECTIONS = 5;
+	public static final int MAX_CONNECTIONS = 100;
 
 	private ArrayList<Runnable> active = new ArrayList<Runnable>();
 	private ArrayList<Runnable> queue = new ArrayList<Runnable>();

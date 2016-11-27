@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/jingzhong"
-        android:background="@color/bg_gray_light"/>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_popup"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/view_padding"
+        android:text="@string/jingzhong"
+        android:background="@color/bg_gray_light"
+        android:textSize="@dimen/shixiang_textsize" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_padding"
+        android:background="@color/bg_gray_light"
         android:text="@string/feilei"
-        android:background="@color/bg_gray_light"/>
+        android:textSize="@dimen/shixiang_textsize"/>
+
     <RadioGroup
         android:id="@+id/rg_sxywdl"
         android:layout_width="match_parent"
@@ -27,22 +36,28 @@
             android:id="@+id/rb_quanbu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quanbu"
+            android:layout_weight="1"
             android:checked="true"
-            android:layout_weight="1"/>
+            android:text="@string/quanbu" />
+
         <RadioButton
             android:id="@+id/rb_geren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/geren"
+            android:layout_weight="1"
             android:checked="false"
-            android:layout_weight="1"/>
+            android:text="@string/geren" />
+
         <RadioButton
             android:id="@+id/rb_danwei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/danwei"
+            android:layout_weight="1"
             android:checked="false"
-            android:layout_weight="1"/>
+            android:text="@string/danwei" />
     </RadioGroup>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/bg_gray_light"
+        android:layout_height="@dimen/activity_horizontal_margin" />
 </LinearLayout>

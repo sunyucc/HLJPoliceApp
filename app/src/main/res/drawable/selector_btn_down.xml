@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:selectAllOnFocus="false" android:drawable="@drawable/icon_down_normal"/>
+    <item android:selectAllOnFocus="true" android:drawable="@drawable/icon_down_select"/>
+    <item android:drawable="@drawable/icon_down_normal"/>
+</selector>

@@ -1,6 +1,10 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -18,10 +22,12 @@ import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 public class Gn_WebViewClient extends WebViewClient {
     private String defaultUrl;
     private OnWebPageChangedListener listener;
+    private Context mContext;
 
-    public Gn_WebViewClient(OnWebPageChangedListener listener) {
+    private CookieManager cookieManager;
+    public Gn_WebViewClient(Context context, OnWebPageChangedListener listener) {
+        mContext = context;
         this.listener = listener;
-
     }
 
     public void setDefaultUrl(String defUrl) {
@@ -34,9 +40,6 @@ public class Gn_WebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//        if (!url.equals(defaultUrl) && url.contains("index.html")) {
-//            view.loadUrl(defaultUrl);
-//        }
         return false;
     }
 
@@ -49,11 +52,15 @@ public class Gn_WebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
- //       L.e("current_Url: " + url);
- //       L.e("default_Url: " + defaultUrl);
+        cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.getInstance().sync();
+        }
 
-        if (url.contains("login.html") || url.equals(defaultUrl)) {
- //           L.e("这个页面需要更改appType");
+        if (url.contains("login.html") || url.equals(defaultUrl)) { //           L.e("这个页面需要更改appType");
             view.loadUrl(I.CHANGE_APPTYPE);
             view.clearHistory();
         }
@@ -68,6 +75,5 @@ public class Gn_WebViewClient extends WebViewClient {
         super.onReceivedError(view, request, error);
         view.loadUrl("file:///android_asset/error.html");
     }
-
 
 }
