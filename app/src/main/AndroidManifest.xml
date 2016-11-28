@@ -3,16 +3,21 @@
     package="hljpolice.pahlj.com.hljpoliceapp"
     android:versionCode="2"
     android:versionName="1.0">
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
     <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name="hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication"
         android:allowBackup="true"
@@ -20,9 +25,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity"
-            android:theme="@style/AppTheme.TransparentActivity"/>
-        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.SplashActivity"
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="583bd31aa40fa33fa6001807" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" />
+
+        <activity
+            android:name="hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity"
+            android:theme="@style/AppTheme.TransparentActivity" />
+        <activity
+            android:name="hljpolice.pahlj.com.hljpoliceapp.ui.SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,17 +44,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity"/>
-        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity" />
+        <activity
+            android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
             android:label="@string/title_activity_html"
             android:theme="@style/AppTheme.TransparentActivity">
 
         </activity>
+
         <service
             android:name=".download.DownloadApkFileService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true"></service>
 
     </application>
 
