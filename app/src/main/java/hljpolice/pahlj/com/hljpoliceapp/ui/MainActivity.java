@@ -356,13 +356,13 @@ public class MainActivity extends BaseActivity {
                 mRbShiXing.setEnabled(true);
                 mFunctionFragment2.setUrl(func.getData().get(0).getQqdz());
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 3);
-                L.e("nri-a"+func.getData().get(0).getQqdz());
             } else if ("03".equals(func.getMklb())) {
                 mFunctionFragment3.setTxtTitle(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setText(func.getData().get(0).getMkmc());
                 mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
                 mRbPersonCenter.setEnabled(true);
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
+                L.e("nri-a"+func.getData().get(0).getQqdz());
             }
         }
         mRbShouYe.setEnabled(true);

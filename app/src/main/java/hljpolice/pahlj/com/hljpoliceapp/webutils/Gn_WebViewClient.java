@@ -40,8 +40,9 @@ public class Gn_WebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (url.contains("index.html")) {
+        if (url.contains("stwx/index.html")) {      //如果是首页，则结束当前Activity
             mContext.finish();
+
         }
         return false;
     }

@@ -139,7 +139,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * the onClosed event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see OnClosedEvent
+	 * @see OnClosedListener
 	 */
 	public interface OnClosedListener {
 
@@ -150,7 +150,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * The Interface CanvasTransformer.
+	 * The Interfa ce CanvasTransformer.
 	 */
 	public interface CanvasTransformer {
 
