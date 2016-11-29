@@ -238,7 +238,6 @@ public class MainActivity extends BaseActivity {
                 .hide(mFunctionFragment3)
                 .show(mHomePageFragment)
                 .commit();
-
     }
 
     /**

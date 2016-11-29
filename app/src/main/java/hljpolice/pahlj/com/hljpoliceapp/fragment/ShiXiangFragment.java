@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class ShiXiangFragment extends Fragment {
     PopupWindowAdapter mPopupAdapter;
     LinearLayoutManager mLayoutManager;
     GridLayoutManager mGridlayoutManager;
+
     int mPageId = 1;
     int mNewState;
     PopupWindow window;
@@ -76,6 +78,8 @@ public class ShiXiangFragment extends Fragment {
     @BindView(R.id.srl_shixiang)
     SwipeRefreshLayout srlShixiang;
     private String defaultUrl;
+
+    private String mPageName = "ShiXiangFragment";
     public ShiXiangFragment() {
         // Required empty public constructor
     }
@@ -267,5 +271,16 @@ public class ShiXiangFragment extends Fragment {
     };
     public void setUrl(String url){
         defaultUrl = url;
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(mPageName);
     }
 }

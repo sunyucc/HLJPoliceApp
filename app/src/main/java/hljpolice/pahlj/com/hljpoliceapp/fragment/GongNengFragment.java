@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,7 +36,8 @@ public class GongNengFragment extends Fragment {
     RelativeLayout rlBack;
     @BindView(R.id.txt_title)
     TextView txtTitle;
-
+    private boolean isLogined= false;
+    private String mPageName = "GongNengFragment";
     private Gn_WebViewClient webViewClient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,8 +88,11 @@ public class GongNengFragment extends Fragment {
      */
     public void setUrl(String url) {
         defaultUrl = url;
+//        if (!isLogined) {
         webViewClient.setDefaultUrl(url);
             webView.loadUrl(url);
+//            isLogined = true;
+//        }
     }
 
     /**
@@ -113,6 +119,17 @@ public class GongNengFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(mPageName);
     }
 }
 
