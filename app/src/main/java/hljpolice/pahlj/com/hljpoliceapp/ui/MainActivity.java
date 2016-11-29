@@ -84,15 +84,14 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.down_pb)
     ProgressBar downPb;
     private NavResourceIcon nri;
-    private boolean isGeRenClicked = true;
-    private boolean isZiXunClicked = true;
     private String fileName;
     private UpdateCartReceiver mReceiver;
     RelativeLayout mRlTitle;
     private int fileProgress;
-    private DownloadBinder binder ;
-    private Version version ;
+    private DownloadBinder binder;
+    private Version version;
     private final String mPageName = "MainActivity";
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +111,7 @@ public class MainActivity extends BaseActivity {
         checkVersion();
 
     }
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         @Override
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity {
                 // TODO Auto-generated method stub
                 mLinearlayoutJinDu.setVisibility(View.VISIBLE);
                 mIvUpdate.setVisibility(View.GONE);
-                Intent intent = new Intent(MainActivity.this,DownloadApkFileService.class);
+                Intent intent = new Intent(MainActivity.this, DownloadApkFileService.class);
                 MainActivity.this.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
             }
@@ -238,6 +238,7 @@ public class MainActivity extends BaseActivity {
                 .hide(mFunctionFragment3)
                 .show(mHomePageFragment)
                 .commit();
+
     }
 
     /**
@@ -280,29 +281,17 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.rb_shouye:
                 index = 0;
-                isZiXunClicked = true;
-                isGeRenClicked = true;
                 break;
             case R.id.rb_zixun:
-                if (isZiXunClicked) {
-                    isZiXunClicked = false;
-                    mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
-                    index = 1;
-                }
-                isGeRenClicked = true;
+                mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
+                index = 1;
                 break;
             case R.id.rb_shixiang:
                 index = 2;
-                isGeRenClicked = true;
-                isZiXunClicked = true;
                 break;
             case R.id.rb_center:
-                if (isGeRenClicked) {
-                    mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
-                    index = 3;
-                    isGeRenClicked = false;
-                }
-                isZiXunClicked = true;
+                mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
+                index = 3;
                 break;
         }
         setFragment();
@@ -372,7 +361,7 @@ public class MainActivity extends BaseActivity {
                 mRbPersonCenter.setTag(func.getData().get(0).getQqdz());
                 mRbPersonCenter.setEnabled(true);
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 4);
-                L.e("nri-a"+func.getData().get(0).getQqdz());
+                L.e("nri-a" + func.getData().get(0).getQqdz());
             }
         }
         mRbShouYe.setEnabled(true);
@@ -436,8 +425,8 @@ public class MainActivity extends BaseActivity {
         // TODO Auto-generated method stub
         // 安装程序的apk文件路径
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        L.e("dir==="+dir.toString());
-        fileName = dir+"/"+filename;
+        L.e("dir===" + dir.toString());
+        fileName = dir + "/" + filename;
         // 创建URI
         Uri uri = Uri.fromFile(new File(fileName));
         // 创建Intent意图

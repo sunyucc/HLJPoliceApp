@@ -47,6 +47,7 @@ public class GongNengFragment extends Fragment {
         return layout;
     }
 
+
     /**
      * 初试化webveiw
      *

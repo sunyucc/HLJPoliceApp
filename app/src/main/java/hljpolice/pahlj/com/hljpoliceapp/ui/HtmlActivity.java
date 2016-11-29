@@ -25,8 +25,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,18 +52,14 @@ import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
 @SuppressLint("SetJavaScriptEnabled")
 public class HtmlActivity extends BaseSwipeBackActivity {
     private static final String TAG = HtmlActivity.class.getSimpleName();
-    @BindView(R.id.txt_title)
-    TextView txtTitle;
     @BindView(webView)
     WebView mWebView;
-    @BindView(R.id.txt_left)
-    TextView mTxtLeft;
-    @BindView(R.id.rl_back)
-    RelativeLayout rlBack;
-    @BindView(R.id.img_back)
-    ImageView imgBack;
-    @BindView(R.id.rl_layout)
-    RelativeLayout rlLayout;
+    @BindView(R.id.iv_close)
+    ImageView ivClose;
+    @BindView(R.id.tv_htmltitle)
+    TextView tvHtmltitle;
+    @BindView(R.id.progressBar)
+    ProgressBar bar;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
@@ -81,9 +78,8 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
 
     private void initData() {
-        final ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
-        mWebView.setWebViewClient(new Gn_WebViewClient(this,pageListener));
-        mWebView.setWebChromeClient(new Gn_WebChromeClient(bar, txtTitle) {
+        mWebView.setWebViewClient(new Gn_WebViewClient(this, pageListener));
+        mWebView.setWebChromeClient(new Gn_WebChromeClient(bar, tvHtmltitle) {
 
             @Override
 
@@ -131,21 +127,12 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
         @Override
         public void pageCount(int count) {
-            if (count > 0) {
-                mTxtLeft.setVisibility(View.VISIBLE);
-            } else {
-                mTxtLeft.setVisibility(View.GONE);
-            }
         }
     };
 
     private void initView() {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        rlBack.setVisibility(View.VISIBLE);
-        L.e("url+++" + url);
-        txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText(intent.getStringExtra("moudlesname"));
         WebSettings settings = mWebView.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -166,22 +153,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
     }
 
-    @OnClick({R.id.txt_left, R.id.rl_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.txt_left:
-                MFGT.finish(this);
-                break;
-            case R.id.rl_back:
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    MFGT.finish(this);
-                }
-                break;
-
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -308,6 +279,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
             mWebView.onResume();
             mWebView.resumeTimers();
         }
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -317,6 +289,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
             mWebView.pauseTimers();
         }
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -332,9 +305,12 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        rlLayout.removeView(mWebView);
         mWebView.stopLoading();
         mWebView.removeAllViews();
     }
 
+    @OnClick(R.id.iv_close)
+    public void onClick() {
+        MFGT.finish(this);
+    }
 }

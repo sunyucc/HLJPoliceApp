@@ -8,6 +8,8 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import hljpolice.pahlj.com.hljpoliceapp.utils.L;
+
 public class Gn_WebChromeClient extends WebChromeClient {
     private ProgressBar pBar;
     private TextView textView;
@@ -33,6 +35,7 @@ public class Gn_WebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView view, String title) {
         textView.setText(title);
+        L.e("title+++"+title);
         super.onReceivedTitle(view, title);
     }
     @Override

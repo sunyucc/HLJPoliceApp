@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/view_layout_title"
+    <include layout="@layout/view_html_title"
         android:id="@+id/relativelayout"
         />
 
