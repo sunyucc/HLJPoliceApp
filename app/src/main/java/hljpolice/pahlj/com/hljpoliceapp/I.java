@@ -28,6 +28,7 @@ public interface I {
 
     String UPDATE_APP = "update_app";
 
+    //文件名
     String FILE_NAME = "file_name";
     //首页标题
     String MENU_TITLE = "平安黑龙江";
@@ -38,6 +39,5 @@ public interface I {
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
 
-    String PROGRESS_UPDATE = "更新下载进度";
-
+    String TARGET = "target";
 }

@@ -59,8 +59,8 @@ public class GongNengFragment extends Fragment {
     private void initView(View layout) {
         ProgressBar bar = (ProgressBar) layout.findViewById(R.id.myProgressBar);
         webView = (WebView) layout.findViewById(R.id.wv_fragment);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
         webViewClient = new Gn_WebViewClient(getActivity(),webPageChangedListener);
         webView.setWebViewClient(webViewClient);

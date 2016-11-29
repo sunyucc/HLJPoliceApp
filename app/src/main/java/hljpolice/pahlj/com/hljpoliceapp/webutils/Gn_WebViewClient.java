@@ -31,7 +31,7 @@ public class Gn_WebViewClient extends WebViewClient {
     }
 
     public void setDefaultUrl(String defUrl) {
-        defaultUrl = defUrl;
+        this.defaultUrl = defUrl;
     }
 
     public void setOnWebPageChangedListener(OnWebPageChangedListener listener) {
@@ -42,7 +42,6 @@ public class Gn_WebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (url.contains("stwx/index.html")) {      //如果是首页，则结束当前Activity
             mContext.finish();
-
         }
         return false;
     }

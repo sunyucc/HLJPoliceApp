@@ -64,6 +64,25 @@ public class FunctionBean {
         private String cjsj;
         private String gxsj;
         private String mklb;
+        private String yydz;
+        private String sycs;
+
+
+        public String getSycs() {
+            return sycs;
+        }
+
+        public void setSycs(String sycs) {
+            this.sycs = sycs;
+        }
+
+        public String getYydz() {
+            return yydz;
+        }
+
+        public void setYydz(String yydz) {
+            this.yydz = yydz;
+        }
 
         public int getFuncid() {
             return funcid;
@@ -149,6 +168,8 @@ public class FunctionBean {
                     ", cjsj='" + cjsj + '\'' +
                     ", gxsj='" + gxsj + '\'' +
                     ", mklb='" + mklb + '\'' +
+                    ", yydz='" + yydz + '\'' +
+                    ", sycs='" + sycs + '\'' +
                     '}';
         }
     }

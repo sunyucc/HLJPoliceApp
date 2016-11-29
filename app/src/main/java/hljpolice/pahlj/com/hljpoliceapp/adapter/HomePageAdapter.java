@@ -56,7 +56,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         HomePageViewHolder gvh = (HomePageViewHolder) holder;
 
-        FunctionBean.DataBean bean = mList.get(position);
+        final FunctionBean.DataBean bean = mList.get(position);
         L.e("bean====" + bean.toString());
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
@@ -65,11 +65,9 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 url = mList.get(position).getQqdz();
-                L.e("url ===1"+url);
-                if (url.contains(I.App_OLD_TYPE)) {
-                    url = mList.get(position).getQqdz().replaceAll(I.App_OLD_TYPE, I.APP_TYPE);
+                if (url.contains("info.html")) {
+                    url = url + "?" + I.TARGET + "=" + bean.getYydz();
                 }
-                L.e("url ===2"+url);
                 Intent intent = new Intent()
                         .putExtra("url", url)
                         .putExtra("moudlesname", mList.get(position).getMkmc());

@@ -105,6 +105,10 @@ public class HtmlActivity extends BaseSwipeBackActivity {
                 mUploadMessage = uploadMsg;
                 take();
             }
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+            }
         });
         mWebView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -275,19 +279,11 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
     public void onResume() {
         super.onResume();
-        if (mWebView != null) {
-            mWebView.onResume();
-            mWebView.resumeTimers();
-        }
         MobclickAgent.onResume(this);
     }
 
     @Override
     public void onPause() {
-        if (mWebView != null) {
-            mWebView.onPause();
-            mWebView.pauseTimers();
-        }
         super.onPause();
         MobclickAgent.onPause(this);
     }
@@ -305,7 +301,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mWebView.stopLoading();
         mWebView.removeAllViews();
     }
 
