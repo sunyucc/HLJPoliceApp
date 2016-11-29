@@ -8,10 +8,9 @@ import android.content.pm.PackageManager;
 /**
  * Created by sunyu on 2016/11/15.
  */
-
 public class HLJPoliceApplication extends Application {
     public static Context application;
-    private static HLJPoliceApplication  instance = null;
+    private static HLJPoliceApplication instance = null;
     private static int currentVersion;
     @Override
     public void onCreate() {

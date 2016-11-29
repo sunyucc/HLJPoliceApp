@@ -25,13 +25,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,9 +44,11 @@ import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 import hljpolice.pahlj.com.hljpoliceapp.slidingmenu.BaseSwipeBackActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
+import hljpolice.pahlj.com.hljpoliceapp.utils.SysHelper;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebChromeClient;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebViewClient;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
 import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
 
 /**
@@ -60,6 +65,8 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     TextView tvHtmltitle;
     @BindView(R.id.progressBar)
     ProgressBar bar;
+    @BindView(R.id.rl_layout)
+    RelativeLayout rlLayout;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
@@ -69,11 +76,20 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
         initView();
         initData();
+
+        rlLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SysHelper sys = new SysHelper(HtmlActivity.this);
+                if (rlLayout.getHeight() > sys.getScreenHeight()) {
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                }
+            }
+        }, 300);
     }
 
 
@@ -87,29 +103,37 @@ public class HtmlActivity extends BaseSwipeBackActivity {
                                              ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
                 mUploadCallbackAboveL = filePathCallback;
-                take();
+                String accept = "image/*";
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    accept = fileChooserParams.getAcceptTypes()[0];
+                }
+                take(getParam(accept));
                 return true;
             }
 
             public void openFileChooser(ValueCallback<Uri> uploadMsg) {
                 mUploadMessage = uploadMsg;
-                take();
+                take(getParam("image/*"));
             }
 
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+//                L.e("acceptType=" + acceptType);
                 mUploadMessage = uploadMsg;
-                take();
+                take(getParam(acceptType));
             }
 
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+//                L.e("acceptType==" + acceptType);
                 mUploadMessage = uploadMsg;
-                take();
+                take(getParam(acceptType));
             }
+
             @Override
             public void onShowCustomView(View view, CustomViewCallback callback) {
                 super.onShowCustomView(view, callback);
             }
         });
+
         mWebView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -126,6 +150,24 @@ public class HtmlActivity extends BaseSwipeBackActivity {
             }
         });
     }
+
+    private Map<String, String> getParam(String accept){
+        Map<String,String> fileMap = new HashMap<>();
+
+            fileMap.put("accept", accept);
+            if (accept.contains("image")) {
+                fileMap.put("fileExt", ".jpg");
+                fileMap.put("Storage", Environment.DIRECTORY_PICTURES);
+                fileMap.put("MediaStore",MediaStore.ACTION_IMAGE_CAPTURE);
+                fileMap.put("title", "上传图片");
+            } else if (accept.contains("video")) {
+                fileMap.put("fileExt", ".mp4");
+                fileMap.put("Storage", Environment.DIRECTORY_MOVIES);
+                fileMap.put("MediaStore",MediaStore.ACTION_VIDEO_CAPTURE);
+                fileMap.put("title", "上传视频");
+            }
+        return fileMap;
+    };
 
     private OnWebPageChangedListener pageListener = new OnWebPageChangedListener() {
 
@@ -230,17 +272,20 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     /**
      * 在webview中调用系统相机
      */
-    private void take() {
-        File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyApp");
+    private void take(Map<String ,String > param) {
+//        fileMap.put("fileExt", ".jpg");
+//        fileMap.put("Storage", Environment.DIRECTORY_PICTURES);
+//        fileMap.put("MediaStore",MediaStore.ACTION_IMAGE_CAPTURE);
+//        fileMap.put("title", "上传图片");
+        File imageStorageDir = new File(getExternalStoragePublicDirectory(param.get("Storage")), "MyApp");
         // Create the storage directory if it does not exist
         if (!imageStorageDir.exists()) {
             imageStorageDir.mkdirs();
         }
-        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + param.get("fileExt"));
+        final Intent captureIntent = new Intent(param.get("MediaStore"));
         imageUri = Uri.fromFile(file);
-
         final List<Intent> cameraIntents = new ArrayList<>();
-        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
         for (ResolveInfo res : listCam) {
@@ -254,8 +299,9 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         }
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
-        i.setType("image/*");
-        Intent chooserIntent = Intent.createChooser(i, "Image Chooser");
+        i.setType(param.get("accept"));
+
+        Intent chooserIntent = Intent.createChooser(i, param.get("title"));
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }

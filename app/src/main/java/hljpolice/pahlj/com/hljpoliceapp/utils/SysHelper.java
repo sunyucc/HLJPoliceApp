@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -408,5 +410,17 @@ public class SysHelper {
 			return s;
 		}
 	}
-
+	/**
+	 * 获得屏幕高度
+	 *
+	 * @return
+	 */
+	public int getScreenHeight()
+	{
+		WindowManager wm = (WindowManager) mContext
+				.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.heightPixels;
+	}
 }
