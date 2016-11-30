@@ -43,8 +43,6 @@
         style="@style/txt_titleStyle1"
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/view_padding"
-        android:layout_toEndOf="@+id/txt_left"
         android:gravity="center_horizontal"
         android:ellipsize="end"
         android:text="@string/app_name"

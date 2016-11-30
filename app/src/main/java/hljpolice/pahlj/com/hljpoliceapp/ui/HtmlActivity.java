@@ -20,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -95,10 +96,14 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
     private void initData() {
         mWebView.setWebViewClient(new Gn_WebViewClient(this, pageListener));
-        mWebView.setWebChromeClient(new Gn_WebChromeClient(bar, tvHtmltitle) {
+        mWebView.setWebChromeClient(new Gn_WebChromeClient(this,bar, tvHtmltitle) {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                L.e("message"+message);
+                return super.onJsAlert(view, url, message, result);
+            }
 
             @Override
-
             public boolean onShowFileChooser(WebView webView,
                                              ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
@@ -273,10 +278,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
      * 在webview中调用系统相机
      */
     private void take(Map<String ,String > param) {
-//        fileMap.put("fileExt", ".jpg");
-//        fileMap.put("Storage", Environment.DIRECTORY_PICTURES);
-//        fileMap.put("MediaStore",MediaStore.ACTION_IMAGE_CAPTURE);
-//        fileMap.put("title", "上传图片");
         File imageStorageDir = new File(getExternalStoragePublicDirectory(param.get("Storage")), "MyApp");
         // Create the storage directory if it does not exist
         if (!imageStorageDir.exists()) {

@@ -5,13 +5,14 @@
     android:layout_height="50dp"
     android:background="#2D3031">
 
-
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:padding="@dimen/view_padding"
+        android:layout_marginLeft="@dimen/view_padding"
+        android:layout_marginRight="@dimen/view_padding"
         android:src="@mipmap/icon_close"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
@@ -36,4 +37,5 @@
         android:layout_marginTop="@dimen/title_padding"
         android:layout_toRightOf="@id/iv_close"
         android:background="@color/black" />
+
 </RelativeLayout>

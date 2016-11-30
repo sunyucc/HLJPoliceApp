@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity {
         setFragment();
         if (index == 0) {
             mRlTitle.setVisibility(View.VISIBLE);
-            txtTitle.setText("平安黑龙江");
+            txtTitle.setText("平安龙江");
         } else {
             mRlTitle.setVisibility(View.GONE);
         }
