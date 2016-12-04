@@ -39,7 +39,7 @@ public class DownloadFile {
 //        final Version bean = (Version) intent.getSerializableExtra("app");    //获取版本信息
         OkHttpClient client = new OkHttpClient();
         Request.Builder builder = new Request.Builder();
-        Request request = builder.url(I.SERVER_ROOT + I.UPDATE_APK+downloadFilename).build();
+        Request request = builder.url(I.VERSION_SERVER+downloadFilename).build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override

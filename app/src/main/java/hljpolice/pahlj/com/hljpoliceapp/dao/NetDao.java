@@ -26,7 +26,7 @@ public class NetDao {
      */
     public static void downloadMoudles(Context context, OkHttpUtils.OnCompleteListener<FunctionBean[]> listener) {
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.FUNCTION_MOUDLES)
+        utils.setRequestUrl(I.SERVER_ROOT+I.FUNCTION_MOUDLES)
                 .targetClass(FunctionBean[].class)
                 .post()
                 .execute(listener);
@@ -40,7 +40,7 @@ public class NetDao {
      */
     public static void downloadNews(Context context, OkHttpUtils.OnCompleteListener<NewsBean> listener) {
         OkHttpUtils<NewsBean> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.NEWS_MOUDLES)
+        utils.setRequestUrl(I.SERVER_ROOT+I.NEWS_MOUDLES)
                 .targetClass(NewsBean.class)
                 .execute(listener);
     }
@@ -54,7 +54,7 @@ public class NetDao {
     public static void updateApp(Context mContext, OkHttpUtils.OnCompleteListener<String> listener) {
 
         OkHttpUtils<String> utils = new OkHttpUtils<>(mContext);
-        utils.setRequestUrl(I.VERSION_INFO)
+        utils.setRequestUrl(I.VERSION_SERVER+I.VERSION_INFO)
                 .targetClass(String.class)
                 .execute(listener);
     }
@@ -75,7 +75,7 @@ public class NetDao {
         if (data != null) {
             json = gson.toJson(data);
         }
-        utils.setRequestUrl(I.SHIXIANG_SEARCH)
+        utils.setRequestUrl(I.SERVER_ROOT+I.SHIXIANG_SEARCH)
                 .post()
                 .addParam(I.PAGE_INDEX, String.valueOf(pageIndex))
                 .addParam(I.PAGE_SIZE, String.valueOf(20))
@@ -92,7 +92,7 @@ public class NetDao {
     public static void downShiXiangModule(Context mContext, OkHttpUtils.OnCompleteListener<ShiXiangModuleBean[]> listener) {
 
         OkHttpUtils<ShiXiangModuleBean[]> utils = new OkHttpUtils<>(mContext);
-        utils.setRequestUrl(I.SHIXIANG_MODULE_NAME)
+        utils.setRequestUrl(I.SERVER_ROOT+I.SHIXIANG_MODULE_NAME)
                 .targetClass(ShiXiangModuleBean[].class)
                 .execute(listener);
     }

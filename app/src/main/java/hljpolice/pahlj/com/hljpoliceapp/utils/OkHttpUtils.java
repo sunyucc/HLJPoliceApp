@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
-import hljpolice.pahlj.com.hljpoliceapp.I;
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -226,7 +225,7 @@ public class OkHttpUtils<T> {
 
     public OkHttpUtils<T> setRequestUrl(String request) {
         //http://120.26.242.249:8080/SuperWeChatServerV2.0/register?m_user_name=aaaaaa&m_user_nick=aaaaaa&m_user_password=aaaaaa
-        mUrl = new StringBuilder(I.SERVER_ROOT);
+        mUrl = new StringBuilder();
         mUrl.append(request);
         Log.e("okhttp==","1 murl="+ mUrl.toString());
         return this;

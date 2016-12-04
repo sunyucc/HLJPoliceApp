@@ -5,13 +5,14 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String SERVER_ROOT = "http://61.180.150.46:8088/cs/mhnmcz/";
+    String SERVER_ROOT = "http://jiekou.hljga.gov.cn:8088/cs/mhnmcz/";
     //事项地址
 //    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
+    String VERSION_SERVER = "http://61.180.150.62:8081/mobile/" ;
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息
-    String VERSION_INFO = "../mobile/version.json";
+    String VERSION_INFO = "version.json";
     String FUNCTION_MOUDLES = "htmlfuncApp/searchAll.go";
     //事项搜索
     String SHIXIANG_SEARCH = "jcShixiang/searchPager.go";
@@ -23,9 +24,6 @@ public interface I {
     // 一页的行数
     String PAGE_SIZE = "pageSize";
 
-    String App_OLD_TYPE = "apptype=2";
-    String APP_TYPE = "apptype=3";
-
     String UPDATE_APP = "update_app";
 
     //文件名
@@ -35,7 +33,6 @@ public interface I {
     // 改变登录时的标签，用于判断当前登录的设备
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
     // 更新apk
-    String UPDATE_APK = "../mobile/";
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
 

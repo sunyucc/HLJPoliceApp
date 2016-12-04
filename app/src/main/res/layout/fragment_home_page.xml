@@ -61,7 +61,7 @@
                     android:textSize="@dimen/menu_textsize"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="公安微博"
+                    android:text="功能待定"
                     android:drawablePadding="@dimen/view_padding"
                     android:gravity="center_horizontal"
                     android:drawableTop="@mipmap/ic_launcher"/>
@@ -78,7 +78,7 @@
                     android:textSize="@dimen/menu_textsize"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="公安微信"
+                    android:text="功能待定"
                     android:drawablePadding="@dimen/view_padding"
                     android:gravity="center_horizontal"
                     android:drawableTop="@mipmap/ic_launcher"/>
@@ -95,7 +95,7 @@
                     android:textSize="@dimen/menu_textsize"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="用户分享"
+                    android:text="功能待定"
                     android:drawablePadding="@dimen/view_padding"
                     android:gravity="center_horizontal"
                     android:drawableTop="@mipmap/ic_launcher"/>
