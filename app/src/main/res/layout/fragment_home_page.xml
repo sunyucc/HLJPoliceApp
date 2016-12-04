@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    app:count="3"
+                    app:count="1"
                     app:focus="0"
                     app:focus_color="@color/good_detaul_flow_indicator_focus"
                     app:normal_color="#a1d1d1d1"
@@ -41,6 +41,71 @@
                     app:space="3dp" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:paddingTop="@dimen/title_padding"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_gawb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/view_padding"
+                    android:paddingRight="@dimen/view_padding"
+                    android:maxLines="1"
+                    android:layout_marginBottom="@dimen/view_padding"
+                    android:layout_marginTop="@dimen/view_padding"
+                    android:textSize="@dimen/menu_textsize"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:text="公安微博"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:gravity="center_horizontal"
+                    android:drawableTop="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/tv_gawx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/view_padding"
+                    android:paddingRight="@dimen/view_padding"
+                    android:maxLines="1"
+                    android:layout_marginBottom="@dimen/view_padding"
+                    android:layout_marginTop="@dimen/view_padding"
+                    android:textSize="@dimen/menu_textsize"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:text="公安微信"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:gravity="center_horizontal"
+                    android:drawableTop="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/tv_yhfx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/view_padding"
+                    android:paddingRight="@dimen/view_padding"
+                    android:maxLines="1"
+                    android:layout_marginBottom="@dimen/view_padding"
+                    android:layout_marginTop="@dimen/view_padding"
+                    android:textSize="@dimen/menu_textsize"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:text="用户分享"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:gravity="center_horizontal"
+                    android:drawableTop="@mipmap/ic_launcher"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#DCDCDC"/>
             <LinearLayout
                 android:id="@+id/ll_function"
                 android:layout_width="match_parent"
