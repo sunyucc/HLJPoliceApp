@@ -96,41 +96,50 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
     private void initData() {
         mWebView.setWebViewClient(new Gn_WebViewClient(this, pageListener));
-        mWebView.setWebChromeClient(new Gn_WebChromeClient(this,bar, tvHtmltitle) {
+        mWebView.setWebChromeClient(new Gn_WebChromeClient(this, bar, tvHtmltitle) {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                L.e("message"+message);
                 return super.onJsAlert(view, url, message, result);
             }
+
 
             @Override
             public boolean onShowFileChooser(WebView webView,
                                              ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
+
                 mUploadCallbackAboveL = filePathCallback;
-                String accept = "image/*";
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+                String accept = "";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     accept = fileChooserParams.getAcceptTypes()[0];
                 }
-                take(getParam(accept));
+
+                if (accept.equals("")) {
+                    openFile();
+                } else {
+                    take(getParam(accept));
+                }
                 return true;
             }
 
-            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                mUploadMessage = uploadMsg;
-                take(getParam("image/*"));
-            }
-
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-//                L.e("acceptType=" + acceptType);
                 mUploadMessage = uploadMsg;
-                take(getParam(acceptType));
+                if (acceptType.equals("")) {
+                    openFile();
+                } else {
+                    take(getParam(acceptType));
+                }
             }
 
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-//                L.e("acceptType==" + acceptType);
+                L.e("Func: openFileChooser,parma3");
                 mUploadMessage = uploadMsg;
-                take(getParam(acceptType));
+                if (acceptType.equals("")) {
+                    openFile();
+                } else {
+                    take(getParam(acceptType));
+                }
             }
 
             @Override
@@ -156,23 +165,82 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         });
     }
 
-    private Map<String, String> getParam(String accept){
-        Map<String,String> fileMap = new HashMap<>();
+    private Map<String, String> getParam(String accept) {
+        Map<String, String> fileMap = new HashMap<>();
 
-            fileMap.put("accept", accept);
-            if (accept.contains("image")) {
-                fileMap.put("fileExt", ".jpg");
-                fileMap.put("Storage", Environment.DIRECTORY_PICTURES);
-                fileMap.put("MediaStore",MediaStore.ACTION_IMAGE_CAPTURE);
-                fileMap.put("title", "上传图片");
-            } else if (accept.contains("video")) {
-                fileMap.put("fileExt", ".mp4");
-                fileMap.put("Storage", Environment.DIRECTORY_MOVIES);
-                fileMap.put("MediaStore",MediaStore.ACTION_VIDEO_CAPTURE);
-                fileMap.put("title", "上传视频");
-            }
+        fileMap.put("accept", accept);
+        if (accept.contains("image")) {             //  如果要上传图片类型的数据,执行本方法
+            fileMap.put("fileExt", ".jpg");
+            fileMap.put("Storage", Environment.DIRECTORY_PICTURES);
+            fileMap.put("MediaStore", MediaStore.ACTION_IMAGE_CAPTURE);
+            fileMap.put("title", "上传图片");
+        } else if (accept.contains("video")) {
+            fileMap.put("fileExt", ".mp4");
+            fileMap.put("Storage", Environment.DIRECTORY_MOVIES);
+            fileMap.put("MediaStore", MediaStore.ACTION_VIDEO_CAPTURE);
+            fileMap.put("title", "上传视频");
+        }
+//        else if (accept.equals("")) {
+//            fileMap.put("fileExt", "");
+//            fileMap.put("Storage", Environment.DIRECTORY_DOCUMENTS);
+//            fileMap.put("title", "上传文件");
+//            fileMap.put("accept", "*/*");
+//        }
         return fileMap;
-    };
+    }
+
+    ;
+
+    /**
+     * 在webview中调用系统相机、文件管理
+     */
+    private void take(Map<String, String> param) {
+
+        File imageStorageDir = new File(getExternalStoragePublicDirectory(param.get("Storage")), "MyApp");
+        // Create the storage directory if it does not exist
+        if (!imageStorageDir.exists()) {
+            imageStorageDir.mkdirs();
+        }
+        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + param.get("fileExt"));
+        final Intent captureIntent = new Intent(param.get("MediaStore"));
+        imageUri = Uri.fromFile(file);
+        final List<Intent> cameraIntents = new ArrayList<>();
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent i = new Intent(captureIntent);
+            i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            i.setPackage(packageName);
+            i.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            cameraIntents.add(i);
+
+        }
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType(param.get("accept"));
+
+        Intent chooserIntent = Intent.createChooser(i, param.get("title"));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+        HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
+    }
+
+    private void openFile() {
+//        final List<Intent> cameraIntents = new ArrayList<>();
+//        final PackageManager packageManager = getPackageManager();
+//        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+//        i.addCategory(Intent.CATEGORY_OPENABLE);
+//        i.setType("*/*");
+//
+//        Intent chooserIntent = Intent.createChooser(i, "上传文件");
+//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+//        HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/*");
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, FILECHOOSER_RESULTCODE);
+    }
 
     private OnWebPageChangedListener pageListener = new OnWebPageChangedListener() {
 
@@ -180,6 +248,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         public void pageCount(int count) {
         }
     };
+
 
     private void initView() {
         Intent intent = getIntent();
@@ -230,7 +299,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
     }
 
-
     @SuppressWarnings("null")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent data) {
@@ -272,39 +340,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
             mUploadCallbackAboveL = null;
         }
         return;
-    }
-
-    /**
-     * 在webview中调用系统相机
-     */
-    private void take(Map<String ,String > param) {
-        File imageStorageDir = new File(getExternalStoragePublicDirectory(param.get("Storage")), "MyApp");
-        // Create the storage directory if it does not exist
-        if (!imageStorageDir.exists()) {
-            imageStorageDir.mkdirs();
-        }
-        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + param.get("fileExt"));
-        final Intent captureIntent = new Intent(param.get("MediaStore"));
-        imageUri = Uri.fromFile(file);
-        final List<Intent> cameraIntents = new ArrayList<>();
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent i = new Intent(captureIntent);
-            i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            i.setPackage(packageName);
-            i.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            cameraIntents.add(i);
-
-        }
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.addCategory(Intent.CATEGORY_OPENABLE);
-        i.setType(param.get("accept"));
-
-        Intent chooserIntent = Intent.createChooser(i, param.get("title"));
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-        HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
 
 

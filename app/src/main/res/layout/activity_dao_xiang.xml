@@ -34,7 +34,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/welcome_1" >
+            android:background="@drawable/welcome_4" >
 
             <Button
                 android:id="@+id/startBtn"
@@ -42,9 +42,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="90.0dip"
+                android:layout_marginBottom="80.0dip"
                 android:text="立即体验"
-                android:textColor="#ffffff"
+                android:textColor="#000000"
                 android:textSize="18sp" />
         </RelativeLayout>
     </hljpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView>
@@ -90,13 +90,6 @@
             android:padding="5.0dip"
             android:src="@drawable/selector_page_point" />
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:clickable="true"-->
-            <!--android:padding="5.0dip"-->
-            <!--android:src="@drawable/selector_page_point" />-->
     </LinearLayout>
 
 </RelativeLayout>
