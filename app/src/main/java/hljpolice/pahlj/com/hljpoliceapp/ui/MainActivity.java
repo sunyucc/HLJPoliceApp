@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.sharesdk.framework.ShareSDK;
 import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
@@ -245,6 +246,7 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     protected void initView() {
+        ShareSDK.initSDK(this);
         IntentFilter filter = new IntentFilter(I.UPDATE_APP);
         mReceiver = new UpdateCartReceiver();
         filter.addAction("hljpolice.pahlj.com.hljpoliceapp.service.DownloadNewVersionApkService");
