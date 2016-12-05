@@ -5,6 +5,8 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
+    String SINA_SERVER = "http://weibo.com/xinlanghlj   ";//新浪微博
+
     String SERVER_ROOT = "http://jiekou.hljga.gov.cn:8088/cs/mhnmcz/";
     //事项地址
 //    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";

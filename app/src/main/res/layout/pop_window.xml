@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/view_padding"
         android:text="@string/jingzhong"
-        android:background="@color/bg_gray_light"
+        android:background="@color/gray_light"
         android:textSize="@dimen/shixiang_textsize" />
 
     <android.support.v7.widget.RecyclerView
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/view_padding"
-        android:background="@color/bg_gray_light"
+        android:background="@color/gray_light"
         android:text="@string/feilei"
         android:textSize="@dimen/shixiang_textsize"/>
 
@@ -58,6 +58,6 @@
     </RadioGroup>
     <TextView
         android:layout_width="match_parent"
-        android:background="@color/bg_gray_light"
-        android:layout_height="@dimen/activity_horizontal_margin" />
+        android:background="@color/gray_light"
+        android:layout_height="@dimen/popup_view" />
 </LinearLayout>

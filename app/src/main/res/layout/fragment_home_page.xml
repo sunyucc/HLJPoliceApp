@@ -50,6 +50,22 @@
                 android:background="@color/white">
 
                 <TextView
+                    android:id="@+id/tv_jwzx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/view_padding"
+                    android:paddingRight="@dimen/view_padding"
+                    android:maxLines="1"
+                    android:layout_marginBottom="@dimen/view_padding"
+                    android:textSize="@dimen/menu_textsize"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:text="警务资讯"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:gravity="center_horizontal"
+                    android:drawableTop="@mipmap/icon_jfzx"/>
+
+                <TextView
                     android:id="@+id/tv_gawb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,31 +73,13 @@
                     android:paddingRight="@dimen/view_padding"
                     android:maxLines="1"
                     android:layout_marginBottom="@dimen/view_padding"
-                    android:layout_marginTop="@dimen/view_padding"
                     android:textSize="@dimen/menu_textsize"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="功能待定"
+                    android:text="公安微博"
                     android:drawablePadding="@dimen/view_padding"
                     android:gravity="center_horizontal"
-                    android:drawableTop="@mipmap/ic_launcher"/>
-
-                <TextView
-                    android:id="@+id/tv_gawx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/view_padding"
-                    android:paddingRight="@dimen/view_padding"
-                    android:maxLines="1"
-                    android:layout_marginBottom="@dimen/view_padding"
-                    android:layout_marginTop="@dimen/view_padding"
-                    android:textSize="@dimen/menu_textsize"
-                    android:textColor="@color/black"
-                    android:layout_weight="1"
-                    android:text="功能待定"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:gravity="center_horizontal"
-                    android:drawableTop="@mipmap/ic_launcher"/>
+                    android:drawableTop="@mipmap/icon_jfwb"/>
 
                 <TextView
                     android:id="@+id/tv_yhfx"
@@ -91,14 +89,13 @@
                     android:paddingRight="@dimen/view_padding"
                     android:maxLines="1"
                     android:layout_marginBottom="@dimen/view_padding"
-                    android:layout_marginTop="@dimen/view_padding"
                     android:textSize="@dimen/menu_textsize"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="功能待定"
+                    android:text="用户分享"
                     android:drawablePadding="@dimen/view_padding"
                     android:gravity="center_horizontal"
-                    android:drawableTop="@mipmap/ic_launcher"/>
+                    android:drawableTop="@mipmap/icon_yhfx"/>
 
             </LinearLayout>
 

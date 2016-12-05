@@ -20,4 +20,5 @@
     <dimen name="shixiang_textsize">16sp</dimen>
     <dimen name="popup_textsize">17sp</dimen>
     <dimen name="title_padding">15dp</dimen>
+    <dimen name="popup_view">5dp</dimen>
 </resources>

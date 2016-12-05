@@ -109,7 +109,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
                                              FileChooserParams fileChooserParams) {
 
                 mUploadCallbackAboveL = filePathCallback;
-
                 String accept = "";
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     accept = fileChooserParams.getAcceptTypes()[0];
@@ -237,7 +236,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 //        HtmlActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/*");
+        intent.setType("*/*");
         intent.putExtra("return-data", true);
         startActivityForResult(intent, FILECHOOSER_RESULTCODE);
     }

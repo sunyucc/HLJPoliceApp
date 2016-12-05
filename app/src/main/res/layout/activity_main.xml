@@ -32,7 +32,8 @@
             android:id="@+id/rb_shouye"
             style="@style/menu_item_style"
             android:button="@null"
-            android:text="@string/menu_icon_shouye" />
+            android:text="@string/menu_icon_shouye"
+            android:background="@null"/>
 
         <RadioButton
             android:id="@+id/rb_zixun"

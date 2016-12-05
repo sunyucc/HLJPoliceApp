@@ -62,10 +62,18 @@ public class PopupWindowAdapter extends RecyclerView.Adapter {
         if (position == TYPE_HEAD) {
             ShiXiangHolder aqb = (ShiXiangHolder) holder;
             aqb.tvShixiang.setText(R.string.quanbu);
+            aqb.tvShixiang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.itemClickListener(null);
+                    }
+                }
+            });
             return;
         }
-        ShiXiangHolder sxh = (ShiXiangHolder) holder;
         final ShiXiangModuleBean bean = mList.get(position - 1);
+        ShiXiangHolder sxh = (ShiXiangHolder) holder;
         sxh.tvShixiang.setText(bean.getMc());
         sxh.tvShixiang.setOnClickListener(new View.OnClickListener() {
             @Override

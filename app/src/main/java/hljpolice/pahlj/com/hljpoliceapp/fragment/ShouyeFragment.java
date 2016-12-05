@@ -2,6 +2,7 @@ package hljpolice.pahlj.com.hljpoliceapp.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,11 +28,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.adapter.HomePageAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
+import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
 import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
@@ -59,12 +62,12 @@ public class ShouyeFragment extends Fragment {
     @BindView(R.id.srl)
     SwipeRefreshLayout mSrl;
     DialogInterface mDialog;
-    @BindView(R.id.tv_gawb)
-    TextView tvGawb;
-    @BindView(R.id.tv_gawx)
-    TextView tvGawx;
     @BindView(R.id.tv_yhfx)
     TextView tvYhfx;
+    @BindView(R.id.tv_jwzx)
+    TextView tvJwzx;
+    @BindView(R.id.tv_gawb)
+    TextView tvGawb;
     private String mPageName = "ShouyeFragment";
 
     @Override
@@ -86,6 +89,20 @@ public class ShouyeFragment extends Fragment {
      * @param inflater
      */
     private void setListener(final LayoutInflater inflater) {
+        tvJwzx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        tvGawb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HtmlActivity.class);
+                intent.putExtra("url", I.SINA_SERVER);
+                mContext.startActivity(intent);
+            }
+        });
         tvYhfx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +118,7 @@ public class ShouyeFragment extends Fragment {
             }
         });
     }
+
     private void showShare() {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权

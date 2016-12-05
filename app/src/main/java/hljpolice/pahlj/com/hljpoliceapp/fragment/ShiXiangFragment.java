@@ -108,8 +108,13 @@ public class ShiXiangFragment extends Fragment {
         mPopupAdapter.setOnItemClickListener(new PopupWindowAdapter.OnItemClickListener() {
             @Override
             public void itemClickListener(ShiXiangModuleBean bean) {
+                if (bean == null) {
+                    tvQuanBu.setText("全部");
+                    searchData.remove("sxywdl");
+                } else {
                 tvQuanBu.setText(bean.getMc());
                 searchData.put("sxywdl", bean.getBm());
+                }
                 mPageId = 1;
                 L.e("search=" + searchData.toString());
                 downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);

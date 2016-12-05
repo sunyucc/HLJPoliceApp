@@ -6,7 +6,10 @@
         android:id="@+id/tv_moudles_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_padding"
+        android:background="#F5F5F5"
+        android:paddingLeft="@dimen/title_padding"
+        android:paddingTop="@dimen/view_padding"
+        android:paddingBottom="@dimen/view_padding"
         android:text="@string/function_title"
         android:textColor="@color/black"/>
 
