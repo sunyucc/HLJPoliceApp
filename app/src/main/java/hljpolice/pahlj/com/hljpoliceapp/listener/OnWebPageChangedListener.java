@@ -6,5 +6,5 @@ package hljpolice.pahlj.com.hljpoliceapp.listener;
 
 public interface OnWebPageChangedListener {
     void pageCount(int count);
-
+    void finished();
 }

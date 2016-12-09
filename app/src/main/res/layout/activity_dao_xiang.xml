@@ -43,7 +43,12 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="60.0dip"
-                android:background="@drawable/btn_tiyan" />
+                android:text="开始体验"
+                android:textColor="@color/white"
+                android:textSize="@dimen/xd_text_size"
+                android:paddingRight="@dimen/title_padding"
+                android:paddingLeft="@dimen/title_padding"
+                android:background="#097dc8" />
         </RelativeLayout>
     </hljpolice.pahlj.com.hljpoliceapp.widget.WelcomeWizardView>
 

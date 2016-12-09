@@ -46,8 +46,8 @@ import hljpolice.pahlj.com.hljpoliceapp.slidingmenu.BaseSwipeBackActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
 import hljpolice.pahlj.com.hljpoliceapp.utils.SysHelper;
+import hljpolice.pahlj.com.hljpoliceapp.webutils.CustomWebViewClient;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebChromeClient;
-import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebViewClient;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 import static hljpolice.pahlj.com.hljpoliceapp.R.id.webView;
@@ -95,13 +95,12 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
 
     private void initData() {
-        mWebView.setWebViewClient(new Gn_WebViewClient(this, pageListener));
+        mWebView.setWebViewClient(new CustomWebViewClient( pageListener));
         mWebView.setWebChromeClient(new Gn_WebChromeClient(this, bar, tvHtmltitle) {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
             }
-
 
             @Override
             public boolean onShowFileChooser(WebView webView,
@@ -245,6 +244,11 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
         @Override
         public void pageCount(int count) {
+        }
+
+        @Override
+        public void finished() {
+            HtmlActivity.this.finish();
         }
     };
 

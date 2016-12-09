@@ -67,7 +67,8 @@ public class OnekeyShare {
 		return params.containsKey("text") ? String.valueOf(params.get("text")) : null;
 	}
 
-	/** imagePath是本地的图片路径，除Linked-In外的所有平台都支持这个字段 */
+	/** imagePath是本地的图片路径，除Linked-In外的所有平台都支持这个字段
+	 * @param imagePath*/
 	public void setImagePath(String imagePath) {
 		if(!TextUtils.isEmpty(imagePath))
 			params.put("imagePath", imagePath);
@@ -211,7 +212,6 @@ public class OnekeyShare {
 			e.printStackTrace();
 		}
 	}
-
 	/** 腾讯微博分享多张图片 */
 	public void setImageArray(String[] imageArray) {
 		params.put("imageArray", imageArray);

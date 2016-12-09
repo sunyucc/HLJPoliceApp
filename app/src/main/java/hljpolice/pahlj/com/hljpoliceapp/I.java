@@ -5,12 +5,13 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String SINA_SERVER = "http://weibo.com/xinlanghlj   ";//新浪微博
+    String JFXW_SERVER = "http://www.83027110.com/stwx/jfxw.html";
+    String SINA_SERVER = "http://weibo.com/xinlanghlj   ";//加载新浪微博
 
     String SERVER_ROOT = "http://jiekou.hljga.gov.cn:8088/cs/mhnmcz/";
     //事项地址
 //    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
-    String VERSION_SERVER = "http://61.180.150.62:8081/mobile/" ;
+    String VERSION_SERVER = "http://file.hljga.gov.cn:8081/mobile/";
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息

@@ -36,8 +36,8 @@ public class Gn_WebChromeClient extends WebChromeClient {
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
+        L.e(view.getUrl());
         textView.setText(title);
-        L.e("title+++"+title);
         super.onReceivedTitle(view, title);
     }
     @Override

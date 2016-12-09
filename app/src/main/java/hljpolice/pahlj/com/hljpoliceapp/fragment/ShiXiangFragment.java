@@ -263,14 +263,17 @@ public class ShiXiangFragment extends Fragment {
         public void itemClickListener(ShiXiangBean.DataBean bean) {
             String sxmc = bean.getSxmc();
             String url = null;
+            L.e("vysor"+sxmc);
             url = defaultUrl+
                     "?bmid=" + bean.getZdBsckid() +
                     "&sxid=" + bean.getSxid() +
                     "&zn=" + bean.getZn() +
                     "&yy=" + bean.getYy() +
                     "&sb=" + bean.getSb() +
-                    "&sxmc=" + Escape.escape(sxmc);
+                    "&sxmc=" + Escape.escape(sxmc) +
+                    "&sxywdl=" + bean.getSxywdl();
             Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
+            L.e("vysor"+url);
             mContext.startActivity(intent);
         }
     };
