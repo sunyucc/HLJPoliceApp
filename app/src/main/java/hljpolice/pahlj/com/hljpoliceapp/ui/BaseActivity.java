@@ -6,15 +6,12 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import hljpolice.pahlj.com.hljpoliceapp.utils.MFGT;
-import hljpolice.pahlj.com.hljpoliceapp.views.SlidingLayout;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private long firstTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SlidingLayout rootView = new SlidingLayout(this);
-        rootView.bindActivity(this);
         initView();
         initData();
         setListener();

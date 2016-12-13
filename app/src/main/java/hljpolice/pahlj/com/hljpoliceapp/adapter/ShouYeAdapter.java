@@ -27,15 +27,15 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 
 /**
  * 首页列表的适配器
- * Created by sunyu on 2016/11/15.
+ * Created by sunyu on 2016/11/15
  */
 
-public class HomePageAdapter extends RecyclerView.Adapter {
+public class ShouYeAdapter extends RecyclerView.Adapter {
     Context mContext;
     private ArrayList<FunctionBean.DataBean> mList;
     private String url = null;
 
-    public HomePageAdapter(Context mContext, ArrayList mList) {
+    public ShouYeAdapter(Context mContext, ArrayList mList) {
         this.mContext = mContext;
         this.mList = mList;
         L.e("mlist==" + mList.toString());
@@ -60,7 +60,6 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         L.e("bean====" + bean.toString());
         ImageLoader.downloadImg(mContext, gvh.imageView, bean.getTbdz(), true);
         gvh.textView.setText(bean.getMkmc());
-
         gvh.recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +69,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 }
                 Intent intent = new Intent()
                         .putExtra("url", url)
+
                         .putExtra("moudlesname", mList.get(position).getMkmc());
                 intent.setClass(mContext, HtmlActivity.class);
                 mContext.startActivity(intent);

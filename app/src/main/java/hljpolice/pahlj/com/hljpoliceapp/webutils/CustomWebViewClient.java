@@ -30,8 +30,6 @@ public class CustomWebViewClient extends WebViewClient {
     public void setOnWebPageChangedListener(OnWebPageChangedListener listener) {
         this.listener = listener;
     }
-
-
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
        L.e("shouldOverrideUrlLoading: "+url);

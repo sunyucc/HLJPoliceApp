@@ -6,7 +6,7 @@ package hljpolice.pahlj.com.hljpoliceapp;
 
 public interface I {
     String JFXW_SERVER = "http://www.83027110.com/stwx/jfxw.html";
-    String SINA_SERVER = "http://weibo.com/xinlanghlj   ";//加载新浪微博
+    String SINA_SERVER = "http://weibo.com/u/2729830305";//加载新浪微博
 
     String SERVER_ROOT = "http://jiekou.hljga.gov.cn:8088/cs/mhnmcz/";
     //事项地址
@@ -31,13 +31,14 @@ public interface I {
 
     //文件名
     String FILE_NAME = "file_name";
-    //首页标题
-    String MENU_TITLE = "平安黑龙江";
     // 改变登录时的标签，用于判断当前登录的设备
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
-    // 更新apk
+    String TARGET = "target";
+
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
 
-    String TARGET = "target";
+    //首页标题
+    String MENU_TITLE = "平安龙江";
+
 }

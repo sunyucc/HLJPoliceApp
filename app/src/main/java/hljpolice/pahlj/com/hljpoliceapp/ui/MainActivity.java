@@ -69,9 +69,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.txt_title)
     TextView txtTitle;
     ShouyeFragment mHomePageFragment;
+    GongNengFragment mFunctionFragment3;
     GongNengFragment mFunctionFragment1;
     ShiXiangFragment mFunctionFragment2;
-    GongNengFragment mFunctionFragment3;
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
@@ -152,19 +152,9 @@ public class MainActivity extends BaseActivity {
                 Gson gson = new Gson();
                 try {
                     version = gson.fromJson(json, Version.class);
-                    L.e(TAG, "Version:" + version);
-                    // 大于当前版本应该更新Apk
-                    L.e("getcurrentVersion" + HLJPoliceApplication.getInstance().getCurrentVersion());
-                    L.e("getvercode" + version.getVerCode());
                     if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                         // 启动更新App服务
-                        mIvUpdate.setVisibility(View.VISIBLE);
-                        mIvUpdate.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                updateVersion(version);
-                            }
-                        });
+                        updateVersion(version);
 
                     } else {
                         mIvUpdate.setVisibility(View.GONE);
@@ -191,6 +181,7 @@ public class MainActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("有新版本啦!");
         builder.setMessage("是否更新新版本");
+        builder.setIcon(getResources().getDrawable(R.mipmap.ic_launcher));
         builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {//添加确定按钮
             @Override
 
@@ -209,6 +200,7 @@ public class MainActivity extends BaseActivity {
             @Override
 
             public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
+                mIvUpdate.setVisibility(View.VISIBLE);
             }
 
         }).show();//在按键响应事件中
@@ -270,6 +262,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        mIvUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateVersion(version);
+            }
+        });
 
     }
 

@@ -9,16 +9,11 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
@@ -433,67 +428,6 @@ public class OkHttpUtils<T> {
         return t;
     }
 
-
-    /**
-     * 专门针对Result类的json解析方法，不具有通用性，属性定制、专用的方法
-     * @param result
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-//    public <T> T parseJson(Result result, Class<?> clazz) {
-//        if (result.getRetCode() == 0) {
-//            String json = result.getRetData().toString();
-//            T t = parseJson(json, clazz);
-//            return t;
-//        }
-//        return null;
-//    }
-
-    /**
-     * 下载文件，支持更新下载进度
-     * @param response：服务端返回的响应类对象
-     * @param file：保存下载文件的File
-     * @throws Exception：IO异常
-     */
-    public void downloadFile(Response response, File file){
-
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-
-            InputStream in = response.body().byteStream();
-            int len;
-            byte[] buffer = new byte[1024 * 5];
-            //获取文件的字节数
-            long fileSize = response.body().contentLength();
-            int  total=0;//累加下载的字节数
-            int percent=1;//下载的预期百分比
-            int currentPer;//当前下载的百分比
-            mHandler.sendEmptyMessage(DOWNLOAD_START);
-            while ((len=in.read(buffer)) != -1) {
-                out.write(buffer,0,len);
-                total+=len;
-                //计算下载的百分比
-                currentPer= (int) (total*100L/fileSize);
-                if (currentPer >= percent) {
-                    Message msg = Message.obtain();
-                    msg.what= OkHttpUtils.DOWNLOADING;
-                    msg.arg1=percent;
-                    sendMessage(msg);
-                    percent=currentPer+1;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        sendMessage(OkHttpUtils.DOWNLOAD_FINISH);
-    }
-
-    public <T>  ArrayList<T> array2List(T[] array) {
-        List<T> list = Arrays.asList(array);
-        ArrayList<T> arrayList = new ArrayList<>(list);
-        return arrayList;
-    }
 
     /**
      * 释放mClient的资源

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
-import hljpolice.pahlj.com.hljpoliceapp.adapter.HomePageAdapter;
+import hljpolice.pahlj.com.hljpoliceapp.adapter.ShouYeAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
@@ -56,7 +57,7 @@ public class ShouyeFragment extends Fragment {
     RelativeLayout loopView;
     View[] mViews;
     ArrayList<FunctionBean.DataBean>[] mLists;
-    HomePageAdapter[] mAdapters;
+    ShouYeAdapter[] mAdapters;
     MyGridLayoutManager[] mGlms;
     LinearLayout linearLayout;
     @BindView(R.id.srl)
@@ -68,20 +69,25 @@ public class ShouyeFragment extends Fragment {
     TextView tvJwzx;
     @BindView(R.id.tv_gawb)
     TextView tvGawb;
+    @BindView(R.id.scrollview)
+    ScrollView scrollview;
     private String mPageName = "ShouyeFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_home_page, null);
+        View layout = inflater.inflate(R.layout.fragment_shou_ye, null);
         linearLayout = (LinearLayout) layout.findViewById(R.id.ll_function);
         ButterKnife.bind(this, layout);
         mContext = getContext();
         initView();
         initData(inflater);
         setListener(inflater);
+        scrollview.smoothScrollTo(0,20);
         return layout;
     }
+
+
 
     /**
      * 下拉刷新模块信息
@@ -92,8 +98,8 @@ public class ShouyeFragment extends Fragment {
         tvJwzx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),HtmlActivity.class);
-                intent.putExtra("url",I.JFXW_SERVER);
+                Intent intent = new Intent(getActivity(), HtmlActivity.class);
+                intent.putExtra("url", I.JFXW_SERVER);
                 getActivity().startActivity(intent);
             }
         });
@@ -135,10 +141,10 @@ public class ShouyeFragment extends Fragment {
         // text是分享文本，所有平台都需要这个字段
         oks.setText("公安移动门户是黑龙江省公安局面向市民唯一的、权威的、官方门户，是黑龙江公安网络媒体和移动新媒体平台高度融合的体现。");
         //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
-        oks.setImageUrl(I.VERSION_SERVER+"fx_launcher.png");
+        oks.setImageUrl(I.VERSION_SERVER + "fx_launcher.png");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 //        oks.setImagePath("");//确保SDcard下面存在此张图片
-      // url仅在微信（包括好友和朋友圈）中使用
+        // url仅在微信（包括好友和朋友圈）中使用
 //        oks.setImagePath("");
         oks.setUrl("http://gafw.hljga.gov.cn");
 // 启动分享GUI
@@ -160,7 +166,7 @@ public class ShouyeFragment extends Fragment {
 
                     mViews = new View[result.length - 3];
                     mLists = new ArrayList[result.length - 3];
-                    mAdapters = new HomePageAdapter[result.length - 3];
+                    mAdapters = new ShouYeAdapter[result.length - 3];
                     mGlms = new MyGridLayoutManager[result.length - 3];
 
                     int extid = 0;
@@ -180,7 +186,7 @@ public class ShouyeFragment extends Fragment {
                             L.i("json: " + json);
                             mGlms[extid] = new MyGridLayoutManager(mContext, 3);
                             mViews[extid] = funcView;
-                            mAdapters[extid] = new HomePageAdapter(mContext, mLists[extid]);
+                            mAdapters[extid] = new ShouYeAdapter(mContext, mLists[extid]);
                             TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
                             tv.setText(result[i].getMc());
                             RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
@@ -300,6 +306,7 @@ public class ShouyeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+//                scrollview.fullScroll(ScrollView.FOCUS_DOWN);
         MobclickAgent.onPageStart(mPageName);
     }
 
