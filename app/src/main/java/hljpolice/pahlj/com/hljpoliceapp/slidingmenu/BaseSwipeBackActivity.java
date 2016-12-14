@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 
 /**
+ *滑动关闭activity
  * Created by hailonghan on 15/6/11.
  */
 public abstract class BaseSwipeBackActivity extends AppCompatActivity implements SlidingMenu.OnOpenedListener {

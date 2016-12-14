@@ -6,6 +6,9 @@ import java.io.Serializable;
  * Created by sunyu on 2016/11/20.
  */
 
+/**
+ * 版本更新json的实体类
+ */
 public class Version implements Serializable {
 
     /**

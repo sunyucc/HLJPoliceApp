@@ -248,7 +248,7 @@ public class GongNengFragment extends Fragment {
     ;
 
     /**
-     * 在webview中调用系统相机、文件管理
+     * 在webview中调用系统相机
      */
     private void take(Map<String, String> param) {
 
@@ -280,7 +280,9 @@ public class GongNengFragment extends Fragment {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         getActivity().startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
-
+/**
+ * 调用文件管理，上传文件
+ */
     private void openFile() {
 //        final List<Intent> cameraIntents = new ArrayList<>();
 //        final PackageManager packageManager = getPackageManager();

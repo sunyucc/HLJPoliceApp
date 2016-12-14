@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
-
         @Override
         public void onServiceDisconnected(ComponentName name) {
             L.e("onServiceDisconnected");
@@ -132,7 +131,6 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void downloadComplete() {
-//                    MainActivity.this.unbindService(serviceConnection);
                     installAPK(version.getApkname());
                 }
             });
@@ -147,7 +145,6 @@ public class MainActivity extends BaseActivity {
     private OkHttpUtils.OnCompleteListener listener = new OkHttpUtils.OnCompleteListener<String>() {
         @Override
         public void onSuccess(String json) {
-            L.e(TAG, "json:" + json);
             if (json != null) {
                 Gson gson = new Gson();
                 try {

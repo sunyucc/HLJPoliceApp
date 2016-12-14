@@ -18,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
+ * 下载更新文件
  * Created by Carklote on 2016/11/26.
  */
 
@@ -82,6 +83,13 @@ public class DownloadFile {
             }
         });
     }
+
+    /**
+     * 设置进度值，最大为100
+     * @param sCount
+     * @param mValue
+     * @return
+     */
     private int getPercentage(int sCount,int mValue) {
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMaximumFractionDigits(0);

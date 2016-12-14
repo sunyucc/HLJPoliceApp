@@ -7,7 +7,9 @@ import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity;
 
-
+/**
+ * 跳转activity和关闭activity的工具类
+ */
 public class  MFGT {
     public static void finish(Activity activity){
         activity.finish();

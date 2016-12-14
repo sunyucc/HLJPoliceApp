@@ -78,15 +78,14 @@ public class ShouyeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_shou_ye, null);
         linearLayout = (LinearLayout) layout.findViewById(R.id.ll_function);
-        ButterKnife.bind(this, layout);
+        ButterKnife.bind(this, layout);     // 相当于findviewbyid
         mContext = getContext();
         initView();
         initData(inflater);
         setListener(inflater);
-        scrollview.smoothScrollTo(0,20);
+        scrollview.smoothScrollTo(0, 20);
         return layout;
     }
-
 
 
     /**
@@ -300,7 +299,7 @@ public class ShouyeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPageEnd(mPageName);     //友盟第三方sdk，用于记录错误信息
     }
 
     @Override

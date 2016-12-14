@@ -27,6 +27,7 @@ public class PopupWindowAdapter extends RecyclerView.Adapter {
     ArrayList<ShiXiangModuleBean> mList;
     boolean isMore;//是否有更多的数据可加载
     private OnItemClickListener listener;
+
     public void initSXList(ArrayList<ShiXiangModuleBean> list) {
         this.mList.clear();
         this.mList.addAll(list);
@@ -99,6 +100,9 @@ public class PopupWindowAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 实行中心窗口的固定器
+     */
     static class ShiXiangHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_shixiang)
         TextView tvShixiang;

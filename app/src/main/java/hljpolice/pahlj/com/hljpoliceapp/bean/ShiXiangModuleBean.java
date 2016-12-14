@@ -1,6 +1,7 @@
 package hljpolice.pahlj.com.hljpoliceapp.bean;
 
 /**
+ * 警种分类的实体类
  * Created by sunyu on 2016/11/23.
  */
 

@@ -2,7 +2,7 @@ package hljpolice.pahlj.com.hljpoliceapp.bean;
 
 import java.util.List;
 
-/**
+/**首页功能某块的实体类
  * Created by sunyu on 2016/11/15.
  */
 

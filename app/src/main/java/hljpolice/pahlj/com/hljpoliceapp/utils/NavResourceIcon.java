@@ -19,6 +19,7 @@ import java.util.Map;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 
 /**
+ * 设置首页下方按钮图片
  * Created by Carklote on 2016/11/23.
  */
 

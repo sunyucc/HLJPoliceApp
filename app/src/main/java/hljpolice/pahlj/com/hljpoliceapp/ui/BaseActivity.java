@@ -24,7 +24,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void setListener();
 
-
+    /**
+     * 点击两次退出程序
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub

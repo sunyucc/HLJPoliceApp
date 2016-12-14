@@ -22,16 +22,11 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
     Context mContext;
     private OnItemClickListener listener;
     ArrayList<ShiXiangBean.DataBean> mList;
-    boolean isMore;//是否有更多的数据可加载
 
-    public boolean isMore() {
-        return isMore;
-    }
-
-    public void setMore(boolean more) {
-        isMore = more;
-    }
-
+    /**
+     * 初始化事项中心列表
+     * @param list
+     */
     public void initSXList(ArrayList<ShiXiangBean.DataBean> list) {
         this.mList.clear();
         this.mList.addAll(list);
