@@ -27,6 +27,7 @@ public class NetDao {
     public static void downloadMoudles(Context context, OkHttpUtils.OnCompleteListener<FunctionBean[]> listener) {
         OkHttpUtils<FunctionBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.SERVER_ROOT+I.FUNCTION_MOUDLES)
+                .post()
                 .targetClass(FunctionBean[].class)
                 .post()
                 .execute(listener);
@@ -41,6 +42,7 @@ public class NetDao {
     public static void downloadNews(Context context, OkHttpUtils.OnCompleteListener<NewsBean> listener) {
         OkHttpUtils<NewsBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.SERVER_ROOT+I.NEWS_MOUDLES)
+                .post()
                 .targetClass(NewsBean.class)
                 .execute(listener);
     }
@@ -93,6 +95,7 @@ public class NetDao {
 
         OkHttpUtils<ShiXiangModuleBean[]> utils = new OkHttpUtils<>(mContext);
         utils.setRequestUrl(I.SERVER_ROOT+I.SHIXIANG_MODULE_NAME)
+                .post()
                 .targetClass(ShiXiangModuleBean[].class)
                 .execute(listener);
     }

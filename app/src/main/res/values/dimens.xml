@@ -22,4 +22,5 @@
     <dimen name="title_padding">15dp</dimen>
     <dimen name="popup_view">5dp</dimen>
     <dimen name="xd_text_size">20sp</dimen>
+    <dimen name="padding_left">10dp</dimen>
 </resources>

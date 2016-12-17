@@ -10,11 +10,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -77,9 +80,12 @@ public class ShiXiangFragment extends Fragment {
     TextView txtTitle;
     @BindView(R.id.srl_shixiang)
     SwipeRefreshLayout srlShixiang;
+    @BindView(R.id.iv_delete)
+    ImageView ivDelete;
     private String defaultUrl;
 
     private String mPageName = "ShiXiangFragment";
+
     public ShiXiangFragment() {
         // Required empty public constructor
     }
@@ -98,6 +104,32 @@ public class ShiXiangFragment extends Fragment {
     }
 
     private void setListener() {
+        ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch.setText(null);
+            }
+        });
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>0){
+                    ivDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivDelete.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
         srlShixiang.setRefreshing(true);
         srlShixiang.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -112,8 +144,8 @@ public class ShiXiangFragment extends Fragment {
                     tvQuanBu.setText("全部");
                     searchData.remove("sxywdl");
                 } else {
-                tvQuanBu.setText(bean.getMc());
-                searchData.put("sxywdl", bean.getBm());
+                    tvQuanBu.setText(bean.getMc());
+                    searchData.put("sxywdl", bean.getBm());
                 }
                 mPageId = 1;
                 L.e("search=" + searchData.toString());
@@ -158,7 +190,7 @@ public class ShiXiangFragment extends Fragment {
 
     private void initData() {
         searchData = new HashMap<>();
-        mPageId =1 ;
+        mPageId = 1;
         downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
         downloadSXModule();
     }
@@ -193,7 +225,7 @@ public class ShiXiangFragment extends Fragment {
                     String json = gson.toJson(result.getData());
                     mList = gson.fromJson(json, new TypeToken<ArrayList<ShiXiangBean.DataBean>>() {
                     }.getType());
-                    L.e("mlist=="+mList.toString());
+                    L.e("mlist==" + mList.toString());
                     if (action == ACTION_DOWNLOAD) {
 
                         mAdapter.initSXList(mList);
@@ -244,7 +276,7 @@ public class ShiXiangFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.tb_quanbu,R.id.tv_search})
+    @OnClick({R.id.tb_quanbu, R.id.tv_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tb_quanbu:
@@ -258,13 +290,14 @@ public class ShiXiangFragment extends Fragment {
                 break;
         }
     }
+
     private ShiXiangAdapter.OnItemClickListener shixiangClickListener = new ShiXiangAdapter.OnItemClickListener() {
         @Override
         public void itemClickListener(ShiXiangBean.DataBean bean) {
             String sxmc = bean.getSxmc();
             String url = null;
-            L.e("vysor"+sxmc);
-            url = defaultUrl+
+            L.e("vysor" + sxmc);
+            url = defaultUrl +
                     "?bmid=" + bean.getZdBsckid() +
                     "&sxid=" + bean.getSxid() +
                     "&zn=" + bean.getZn() +
@@ -273,13 +306,15 @@ public class ShiXiangFragment extends Fragment {
                     "&sxmc=" + Escape.escape(sxmc) +
                     "&sxywdl=" + bean.getSxywdl();
             Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
-            L.e("vysor"+url);
+            L.e("vysor" + url);
             mContext.startActivity(intent);
         }
     };
-    public void setUrl(String url){
+
+    public void setUrl(String url) {
         defaultUrl = url;
     }
+
     @Override
     public void onPause() {
         super.onPause();
