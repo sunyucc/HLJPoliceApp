@@ -98,6 +98,9 @@ public class GongNengFragment extends Fragment {
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
+        // 启用地理位置
+        settings.setGeolocationEnabled(true);
+
         webView.setVerticalScrollBarEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
         webViewClient = new CustomWebViewClient(webPageChangedListener);

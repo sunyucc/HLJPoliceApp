@@ -83,7 +83,6 @@ public class ShouyeFragment extends Fragment {
         initView();
         initData(inflater);
         setListener(inflater);
-        scrollview.smoothScrollTo(0, 20);
         return layout;
     }
 
@@ -189,6 +188,7 @@ public class ShouyeFragment extends Fragment {
                             TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
                             tv.setText(result[i].getMc());
                             RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
+                            rv.setFocusable(false);
                             rv.setAdapter(mAdapters[extid]);
                             rv.setLayoutManager(mGlms[extid]);
                             rv.setHasFixedSize(true);
@@ -263,7 +263,6 @@ public class ShouyeFragment extends Fragment {
      * 轮播图的高度设为屏幕1/5
      */
     protected void initView() {
-
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         loopView.getLayoutParams().height = metrics.heightPixels / 5;

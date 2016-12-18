@@ -2,6 +2,7 @@ package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
 import android.content.Context;
 import android.view.View;
+import android.webkit.GeolocationPermissions;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -54,5 +55,11 @@ public class Gn_WebChromeClient extends WebChromeClient {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         result.confirm();// 因为没有绑定事件，需要强行confirm,否则页面会变黑显示不了内容。
         return true;
+    }
+
+    @Override
+    public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+        callback.invoke(origin, true, false);
+        super.onGeolocationPermissionsShowPrompt(origin, callback);
     }
 }

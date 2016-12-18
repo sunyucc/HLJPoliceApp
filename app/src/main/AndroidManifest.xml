@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -51,7 +52,7 @@
         <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity" />
         <activity
             android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
-            android:label="@string/title_activity_html"
+            android:label=  "@string/title_activity_html"
             android:theme="@style/AppTheme.TransparentActivity">
 
         </activity>

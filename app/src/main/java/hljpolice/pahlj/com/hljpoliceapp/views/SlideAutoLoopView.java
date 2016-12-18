@@ -209,7 +209,7 @@ public class SlideAutoLoopView extends ViewPager {
 
             @Override
             public void onClick(View v) {
-                if (url!="") {
+                if (!"".equals(url)) {
                 Intent intent = new Intent(mContext, HtmlActivity.class);
                 intent.putExtra("url", url);
                 L.e("url888"+url);

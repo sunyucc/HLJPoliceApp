@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -257,19 +258,25 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         WebSettings settings = mWebView.getSettings();
+        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setDatabaseEnabled(true);
+        settings.setGeolocationDatabasePath(dir);
+        settings.setGeolocationEnabled(true);
+        settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setAppCacheEnabled(true);
 //        settings.setLoadWithOverviewMode(true);
-        settings.setDatabaseEnabled(true);
-        settings.setDomStorageEnabled(true);
         settings.setSupportMultipleWindows(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
+
         mWebView.setVerticalScrollBarEnabled(true);
+        // 启用地理位置
         L.e("url+++" + url);
         mWebView.loadUrl(url);
         mWebView.requestFocus();
