@@ -179,6 +179,7 @@ public class ShouyeFragment extends Fragment {
                         } else {
                             Gson gson = new Gson();
                             String json = gson.toJson(result[i].getData());
+                            L.e("json000"+json);
                             mLists[extid] = gson.fromJson(json, new TypeToken<ArrayList<FunctionBean.DataBean>>() {
                             }.getType());
                             L.i("json: " + json);

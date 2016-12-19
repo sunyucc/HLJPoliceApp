@@ -1,6 +1,7 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JsResult;
@@ -36,6 +37,11 @@ public class Gn_WebChromeClient extends WebChromeClient {
     }
 
     @Override
+    public void onReceivedIcon(WebView view, Bitmap icon) {
+        super.onReceivedIcon(view, icon);
+    }
+
+    @Override
     public void onReceivedTitle(WebView view, String title) {
         L.e(view.getUrl());
         textView.setText(title);
@@ -59,7 +65,7 @@ public class Gn_WebChromeClient extends WebChromeClient {
 
     @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+        L.e("origin"+origin);
         callback.invoke(origin, true, false);
-        super.onGeolocationPermissionsShowPrompt(origin, callback);
     }
 }
