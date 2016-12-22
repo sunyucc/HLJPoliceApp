@@ -103,7 +103,7 @@ public class GongNengFragment extends Fragment {
 
         webView.setVerticalScrollBarEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
-        webViewClient = new CustomWebViewClient(webPageChangedListener);
+        webViewClient = new CustomWebViewClient(getContext(),webPageChangedListener);
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(new Gn_WebChromeClient(getContext(),bar,txtTitle){
             @Override

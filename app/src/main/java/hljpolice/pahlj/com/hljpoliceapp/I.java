@@ -31,8 +31,10 @@ public interface I {
 
     //文件名
     String FILE_NAME = "file_name";
+
     // 改变登录时的标签，用于判断当前登录的设备
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
+
     String TARGET = "target";
 
     //事项中心

@@ -39,7 +39,8 @@
                     android:text="@string/quanbu"
                     android:textColor="@color/black"
                     android:textSize="@dimen/popup_textsize"
-                    android:background="@drawable/edittextbar"/>
+                    android:background="@drawable/edittextbar"
+                    android:maxLines="1"/>
 
                 <EditText
                     android:id="@+id/et_search"

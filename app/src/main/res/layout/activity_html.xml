@@ -9,7 +9,6 @@
     <include layout="@layout/view_html_title"
         android:id="@+id/relativelayout"
         />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"

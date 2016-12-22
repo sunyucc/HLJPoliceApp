@@ -149,6 +149,7 @@ public class MainActivity extends BaseActivity {
                 Gson gson = new Gson();
                 try {
                     version = gson.fromJson(json, Version.class);
+                        L.e("更新版本信息" + version.getVerCode() +"当前版本信息"+ HLJPoliceApplication.getInstance().getCurrentVersion());
                     if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                         // 启动更新App服务
                         updateVersion(version);

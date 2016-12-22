@@ -41,7 +41,6 @@
             android:button="@null"
             android:text="@string/menu_icon_zaijia"
             android:background="@null"/>
-
         <RadioButton
             android:id="@+id/rb_shixiang"
             style="@style/menu_item_style"

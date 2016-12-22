@@ -17,6 +17,6 @@
     <dimen name="menu_search_left">20dp</dimen>
     <dimen name="menu_btn_search">60dp</dimen>
     <dimen name="shixiang_textsize">17sp</dimen>
-    <dimen name="popup_textsize">17sp</dimen>
+    <dimen name="popup_textsize">16sp</dimen>
     <dimen name="title_padding">15dp</dimen>
 </resources>

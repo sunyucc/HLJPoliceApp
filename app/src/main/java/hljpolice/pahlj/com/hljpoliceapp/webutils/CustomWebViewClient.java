@@ -1,6 +1,9 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -19,12 +22,13 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 public class CustomWebViewClient extends WebViewClient {
     private String defaultUrl = "";
     private OnWebPageChangedListener listener;
-
+        Context context;
 
     public void setDefaultUrl(String defUrl) {
         this.defaultUrl = defUrl;
     }
-    public CustomWebViewClient( OnWebPageChangedListener listener) {
+    public CustomWebViewClient(Context context, OnWebPageChangedListener listener) {
+        this.context =context;
         this.listener = listener;
     }
     public void setOnWebPageChangedListener(OnWebPageChangedListener listener) {
@@ -36,6 +40,11 @@ public class CustomWebViewClient extends WebViewClient {
         // TODO Auto-generated method stub
         if (view.copyBackForwardList().getSize()>0 && url.contains("index.html")&& defaultUrl.equals("")) {  //如果是首页，并不是第一页，则关闭
             listener.finished();
+        }
+        if (url.startsWith("tel:")) {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
+            context.startActivity(intent);
+            return true;
         }
 //        view.loadUrl(url);
         return false;

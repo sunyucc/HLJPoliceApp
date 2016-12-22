@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -96,7 +95,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
 
     private void initData() {
-        mWebView.setWebViewClient(new CustomWebViewClient( pageListener));
+        mWebView.setWebViewClient(new CustomWebViewClient(this, pageListener));
         mWebView.setWebChromeClient(new Gn_WebChromeClient(this, bar, tvHtmltitle) {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
@@ -258,10 +257,12 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         WebSettings settings = mWebView.getSettings();
-        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+//        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        settings.setDatabaseEnabled(true);
-        settings.setGeolocationDatabasePath(dir);
+//        settings.setDatabaseEnabled(true);
+//        settings.setGeolocationDatabasePath(dir);
+        settings.setGeolocationDatabasePath(this.getFilesDir().getPath());
+
         settings.setGeolocationEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
@@ -275,7 +276,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
 
-        mWebView.setVerticalScrollBarEnabled(true);
+//        mWebView.setVerticalScrollBarEnabled(true);
         // 启用地理位置
         L.e("url+++" + url);
         mWebView.loadUrl(url);
