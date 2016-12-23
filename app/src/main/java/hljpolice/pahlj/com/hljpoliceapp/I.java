@@ -5,7 +5,8 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String JFXW_SERVER = "http://www.83027110.com/stwx/jfxw.html";
+    String JFXW_SERVER = "http://yingyong.hljga.gov.cn/jfxw.html";
+
     String SINA_SERVER = "http://weibo.com/u/2729830305";//加载新浪微博
 
     String SERVER_ROOT = "https://jiekou.hljga.gov.cn/cs/mhnmcz/";
@@ -20,7 +21,7 @@ public interface I {
     //事项搜索
     String SHIXIANG_SEARCH = "jcShixiang/searchPager.go";
     //获取警种的各项名称
-    String SHIXIANG_MODULE_NAME = "zdBiaozhun/1/getBiaoZhunByGlid.go";
+    String SHIXIANG_MODULE_NAME = "zdBiaozhun/42/getBiaoZhunByGlid.go";
     //    http://www.83027110.com/stwx/sxzn.html?bmid=101201&sxid=10090&zn=Y&yy=Y&sb=Y&sxmc=随军家属户口迁入
     //分页下载的页码
     String PAGE_INDEX = "pageIndex";

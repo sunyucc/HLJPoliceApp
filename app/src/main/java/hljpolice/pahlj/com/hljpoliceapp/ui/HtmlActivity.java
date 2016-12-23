@@ -95,6 +95,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
 
     private void initData() {
+
         mWebView.setWebViewClient(new CustomWebViewClient(this, pageListener));
         mWebView.setWebChromeClient(new Gn_WebChromeClient(this, bar, tvHtmltitle) {
             @Override
@@ -165,7 +166,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
     private Map<String, String> getParam(String accept) {
         Map<String, String> fileMap = new HashMap<>();
-
         fileMap.put("accept", accept);
         if (accept.contains("image")) {             //  如果要上传图片类型的数据,执行本方法
             fileMap.put("fileExt", ".jpg");

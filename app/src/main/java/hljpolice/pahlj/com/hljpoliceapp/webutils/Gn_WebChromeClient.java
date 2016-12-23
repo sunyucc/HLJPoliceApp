@@ -1,6 +1,9 @@
 package hljpolice.pahlj.com.hljpoliceapp.webutils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.view.View;
@@ -67,9 +70,51 @@ public class Gn_WebChromeClient extends WebChromeClient {
 
     @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+        if (!isOPen()) {
+            openLocation();
+        }
         callback.invoke(origin, true, false);
         super.onGeolocationPermissionsShowPrompt(origin, callback);
     }
+
+    public void openLocation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("检测到您的手机未开启定位服务");
+        builder.setMessage("是否开启定位服务");
+        builder.setCancelable(false);
+        builder.setPositiveButton("去设置", new DialogInterface.OnClickListener() {//添加确定按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                final Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加返回按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
+                isBack();
+            }
+        }).show();//在按键响应事件中
+    }
+
+    public void isBack() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("离开将不能获取您的位置信息");
+        builder.setMessage("是否离开");
+        builder.setCancelable(false);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {//添加确定按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openLocation();
+            }
+        }).show();
+    }
+
     public final boolean isOPen() {
         LocationManager locationManager
                 = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);

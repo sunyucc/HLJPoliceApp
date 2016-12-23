@@ -72,6 +72,7 @@ public class ShouyeFragment extends Fragment {
     @BindView(R.id.scrollview)
     ScrollView scrollview;
     private String mPageName = "ShouyeFragment";
+    private Map<String,String> zixunMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,9 +97,11 @@ public class ShouyeFragment extends Fragment {
         tvJwzx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!zixunMap.isEmpty()) {
                 Intent intent = new Intent(getActivity(), HtmlActivity.class);
-                intent.putExtra("url", I.JFXW_SERVER);
+                intent.putExtra("url",zixunMap.get("警方新闻"));
                 getActivity().startActivity(intent);
+                }
             }
         });
         tvGawb.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +174,9 @@ public class ShouyeFragment extends Fragment {
                     MainActivity m = (MainActivity) getActivity();
                     List<FunctionBean> extList = new ArrayList<>();
                     for (int i = 0; i < result.length; i++) {
-
+                        if ("警方新闻".equals(result[i].getData().get(0).getMkmc())) {
+                            zixunMap.put("警方新闻",result[i].getData().get(0).getQqdz());
+                        }
                         View funcView = inflater.inflate(R.layout.item_main_function, null);
                         String str = result[i].getMklb();
                         if ("01".equals(str) || "02".equals(str) || "03".equals(str)) {
@@ -267,6 +272,7 @@ public class ShouyeFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         loopView.getLayoutParams().height = metrics.heightPixels / 5;
+        zixunMap = new HashMap<>();
     }
 
     /**
@@ -278,6 +284,7 @@ public class ShouyeFragment extends Fragment {
     public void setNetworkMethod(Context context, final LayoutInflater inflater) {
         //提示对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
         builder.setTitle("提示").setMessage("请检查网络").setPositiveButton("尝试刷新", new DialogInterface.OnClickListener() {
 
             @Override
