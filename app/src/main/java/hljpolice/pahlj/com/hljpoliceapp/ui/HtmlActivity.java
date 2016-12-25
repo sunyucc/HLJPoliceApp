@@ -20,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -98,10 +97,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 
         mWebView.setWebViewClient(new CustomWebViewClient(this, pageListener));
         mWebView.setWebChromeClient(new Gn_WebChromeClient(this, bar, tvHtmltitle) {
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                return super.onJsAlert(view, url, message, result);
-            }
 
             @Override
             public boolean onShowFileChooser(WebView webView,

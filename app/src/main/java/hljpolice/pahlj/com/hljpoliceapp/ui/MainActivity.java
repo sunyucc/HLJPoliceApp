@@ -24,9 +24,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -40,7 +38,6 @@ import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
-import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
 import hljpolice.pahlj.com.hljpoliceapp.download.DownloadApkFileService;
 import hljpolice.pahlj.com.hljpoliceapp.download.DownloadBinder;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
@@ -49,7 +46,6 @@ import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
 import hljpolice.pahlj.com.hljpoliceapp.listener.ProgressListener;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.NavResourceIcon;
-import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 
 
 @SuppressWarnings("ALL")
@@ -122,7 +118,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             binder = (DownloadBinder) service;
-            binder.setDownloadFile(version.getApkname());
+            binder.setDownloadFile(HLJPoliceApplication.getInstance().getVersion().getAndroid().getApkname());
             binder.setProgressListener(new ProgressListener() {
                 @Override
                 public void progressValue(int value) {
@@ -131,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void downloadComplete() {
-                    installAPK(version.getApkname());
+                    installAPK(HLJPoliceApplication.getInstance().getVersion().getAndroid().getApkname());
                 }
             });
             binder.startDownload();
@@ -139,36 +135,17 @@ public class MainActivity extends BaseActivity {
     };
 
     private void checkVersion() {
-        NetDao.updateApp(HLJPoliceApplication.application, listener);
-    }
+        if (HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode() != null) {
+            if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode())
+                    > HLJPoliceApplication.getInstance().getCurrentVersion()) {
+                // 启动更新App服务
+                updateVersion(version);
 
-    private OkHttpUtils.OnCompleteListener listener = new OkHttpUtils.OnCompleteListener<String>() {
-        @Override
-        public void onSuccess(String json) {
-            if (json != null) {
-                Gson gson = new Gson();
-                try {
-                    version = gson.fromJson(json, Version.class);
-                        L.e("更新版本信息" + version.getVerCode() +"当前版本信息"+ HLJPoliceApplication.getInstance().getCurrentVersion());
-                    if (Integer.parseInt(version.getVerCode()) > HLJPoliceApplication.getInstance().getCurrentVersion()) {
-                        // 启动更新App服务
-                        updateVersion(version);
-
-                    } else {
-                        mIvUpdate.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "获取版本信息失败,请稍后再试!", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+            } else {
+                mIvUpdate.setVisibility(View.GONE);
             }
         }
-
-        @Override
-        public void onError(String error) {
-
-        }
-    };
+    }
 
     /**
      * 更新版本对话框

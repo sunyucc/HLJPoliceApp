@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
+import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
 
 /**
  * 事项中心列表的适配器
@@ -25,6 +27,7 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
 
     /**
      * 初始化事项中心列表
+     *
      * @param list
      */
     public void initSXList(ArrayList<ShiXiangBean.DataBean> list) {
@@ -61,9 +64,15 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
         ShiXiangHolder gvh = (ShiXiangHolder) holder;
         final ShiXiangBean.DataBean bean = mList.get(position);
         gvh.tvShixiang.setText(bean.getSxmc());
+        if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getComm().getSxdjs()) == 1) {
+            gvh.tvDjs.setText(String.valueOf(bean.getDjs()));
+        } else {
+            gvh.tvDjs.setVisibility(View.GONE);
+        }
         gvh.tvShixiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               NetDao.djsUpload(mContext,mList.get(position).getSxid());
                 listener.itemClickListener(mList.get(position));
 //                String sxmc = mList.get(position).getSxmc();
 //                String url = null;
@@ -93,7 +102,8 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
     static class ShiXiangHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_shixiang)
         TextView tvShixiang;
-
+        @BindView(R.id.tv_djs)
+        TextView tvDjs;
         ShiXiangHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -107,4 +117,5 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
     public interface OnItemClickListener {
         void itemClickListener(ShiXiangBean.DataBean bean);
     }
+
 }

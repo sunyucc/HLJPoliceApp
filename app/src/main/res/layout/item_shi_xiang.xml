@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white">
 
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_menu_right" />
+    <TextView
+        android:id="@+id/tv_djs"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/iv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_shixiang"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/menu_icon_margin"
-        android:background="@color/white"
+
         android:padding="@dimen/view_padding"
         android:textSize="@dimen/shixiang_textsize"
+        android:layout_toLeftOf="@id/tv_djs"
         android:textColor="@color/black"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/bg_gray_light" />
-</LinearLayout>
+</RelativeLayout>
 

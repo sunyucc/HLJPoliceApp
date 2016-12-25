@@ -5,7 +5,7 @@ package hljpolice.pahlj.com.hljpoliceapp;
  */
 
 public interface I {
-    String JFXW_SERVER = "http://yingyong.hljga.gov.cn/jfxw.html";
+//    String JFXW_SERVER = "http://yingyong.hljga.gov.cn/jfxw.html";
 
     String SINA_SERVER = "http://weibo.com/u/2729830305";//加载新浪微博
 
@@ -17,6 +17,9 @@ public interface I {
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
     //版本信息
     String VERSION_INFO = "version.json";
+    //版本信息接口
+    String VERSION_JIEKOU = "https://jiekou.hljga.gov.cn/cs/mobile/";
+
     String FUNCTION_MOUDLES = "htmlfuncApp/searchAll.go";
     //事项搜索
     String SHIXIANG_SEARCH = "jcShixiang/searchPager.go";
@@ -43,5 +46,7 @@ public interface I {
 
     //首页标题
     String MENU_TITLE = "平安龙江";
-
+    // 上传点击数
+    String DJS_SERVER = "https://jiekou.hljga.gov.cn/cs/mhnmcz/jcShixiang/djs.go";
+    String DJS_SXID = "sxid";
 }

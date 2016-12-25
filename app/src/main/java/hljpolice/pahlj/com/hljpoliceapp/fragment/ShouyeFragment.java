@@ -1,5 +1,6 @@
 package hljpolice.pahlj.com.hljpoliceapp.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +74,7 @@ public class ShouyeFragment extends Fragment {
     ScrollView scrollview;
     private String mPageName = "ShouyeFragment";
     private Map<String,String> zixunMap;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,6 +161,9 @@ public class ShouyeFragment extends Fragment {
         NetDao.downloadMoudles(mContext, new OkHttpUtils.OnCompleteListener<FunctionBean[]>() {
             @Override
             public void onSuccess(FunctionBean[] result) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 mSrl.setRefreshing(false);
                 if (mDialog != null) {
                     mDialog.dismiss();
@@ -273,6 +278,10 @@ public class ShouyeFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         loopView.getLayoutParams().height = metrics.heightPixels / 5;
         zixunMap = new HashMap<>();
+        progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage("数据加载中...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
     }
 
     /**

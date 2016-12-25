@@ -12,45 +12,144 @@ import java.io.Serializable;
 public class Version implements Serializable {
 
     /**
-     * verCode : 2
-     * apkname : hlj_hlw.apk
-     * message : 正在下载新版本，请耐心等待
+     * comm : {"qzgx":"0","sxdjs":"0"}
+     * android : {"vercode":"12","version":"1.0.11.2","apkname":"hlj_hlw.apk","message":"xxx"}
+     * ios : {"vercode":"10","version":"1.2.1.3","message":"xxxx"}
      */
 
-    private String verCode;
-    private String apkname;
-    private String message;
+    private CommBean comm;
+    private AndroidBean android;
+    private IosBean ios;
 
-    public String getVerCode() {
-        return verCode;
+    public CommBean getComm() {
+        return comm;
     }
 
-    public void setVerCode(String verCode) {
-        this.verCode = verCode;
+    public void setComm(CommBean comm) {
+        this.comm = comm;
     }
 
-    public String getApkname() {
-        return apkname;
+    public AndroidBean getAndroid() {
+        return android;
     }
 
-    public void setApkname(String apkname) {
-        this.apkname = apkname;
+    public void setAndroid(AndroidBean android) {
+        this.android = android;
     }
 
-    public String getMessage() {
-        return message;
+    public IosBean getIos() {
+        return ios;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setIos(IosBean ios) {
+        this.ios = ios;
     }
 
-    @Override
-    public String toString() {
-        return "Version{" +
-                "verCode='" + verCode + '\'' +
-                ", apkname='" + apkname + '\'' +
-                ", message='" + message + '\'' +
-                '}';
+    public static class CommBean {
+        /**
+         * qzgx : 0
+         * sxdjs : 0
+         */
+
+        private String qzgx;
+        private String sxdjs;
+
+        public String getQzgx() {
+            return qzgx;
+        }
+
+        public void setQzgx(String qzgx) {
+            this.qzgx = qzgx;
+        }
+
+        public String getSxdjs() {
+            return sxdjs;
+        }
+
+        public void setSxdjs(String sxdjs) {
+            this.sxdjs = sxdjs;
+        }
+    }
+
+    public static class AndroidBean {
+        /**
+         * vercode : 12
+         * version : 1.0.11.2
+         * apkname : hlj_hlw.apk
+         * message : xxx
+         */
+
+        private String vercode;
+        private String version;
+        private String apkname;
+        private String message;
+
+        public String getVercode() {
+            return vercode;
+        }
+
+        public void setVercode(String vercode) {
+            this.vercode = vercode;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        public String getApkname() {
+            return apkname;
+        }
+
+        public void setApkname(String apkname) {
+            this.apkname = apkname;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
+    public static class IosBean {
+        /**
+         * vercode : 10
+         * version : 1.2.1.3
+         * message : xxxx
+         */
+
+        private String vercode;
+        private String version;
+        private String message;
+
+        public String getVercode() {
+            return vercode;
+        }
+
+        public void setVercode(String vercode) {
+            this.vercode = vercode;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

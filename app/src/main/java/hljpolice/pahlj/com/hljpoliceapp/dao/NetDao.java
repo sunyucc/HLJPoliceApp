@@ -32,7 +32,6 @@ public class NetDao {
                 .post()
                 .execute(listener);
     }
-
     /**
      * 下载首页轮播新闻信息
      *
@@ -56,7 +55,7 @@ public class NetDao {
     public static void updateApp(Context mContext, OkHttpUtils.OnCompleteListener<String> listener) {
 
         OkHttpUtils<String> utils = new OkHttpUtils<>(mContext);
-        utils.setRequestUrl(I.VERSION_SERVER+I.VERSION_INFO)
+        utils.setRequestUrl(I.VERSION_JIEKOU+I.VERSION_INFO)
                 .targetClass(String.class)
                 .execute(listener);
     }
@@ -100,5 +99,13 @@ public class NetDao {
                 .execute(listener);
     }
 
+    public static void djsUpload(Context context,int sxid) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.DJS_SERVER)
+                .post()
+                .addParam(I.DJS_SXID, String.valueOf(sxid))
+                .targetClass(String.class)
+                .execute(null);
+    }
 
 }

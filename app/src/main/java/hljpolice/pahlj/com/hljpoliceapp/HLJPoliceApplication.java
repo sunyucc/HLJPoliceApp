@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
+
 /**
  * Created by sunyu on 2016/11/15.
  */
@@ -12,6 +14,7 @@ public class HLJPoliceApplication extends Application {
     public static Context application;
     private static HLJPoliceApplication instance = null;
     private static int currentVersion;
+    private Version version;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,4 +41,11 @@ public class HLJPoliceApplication extends Application {
         this.currentVersion = currentVersion;
     }
 
+    public Version getVersion() {
+        return version;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
+    }
 }

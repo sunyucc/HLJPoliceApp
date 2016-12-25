@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:id="@+id/layout_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="1dp">
 
                 <hljpolice.pahlj.com.hljpoliceapp.views.SlideAutoLoopView
                     android:id="@+id/salv"
@@ -61,7 +61,7 @@
                     android:maxLines="1"
                     android:paddingLeft="@dimen/view_padding"
                     android:paddingRight="@dimen/view_padding"
-                    android:text="警务资讯"
+                    android:text="龙警要闻"
                     android:textColor="@color/black"
                     android:textSize="@dimen/menu_textsize" />
 
@@ -77,7 +77,7 @@
                     android:maxLines="1"
                     android:paddingLeft="@dimen/view_padding"
                     android:paddingRight="@dimen/view_padding"
-                    android:text="公安微博"
+                    android:text="龙警微博"
                     android:textColor="@color/black"
                     android:textSize="@dimen/menu_textsize" />
 

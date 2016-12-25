@@ -131,7 +131,7 @@ public class NavResourceIcon {
 //        drawable.setBounds(0,0,imageWidth,imageHeight);
 //
 //        L.e("resize Drawable width: " + drawable.getIntrinsicWidth());
-//        L.e("resize Drawable height: " + drawable.getIntrinsicHeight());
+//        L.e("resize Drawable height: " + drawable.getIntrinsicHeight())mContext;
         return new BitmapDrawable(null,changedBitmap);
     }
 

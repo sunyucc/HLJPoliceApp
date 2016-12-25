@@ -7,7 +7,7 @@ import android.util.Log;
  */
 
 public class L {
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
     private static final String TAG = "HLJPoliceApp";
 
     public static void i(String msg){

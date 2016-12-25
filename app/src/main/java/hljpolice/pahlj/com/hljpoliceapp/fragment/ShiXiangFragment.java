@@ -90,7 +90,6 @@ public class ShiXiangFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,9 +122,9 @@ public class ShiXiangFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivDelete.setVisibility(View.INVISIBLE);
                 }
             }
@@ -169,6 +168,8 @@ public class ShiXiangFragment extends Fragment {
                         searchData.put("sxywlb", "02");
                         //searchData.setSxywdl("02"); //单位字典id，需要在网上获取
                 }
+                downloadShiXiang(ACTION_DOWNLOAD, mPageId, searchData);
+                window.dismiss();
             }
         });
 
@@ -304,7 +305,8 @@ public class ShiXiangFragment extends Fragment {
                     "&yy=" + bean.getYy() +
                     "&sb=" + bean.getSb() +
                     "&sxmc=" + Escape.escape(sxmc) +
-                    "&sxywdl=" + bean.getSxywdl();
+                    "&sxywdl=" + bean.getSxywdl() +
+                    "&sxywlb=" + bean.getSxywlb();
             Intent intent = new Intent(mContext, HtmlActivity.class).putExtra("url", url);
             L.e("vysor" + url);
             mContext.startActivity(intent);
