@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -47,7 +46,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 /**
- * 咨询中心的Fragment
+ * 第二个和第四个Fragment
  * A simple {@link Fragment} subclass.
  */
 public class GongNengFragment extends Fragment {
@@ -58,13 +57,14 @@ public class GongNengFragment extends Fragment {
     RelativeLayout rlBack;
     @BindView(R.id.txt_title)
     TextView txtTitle;
-    private boolean isLogined= false;
+    private boolean isLogined = false;
     private String mPageName = "GongNengFragment";
     private CustomWebViewClient webViewClient;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
     private Uri imageUri;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,21 +103,18 @@ public class GongNengFragment extends Fragment {
 
         webView.setVerticalScrollBarEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
-        webViewClient = new CustomWebViewClient(getContext(),webPageChangedListener);
+        webViewClient = new CustomWebViewClient(getContext(), webPageChangedListener);
         webView.setWebViewClient(webViewClient);
-        webView.setWebChromeClient(new Gn_WebChromeClient(getContext(),bar,txtTitle){
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                return super.onJsAlert(view, url, message, result);
-            }
-
-
+        webView.setWebChromeClient(new Gn_WebChromeClient(getContext(), bar, txtTitle) {
             @Override
             public boolean onShowFileChooser(WebView webView,
                                              ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
 
                 mUploadCallbackAboveL = filePathCallback;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    L.e("onShowFileChooser==" + fileChooserParams.getAcceptTypes()[0].toString());
+                }
                 String accept = "";
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     accept = fileChooserParams.getAcceptTypes()[0];
@@ -160,7 +157,7 @@ public class GongNengFragment extends Fragment {
     private OnWebPageChangedListener webPageChangedListener = new OnWebPageChangedListener() {
         @Override
         public void pageCount(int count) {
-            L.e("pageCount: " + count );
+            L.e("pageCount: " + count);
             switch (count) {
                 case 0:
                     rlBack.setVisibility(View.GONE);
@@ -176,6 +173,7 @@ public class GongNengFragment extends Fragment {
             getActivity().finish();
         }
     };
+
     /**
      * 设置webview加载的url
      *
@@ -184,7 +182,7 @@ public class GongNengFragment extends Fragment {
     public void setUrl(String url) {
         defaultUrl = url;
         webViewClient.setDefaultUrl(url);
-            webView.loadUrl(url);
+        webView.loadUrl(url);
     }
 
     /**
@@ -208,10 +206,12 @@ public class GongNengFragment extends Fragment {
         }
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -283,9 +283,10 @@ public class GongNengFragment extends Fragment {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         getActivity().startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
-/**
- * 调用文件管理，上传文件
- */
+
+    /**
+     * 调用文件管理，上传文件
+     */
     private void openFile() {
 //        final List<Intent> cameraIntents = new ArrayList<>();
 //        final PackageManager packageManager = getPackageManager();
@@ -305,6 +306,7 @@ public class GongNengFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        L.e("onActivityResult"+requestCode+resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == FILECHOOSER_RESULTCODE) {
             if (null == mUploadMessage && null == mUploadCallbackAboveL) return;
@@ -327,6 +329,7 @@ public class GongNengFragment extends Fragment {
         }
         getActivity().overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
     }
+
 
     @SuppressWarnings("null")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -370,6 +373,7 @@ public class GongNengFragment extends Fragment {
         }
         return;
     }
+
 
 }
 

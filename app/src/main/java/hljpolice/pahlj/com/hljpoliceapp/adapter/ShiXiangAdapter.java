@@ -24,7 +24,6 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
     Context mContext;
     private OnItemClickListener listener;
     ArrayList<ShiXiangBean.DataBean> mList;
-
     /**
      * 初始化事项中心列表
      *
@@ -61,17 +60,22 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ShiXiangHolder gvh = (ShiXiangHolder) holder;
+        final ShiXiangHolder gvh = (ShiXiangHolder) holder;
         final ShiXiangBean.DataBean bean = mList.get(position);
         gvh.tvShixiang.setText(bean.getSxmc());
-        if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getComm().getSxdjs()) == 1) {
-            gvh.tvDjs.setText(String.valueOf(bean.getDjs()));
-        } else {
-            gvh.tvDjs.setVisibility(View.GONE);
+        if (HLJPoliceApplication.getInstance().getVersion() != null) {
+            if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getComm().getSxdjs()) == 1) {
+                gvh.tvDjs.setText(String.valueOf(bean.getDjs()));
+            } else {
+                gvh.tvDjs.setVisibility(View.GONE);
+            }
         }
         gvh.tvShixiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (HLJPoliceApplication.getInstance().getVersion() != null) {
+                    gvh.tvDjs.setText(String.valueOf(bean.getDjs() + 1));
+                }
                NetDao.djsUpload(mContext,mList.get(position).getSxid());
                 listener.itemClickListener(mList.get(position));
 //                String sxmc = mList.get(position).getSxmc();
@@ -117,5 +121,4 @@ public class ShiXiangAdapter extends RecyclerView.Adapter {
     public interface OnItemClickListener {
         void itemClickListener(ShiXiangBean.DataBean bean);
     }
-
 }

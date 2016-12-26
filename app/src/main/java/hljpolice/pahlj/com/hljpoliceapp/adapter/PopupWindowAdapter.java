@@ -19,7 +19,7 @@ import hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment;
  * Created by sunyu on 2016/11/23.
  */
 
-public class PopupWindowAdapter extends RecyclerView.Adapter {
+public class  PopupWindowAdapter extends RecyclerView.Adapter {
     Context mContext;
     final static int TYPE_HEAD = 0;
     final static int TYPE_ITEM = 1;

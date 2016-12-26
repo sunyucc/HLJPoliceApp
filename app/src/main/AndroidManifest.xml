@@ -39,7 +39,8 @@
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
 
-        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity" />
+        <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name="hljpolice.pahlj.com.hljpoliceapp.ui.SplashActivity"
             android:theme="@style/AppTheme">
@@ -50,11 +51,11 @@
             </intent-filter>
         </activity>
         <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity" />
-        <activity
+        <activityq
             android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
             android:label=  "@string/title_activity_html"
             android:theme="@style/AppTheme.TransparentActivity">
-        </activity>
+        </activityq>
 
         <service
             android:name=".download.DownloadApkFileService"

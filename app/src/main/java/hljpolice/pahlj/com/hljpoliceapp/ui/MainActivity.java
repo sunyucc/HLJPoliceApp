@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity {
     };
 
     private void checkVersion() {
-        if (HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode() != null) {
+        if (HLJPoliceApplication.getInstance().getVersion()!= null) {
             if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode())
                     > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                 // 启动更新App服务
@@ -257,6 +257,7 @@ public class MainActivity extends BaseActivity {
                 index = 0;
                 break;
             case R.id.rb_zixun:
+
                 mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
                 index = 1;
                 break;
@@ -318,8 +319,12 @@ public class MainActivity extends BaseActivity {
         for (FunctionBean func : funcList) {
             if ("01".equals(func.getMklb())) {
                 mFunctionFragment1.setTxtTitle(func.getData().get(0).getMkmc());        //设置第二页的标题
+                String url = func.getData().get(0).getQqdz();
+                if (url.contains("info.html")) {
+                    url = url + "?" + I.TARGET + "=" + func.getData().get(0).getYydz();
+                }
                 mRbZiXun.setText(func.getData().get(0).getMkmc());       //设置第二个按钮的文字
-                mRbZiXun.setTag(func.getData().get(0).getQqdz());        //设置第二页加载的网址
+                mRbZiXun.setTag(url);        //设置第二页加载的网址
                 mRbZiXun.setEnabled(true);                               //当mRbZiXun设置tag以后使控件可用，否则会出现空指针
                 nri.setImageUrl(func.getData().get(0).getTbdz(), 2);    //设置按钮图片的url
             } else if ("02".equals(func.getMklb())) {
@@ -435,5 +440,12 @@ public class MainActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPageEnd(mPageName);
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mFunctionFragment1.onActivityResult(requestCode,resultCode,data);
+        mFunctionFragment3.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

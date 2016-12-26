@@ -239,7 +239,9 @@ public class ShiXiangFragment extends Fragment {
 
             @Override
             public void onError(String error) {
+                if (srlShixiang!=null) {
                 srlShixiang.setRefreshing(false);
+                }
             }
         });
     }

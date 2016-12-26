@@ -14,7 +14,7 @@ public interface I {
 //    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
     String VERSION_SERVER = "http://file.hljga.gov.cn:8081/mobile/";
     //新闻链接
-    String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=5";
+    String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=10";
     //版本信息
     String VERSION_INFO = "version.json";
     //版本信息接口
@@ -30,6 +30,8 @@ public interface I {
     String PAGE_INDEX = "pageIndex";
     // 一页的行数
     String PAGE_SIZE = "pageSize";
+
+    String JFXW_URL = "http://yingyong.hljga.gov.cn/jfxw.html";
 
     String UPDATE_APP = "update_app";
 
