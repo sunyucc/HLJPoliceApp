@@ -30,7 +30,7 @@ public interface I {
     String PAGE_INDEX = "pageIndex";
     // 一页的行数
     String PAGE_SIZE = "pageSize";
-
+    //警务资讯url
     String JFXW_URL = "http://yingyong.hljga.gov.cn/jfxw.html";
 
     String UPDATE_APP = "update_app";

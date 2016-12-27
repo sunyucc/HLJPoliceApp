@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
+import android.os.Message;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JsResult;
@@ -66,6 +67,14 @@ public class Gn_WebChromeClient extends WebChromeClient {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         result.confirm();// 因为没有绑定事件，需要强行confirm,否则页面会变黑显示不了内容。
         return true;
+    }
+
+    @Override
+    public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+        WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+        transport.setWebView(view);    //此webview可以是一般新创建的
+        resultMsg.sendToTarget();
+        return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
     }
 
     @Override

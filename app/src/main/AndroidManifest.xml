@@ -51,11 +51,11 @@
             </intent-filter>
         </activity>
         <activity android:name="hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity" />
-        <activityq
+        <activity
             android:name="hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity"
             android:label=  "@string/title_activity_html"
             android:theme="@style/AppTheme.TransparentActivity">
-        </activityq>
+        </activity>
 
         <service
             android:name=".download.DownloadApkFileService"

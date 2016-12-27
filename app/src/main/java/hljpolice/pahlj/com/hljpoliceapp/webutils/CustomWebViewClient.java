@@ -49,10 +49,10 @@ public class CustomWebViewClient extends WebViewClient {
 //        view.loadUrl(url);
         return false;
     }
-
     @Override
     public void onReceivedError(WebView view, int errorCode,
                                 String description, String failingUrl) {
+        L.e("onReceivedError==");
         super.onReceivedError(view, errorCode, description, failingUrl);
         view.loadUrl("file:///android_asset/error.html");
     }

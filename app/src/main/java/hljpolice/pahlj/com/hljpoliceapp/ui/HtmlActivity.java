@@ -266,7 +266,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         settings.setSupportZoom(true);
         settings.setAppCacheEnabled(true);
 //        settings.setLoadWithOverviewMode(true);
-        settings.setSupportMultipleWindows(true);
+        settings.setSupportMultipleWindows(false);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
@@ -352,11 +352,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     @Override
     public void onBackPressed() {
         MFGT.finish(this);
-    }
-
-
-    protected boolean isSupportSwipeBack() {
-        return true;
     }
 
 
