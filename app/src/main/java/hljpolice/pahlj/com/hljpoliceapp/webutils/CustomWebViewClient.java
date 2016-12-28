@@ -34,6 +34,7 @@ public class CustomWebViewClient extends WebViewClient {
     public void setOnWebPageChangedListener(OnWebPageChangedListener listener) {
         this.listener = listener;
     }
+    //重写此方法webview不跳到手机默认浏览器
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
        L.e("shouldOverrideUrlLoading: "+url);
@@ -49,6 +50,9 @@ public class CustomWebViewClient extends WebViewClient {
 //        view.loadUrl(url);
         return false;
     }
+    /*
+    网页请求失败加载错误页
+     */
     @Override
     public void onReceivedError(WebView view, int errorCode,
                                 String description, String failingUrl) {

@@ -52,11 +52,11 @@ import hljpolice.pahlj.com.hljpoliceapp.utils.NavResourceIcon;
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.rb_shouye)
-    RadioButton mRbShouYe;
+    RadioButton mRbShouYe; //首页第一个按钮
     @BindView(R.id.rb_zixun)
-    RadioButton mRbZiXun;
+    RadioButton mRbZiXun;   //首页第二个按钮
     @BindView(R.id.rb_shixiang)
-    RadioButton mRbShiXing;
+    RadioButton mRbShiXing; //首页第三个按钮
 
     Fragment[] mFragments;
     int index = 0;
@@ -71,15 +71,15 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.txt_left)
     TextView txtLeft;
     @BindView(R.id.rb_center)
-    RadioButton mRbPersonCenter;
+    RadioButton mRbPersonCenter; //首页第四个按钮
     @BindView(R.id.menu)
     RadioGroup menu;
     @BindView(R.id.iv_update)
-    ImageView mIvUpdate;
+    ImageView mIvUpdate;       //更新图标
     @BindView(R.id.ll_jindu)
-    LinearLayout mLinearlayoutJinDu;
+    LinearLayout mLinearlayoutJinDu;    //下载进度
     @BindView(R.id.down_pb)
-    ProgressBar downPb;
+    ProgressBar downPb;      //下载进度条
     private NavResourceIcon nri;
     private String fileName;
     private UpdateCartReceiver mReceiver;
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity {
     };
 
     private void checkVersion() {
-        if (HLJPoliceApplication.getInstance().getVersion()!= null) {
+        if (HLJPoliceApplication.getInstance().getVersion() != null) {
             if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode())
                     > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                 // 启动更新App服务
@@ -444,8 +444,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mFunctionFragment1.onActivityResult(requestCode,resultCode,data);
-        mFunctionFragment3.onActivityResult(requestCode,resultCode,data);
+        mFunctionFragment1.onActivityResult(requestCode, resultCode, data);
+        mFunctionFragment3.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

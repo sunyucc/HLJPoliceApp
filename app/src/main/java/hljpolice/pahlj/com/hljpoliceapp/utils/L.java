@@ -3,11 +3,11 @@ package hljpolice.pahlj.com.hljpoliceapp.utils;
 import android.util.Log;
 
 /**
- * Created by clawpo on 16/9/20.
+ * Created by sunyu on 16/9/20.
  */
 
 public class L {
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
     private static final String TAG = "HLJPoliceApp";
 
     public static void i(String msg){

@@ -69,6 +69,9 @@ public class Gn_WebChromeClient extends WebChromeClient {
         return true;
     }
 
+    /*
+    处理webview弹出新窗口
+     */
     @Override
     public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
         WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
@@ -77,6 +80,9 @@ public class Gn_WebChromeClient extends WebChromeClient {
         return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
     }
 
+    /*
+    重写次方法获取地理位置
+     */
     @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
         if (!isOPen()) {
@@ -86,6 +92,9 @@ public class Gn_WebChromeClient extends WebChromeClient {
         super.onGeolocationPermissionsShowPrompt(origin, callback);
     }
 
+    /*
+    判断手机是否开启定位
+     */
     public void openLocation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("检测到您的手机未开启定位服务");
