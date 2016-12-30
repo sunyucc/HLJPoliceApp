@@ -24,12 +24,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.umeng.analytics.MobclickAgent;
-
 import java.io.File;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.ShareSDK;

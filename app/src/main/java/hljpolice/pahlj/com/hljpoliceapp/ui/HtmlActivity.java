@@ -20,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -157,6 +158,17 @@ public class HtmlActivity extends BaseSwipeBackActivity {
                 return false;
             }
         });
+        mWebView.setDownloadListener(new MyWebViewDownLoadListener());
+    }
+    private class MyWebViewDownLoadListener implements DownloadListener {
+
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
+                                    long contentLength) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     private Map<String, String> getParam(String accept) {
@@ -257,7 +269,6 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 //        settings.setDatabaseEnabled(true);
 //        settings.setGeolocationDatabasePath(dir);
         settings.setGeolocationDatabasePath(this.getFilesDir().getPath());
-
         settings.setGeolocationEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
