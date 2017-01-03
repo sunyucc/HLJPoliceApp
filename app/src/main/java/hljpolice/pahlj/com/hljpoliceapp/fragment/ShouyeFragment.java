@@ -99,7 +99,7 @@ public class ShouyeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), HtmlActivity.class);
-                intent.putExtra("url",I.JFXW_URL);
+                intent.putExtra("url", I.JFXW_URL);
                 getActivity().startActivity(intent);
             }
         });
@@ -183,7 +183,7 @@ public class ShouyeFragment extends Fragment {
                         } else {
                             Gson gson = new Gson();
                             String json = gson.toJson(result[i].getData());
-                            L.e("json000"+json);
+                            L.e("json000" + json);
                             mLists[extid] = gson.fromJson(json, new TypeToken<ArrayList<FunctionBean.DataBean>>() {
                             }.getType());
                             L.i("json: " + json);
@@ -192,6 +192,8 @@ public class ShouyeFragment extends Fragment {
                             mAdapters[extid] = new ShouYeAdapter(mContext, mLists[extid]);
                             TextView tv = (TextView) mViews[extid].findViewById(R.id.tv_moudles_name);
                             tv.setText(result[i].getMc());
+                            TextView tvNum = (TextView) mViews[extid].findViewById(R.id.tv_phoneNum);
+                            tvNum.setText(result[i].getJp());
                             RecyclerView rv = (RecyclerView) mViews[extid].findViewById(R.id.recyclerView);
                             rv.setFocusable(false);
                             rv.setAdapter(mAdapters[extid]);
@@ -253,7 +255,6 @@ public class ShouyeFragment extends Fragment {
                     }
 
                     salv.startPlayLoop(indicator, urlList, newsList.size());
-
                 }
             }
 

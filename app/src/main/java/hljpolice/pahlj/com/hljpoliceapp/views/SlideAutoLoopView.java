@@ -51,7 +51,7 @@ public class SlideAutoLoopView extends ViewPager {
     /**
      * 图片轮播间隔时间
      */
-    int mDuration = 6000;
+    int mDuration = 5000;
     /**
      * 相册的图片下载地址数组
      */
@@ -304,5 +304,9 @@ public class SlideAutoLoopView extends ViewPager {
                                 int duration) {
             super.startScroll(startX, startY, dx, dy, this.duration);
         }
+    }
+
+    public void setDuration(int duration) {
+        this.mDuration = duration;
     }
 }

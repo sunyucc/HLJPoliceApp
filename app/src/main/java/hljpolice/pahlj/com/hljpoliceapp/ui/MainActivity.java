@@ -24,9 +24,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.umeng.analytics.MobclickAgent;
+
 import java.io.File;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.ShareSDK;
@@ -41,6 +44,7 @@ import hljpolice.pahlj.com.hljpoliceapp.fragment.GongNengFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShiXiangFragment;
 import hljpolice.pahlj.com.hljpoliceapp.fragment.ShouyeFragment;
 import hljpolice.pahlj.com.hljpoliceapp.listener.ProgressListener;
+import hljpolice.pahlj.com.hljpoliceapp.utils.Escape;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.NavResourceIcon;
 
@@ -153,6 +157,7 @@ public class MainActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("有新版本啦!");
         builder.setMessage("是否更新新版本");
+        builder.setCancelable(false);
         builder.setIcon(getResources().getDrawable(R.mipmap.ic_launcher));
         builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {//添加确定按钮
             @Override
@@ -166,21 +171,41 @@ public class MainActivity extends BaseActivity {
 
             }
 
-        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {//添加返回按钮
+        });
+        if (HLJPoliceApplication.getInstance().getVersion() != null) {
+            L.e("12345567788" + HLJPoliceApplication.getInstance().getVersion());
+            if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getComm().getQzgx()) == 0) {
+                builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {//添加返回按钮
 
 
-            @Override
+                    @Override
 
-            public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
-                mIvUpdate.setVisibility(View.VISIBLE);
+                    public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
+                        mIvUpdate.setVisibility(View.VISIBLE);
+                    }
+
+                });
+            } else {
+                    builder.setNegativeButton("关闭", new DialogInterface.OnClickListener() {//添加返回按钮
+
+
+                        @Override
+
+                        public void onClick(DialogInterface dialog, int which) {//点击返回按钮取消下载关闭对话框
+                            MainActivity.this.finish();
+                        }
+
+                    });
             }
 
-        }).show();//在按键响应事件中
+        }
+        builder.show();//在按键响应事件中
     }
 
     /**
      * 初始化Fragment
      */
+
     private void initFragment() {
         mFragments = new Fragment[4];
         mHomePageFragment = new ShouyeFragment();
@@ -318,8 +343,9 @@ public class MainActivity extends BaseActivity {
                 mFunctionFragment1.setTxtTitle(func.getData().get(0).getMkmc());        //设置第二页的标题
                 String url = func.getData().get(0).getQqdz();
                 if (url.contains("info.html")) {
-                    url = url + "?" + I.TARGET + "=" + func.getData().get(0).getYydz();
+                    url = url + "?" + I.TITLE + "=" + Escape.escape(func.getData().get(0).getMkmc()) + "&" + I.TARGET + "=" + func.getData().get(0).getYydz();
                 }
+
                 mRbZiXun.setText(func.getData().get(0).getMkmc());       //设置第二个按钮的文字
                 mRbZiXun.setTag(url);        //设置第二页加载的网址
                 mRbZiXun.setEnabled(true);                               //当mRbZiXun设置tag以后使控件可用，否则会出现空指针

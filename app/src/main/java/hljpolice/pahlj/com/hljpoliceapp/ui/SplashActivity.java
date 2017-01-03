@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import hljpolice.pahlj.com.hljpoliceapp.HLJPoliceApplication;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.Version;
@@ -28,11 +32,14 @@ public class SplashActivity extends AppCompatActivity {
     private final long sleepTime = 2000;        //  闪屏时间2s
     SplashActivity mContext;
     SharedPreferences preferences;             //  用于判断程序是否打开过
+    @BindView(R.id.iv_syx)
+    ImageView ivSyx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
         mContext = this;
         initData();
         preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -50,7 +57,9 @@ public class SplashActivity extends AppCompatActivity {
                     try {
                         Version version = gson.fromJson(result, Version.class);
                         HLJPoliceApplication.getInstance().setVersion(version);
-
+                        if (Integer.parseInt(version.getComm().getSyx()) != 0) {
+                            ivSyx.setVisibility(View.VISIBLE);
+                        }
                     } catch (Exception e) {
                         Toast.makeText(SplashActivity.this, "获取版本信息失败,请稍后再试!", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();

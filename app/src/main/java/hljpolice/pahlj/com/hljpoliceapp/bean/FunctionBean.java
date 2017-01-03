@@ -16,6 +16,15 @@ public class FunctionBean {
 
     private String mklb;
     private String mc;
+    private String jp;
+
+    public String getJp() {
+        return jp;
+    }
+    public void setJp(String jp) {
+        this.jp = jp;
+    }
+
     private List<DataBean> data;
 
     public String getMklb() {

@@ -8,7 +8,7 @@ public interface I {
 //    String JFXW_SERVER = "http://yingyong.hljga.gov.cn/jfxw.html";
 
     String SINA_SERVER = "http://weibo.com/u/2729830305";//加载新浪微博
-
+//首页功能模块url
     String SERVER_ROOT = "https://jiekou.hljga.gov.cn/cs/mhnmcz/";
     //事项地址
 //    String SHIXIANG_ADDRESS = "http://www.83027110.com/stwx/sxzn.html";
@@ -16,7 +16,7 @@ public interface I {
     //新闻链接
     String NEWS_MOUDLES = "newsApp/searchPage.go?pageIndex=1&pageSize=10";
     //版本信息
-    String VERSION_INFO = "version.json";
+    String VERSION_INFO = "versionInfo.json";
     //版本信息接口
     String VERSION_JIEKOU = "https://jiekou.hljga.gov.cn/cs/mobile/";
 
@@ -42,7 +42,7 @@ public interface I {
     String CHANGE_APPTYPE = "javascript:typemeg('3')";
 
     String TARGET = "target";
-
+    String TITLE = "title";
     //事项中心
     String SHIXIANG_TITLE = "事项中心";
 

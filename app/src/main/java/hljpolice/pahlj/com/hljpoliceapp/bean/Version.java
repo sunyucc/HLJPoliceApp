@@ -11,9 +11,10 @@ import java.io.Serializable;
  */
 public class Version implements Serializable {
 
+
     /**
-     * comm : {"qzgx":"0","sxdjs":"0"}
-     * android : {"vercode":"12","version":"1.0.11.2","apkname":"hlj_hlw.apk","message":"xxx"}
+     * comm : {"qzgx":"0","sxdjs":"1","syx":"1"}
+     * android : {"vercode":"22","version":"1.0.22.1","apkname":"hlj_hlw.apk","message":"xxx"}
      * ios : {"vercode":"10","version":"1.2.1.3","message":"xxxx"}
      */
 
@@ -48,11 +49,13 @@ public class Version implements Serializable {
     public static class CommBean {
         /**
          * qzgx : 0
-         * sxdjs : 0
+         * sxdjs : 1
+         * syx : 1
          */
 
         private String qzgx;
         private String sxdjs;
+        private String syx;
 
         public String getQzgx() {
             return qzgx;
@@ -69,12 +72,20 @@ public class Version implements Serializable {
         public void setSxdjs(String sxdjs) {
             this.sxdjs = sxdjs;
         }
+
+        public String getSyx() {
+            return syx;
+        }
+
+        public void setSyx(String syx) {
+            this.syx = syx;
+        }
     }
 
     public static class AndroidBean {
         /**
-         * vercode : 12
-         * version : 1.0.11.2
+         * vercode : 22
+         * version : 1.0.22.1
          * apkname : hlj_hlw.apk
          * message : xxx
          */

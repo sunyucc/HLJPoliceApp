@@ -21,6 +21,7 @@ import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
+import hljpolice.pahlj.com.hljpoliceapp.utils.Escape;
 import hljpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 
@@ -65,7 +66,7 @@ public class ShouYeAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 url = mList.get(position).getQqdz();
                 if (url.contains("info.html")) {
-                    url = url + "?" + I.TARGET + "=" + bean.getYydz();
+                    url = url + "?"+ I.TITLE +"="+ Escape.escape(bean.getMkmc()) + "&" +I.TARGET + "=" + bean.getYydz();
                 }
                 Intent intent = new Intent()
                         .putExtra("url", url)
