@@ -1,4 +1,4 @@
-package hljpolice.pahlj.com.hljpoliceapp.ui;
+package hljpolice.pahlj.com.hljpoliceapp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

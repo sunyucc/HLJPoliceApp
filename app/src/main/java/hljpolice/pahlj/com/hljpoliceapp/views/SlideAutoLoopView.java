@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.HtmlActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 
@@ -98,8 +98,10 @@ public class SlideAutoLoopView extends ViewPager {
 
             @Override
             public void onPageSelected(int position) {
-                //设置指示器中实心圆的切换
-                mFlowIndicator.setFocus(position % mCount);
+
+
+                    //设置指示器中实心圆的切换
+                    mFlowIndicator.setFocus(position % mCount);
             }
 
             @Override

@@ -36,8 +36,8 @@ import hljpolice.pahlj.com.hljpoliceapp.adapter.ShouYeAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
-import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
-import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.HtmlActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
 import hljpolice.pahlj.com.hljpoliceapp.views.FlowIndicator;
@@ -178,6 +178,10 @@ public class ShouyeFragment extends Fragment {
                     for (int i = 0; i < result.length; i++) {
                         View funcView = inflater.inflate(R.layout.item_main_function, null);
                         String str = result[i].getMklb();
+                        if ("04".equals(str)) {
+                            Gson gson = new Gson();
+                            L.e("str == 000 :"+gson.toJson(result[i].getData()));
+                        }
                         if ("01".equals(str) || "02".equals(str) || "03".equals(str)) {
                             extList.add(result[i]);
                         } else {

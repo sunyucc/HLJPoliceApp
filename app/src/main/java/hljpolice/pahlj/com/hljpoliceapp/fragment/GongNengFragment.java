@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
-import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.CustomWebViewClient;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebChromeClient;

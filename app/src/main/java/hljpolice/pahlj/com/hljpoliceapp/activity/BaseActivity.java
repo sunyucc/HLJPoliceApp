@@ -1,4 +1,4 @@
-package hljpolice.pahlj.com.hljpoliceapp.ui;
+package hljpolice.pahlj.com.hljpoliceapp.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

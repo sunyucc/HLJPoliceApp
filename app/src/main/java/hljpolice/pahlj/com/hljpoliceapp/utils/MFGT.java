@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 
 import hljpolice.pahlj.com.hljpoliceapp.R;
-import hljpolice.pahlj.com.hljpoliceapp.ui.MainActivity;
-import hljpolice.pahlj.com.hljpoliceapp.ui.XiangDaoActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.XiangDaoActivity;
 
 /**
  * 跳转activity和关闭activity的工具类

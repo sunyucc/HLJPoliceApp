@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
-import hljpolice.pahlj.com.hljpoliceapp.ui.HtmlActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.HtmlActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.Escape;
 import hljpolice.pahlj.com.hljpoliceapp.utils.ImageLoader;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;

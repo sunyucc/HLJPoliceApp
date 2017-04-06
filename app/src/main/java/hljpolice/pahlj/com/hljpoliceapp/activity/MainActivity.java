@@ -1,4 +1,4 @@
-package hljpolice.pahlj.com.hljpoliceapp.ui;
+package hljpolice.pahlj.com.hljpoliceapp.activity;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +60,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rb_shixiang)
     RadioButton mRbShiXing; //首页第三个按钮
 
+    @BindView(R.id.rb_center)
+    RadioButton mRbPersonCenter; //首页第四个按钮
     Fragment[] mFragments;
     int index = 0;
     int currentIndex;
@@ -71,8 +74,6 @@ public class MainActivity extends BaseActivity {
     ShiXiangFragment mFunctionFragment2;
     @BindView(R.id.txt_left)
     TextView txtLeft;
-    @BindView(R.id.rb_center)
-    RadioButton mRbPersonCenter; //首页第四个按钮
     @BindView(R.id.menu)
     RadioGroup menu;
     @BindView(R.id.iv_update)
@@ -135,8 +136,12 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    /**
+     * 检查服务端版本与当前app版本是否一致
+     */
     private void checkVersion() {
-        if (HLJPoliceApplication.getInstance().getVersion() != null) {
+        if (HLJPoliceApplication.getInstance().getVersion() !=null) {
+            Log.e("1234++",HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode());
             if (Integer.parseInt(HLJPoliceApplication.getInstance().getVersion().getAndroid().getVercode())
                     > HLJPoliceApplication.getInstance().getCurrentVersion()) {
                 // 启动更新App服务
@@ -217,7 +222,7 @@ public class MainActivity extends BaseActivity {
         mFragments[1] = mFunctionFragment1;
         mFragments[2] = mFunctionFragment2;
         mFragments[3] = mFunctionFragment3;
-        getSupportFragmentManager()
+            getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_con, mHomePageFragment)
                 .add(R.id.fragment_con, mFunctionFragment1)
@@ -277,17 +282,24 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.rb_shouye:
                 index = 0;
+                mRbPersonCenter.setEnabled(true);
+                mRbZiXun.setEnabled(true);
                 break;
             case R.id.rb_zixun:
-
+                mRbZiXun.setEnabled(false);
+                mRbPersonCenter.setEnabled(true);
                 mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
                 index = 1;
                 break;
             case R.id.rb_shixiang:
                 index = 2;
+                mRbPersonCenter.setEnabled(true);
+                mRbZiXun.setEnabled(true);
                 break;
             case R.id.rb_center:
                 mFunctionFragment3.setUrl(mRbPersonCenter.getTag().toString());
+                mRbPersonCenter.setEnabled(false);
+                mRbZiXun.setEnabled(true);
                 index = 3;
                 break;
         }
@@ -300,20 +312,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void setFragment() {
-        L.e(TAG, "index:" + index);
-        if (index != currentIndex) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.hide(mFragments[currentIndex]);              // 隐藏前一个Fragment
-            if (!mFragments[index].isAdded()) {
-                ft.add(R.id.fragment_con, mFragments[index]);
+        private void setFragment() {
+            L.e(TAG, "index:" + index);
+            if (index != currentIndex) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.hide(mFragments[currentIndex]);              // 隐藏前一个Fragment
+                if (!mFragments[index].isAdded()) {
+                    ft.add(R.id.fragment_con, mFragments[index]);
 
+                }
+                ft.show(mFragments[index]).commit();
             }
-            ft.show(mFragments[index]).commit();
+            setRadioButtonStatus();    //   设置按钮的状态
+            currentIndex = index;
         }
-        setRadioButtonStatus();    //   设置按钮的状态
-        currentIndex = index;
-    }
 
     private void setRadioButtonStatus() {
         for (int i = 0; i < mRb.length; i++) {
@@ -427,7 +439,6 @@ public class MainActivity extends BaseActivity {
         // TODO Auto-generated method stub
         // 安装程序的apk文件路径
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        L.e("dir===" + dir.toString());
         fileName = dir + "/" + filename;
         // 创建URI
         Uri uri = Uri.fromFile(new File(fileName));

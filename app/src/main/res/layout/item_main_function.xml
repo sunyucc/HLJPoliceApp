@@ -7,14 +7,13 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/view_padding"
         android:paddingTop="@dimen/view_padding"
+        android:background="@color/light_gray"
         android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_moudles_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-
             android:paddingLeft="@dimen/title_padding"
             android:text="@string/function_title"
             android:textColor="@color/black" />
