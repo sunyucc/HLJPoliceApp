@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -51,7 +50,7 @@ public class SlideAutoLoopView extends ViewPager {
     /**
      * 图片轮播间隔时间
      */
-    int mDuration = 5000;
+    int mDuration = 500000000;
     /**
      * 相册的图片下载地址数组
      */
@@ -66,57 +65,57 @@ public class SlideAutoLoopView extends ViewPager {
         super(context, attrs);
         mContext = context;
         initHandler();
-        setListener();
+//        setListener();
     }
 
-    private void setListener() {
-        setOnPageChangeListener();
-        setOnTouchListener();
-    }
+//    private void setListener() {
+//        setOnPageChangeListener();
+//        setOnTouchListener();
+//    }
 
-    /**
-     * 设置触摸页面的事件监听
-     */
-    private void setOnTouchListener() {
-        this.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN
-                        || event.getAction() == MotionEvent.ACTION_MOVE) {
-                    mAutoSwitch = false;
-                }
-                return false;
-            }
-        });
-    }
+//    /**
+//     * 设置触摸页面的事件监听
+//     */
+//    private void setOnTouchListener() {
+//        this.setOnTouchListener(new OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN
+//                        || event.getAction() == MotionEvent.ACTION_MOVE) {
+//                    mAutoSwitch = false;
+//                }
+//                return false;
+//            }
+//        });
+//    }
 
-    /**
-     * 监听ViewPager页面改变
-     */
-    private void setOnPageChangeListener() {
-        this.setOnPageChangeListener(new OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-
-
-                    //设置指示器中实心圆的切换
-                    mFlowIndicator.setFocus(position % mCount);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-    }
+//    /**
+//     * 监听ViewPager页面改变
+//     */
+//    private void setOnPageChangeListener() {
+//        this.setOnPageChangeListener(new OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//
+//
+//                    //设置指示器中实心圆的切换
+//                    mFlowIndicator.setFocus(position % mCount);
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int arg0, float arg1, int arg2) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int arg0) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        });
+//    }
 
     private void initHandler() {
         mHandler = new Handler() {

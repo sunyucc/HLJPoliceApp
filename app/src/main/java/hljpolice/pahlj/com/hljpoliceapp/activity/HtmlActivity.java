@@ -285,7 +285,8 @@ public class HtmlActivity extends BaseSwipeBackActivity {
 //        mWebView.setVerticalScrollBarEnabled(true);
         // 启用地理位置
         L.e("url+++" + url);
-        mWebView.loadUrl(url);
+//        mWebView.loadUrl(url);
+        mWebView.loadUrl("http://172.17.25.230:8081/appDemo/index.html");
         mWebView.requestFocus();
 
     }

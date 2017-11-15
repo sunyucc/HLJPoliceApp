@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -36,8 +37,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.R;
-import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
+import hljpolice.pahlj.com.hljpoliceapp.activity.CTIDMainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.CustomWebViewClient;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.Gn_WebChromeClient;
@@ -100,7 +102,7 @@ public class GongNengFragment extends Fragment {
         settings.setUseWideViewPort(true);
         // 启用地理位置
         settings.setGeolocationEnabled(true);
-
+        webView.addJavascriptInterface(new AndroidAndJSInterface(),"Android");
         webView.setVerticalScrollBarEnabled(true);
         txtTitle.setVisibility(View.VISIBLE);
         webViewClient = new CustomWebViewClient(getContext(), webPageChangedListener);
@@ -374,6 +376,15 @@ public class GongNengFragment extends Fragment {
         return;
     }
 
-
+    class AndroidAndJSInterface{
+        @JavascriptInterface
+        public void gotoRz(String name,String sfzh){
+            Log.e("name",name+sfzh);
+            Intent intent = new Intent(getContext(), CTIDMainActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("sfzh", sfzh);
+            startActivity(intent);
+        }
+    }
 }
 

@@ -288,7 +288,7 @@ public class MainActivity extends BaseActivity {
             case R.id.rb_zixun:
                 mRbZiXun.setEnabled(false);
                 mRbPersonCenter.setEnabled(true);
-                mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
+                    mFunctionFragment1.setUrl(mRbZiXun.getTag().toString());
                 index = 1;
                 break;
             case R.id.rb_shixiang:

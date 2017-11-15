@@ -36,13 +36,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.R;
+import hljpolice.pahlj.com.hljpoliceapp.activity.HtmlActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.adapter.PopupWindowAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.adapter.ShiXiangAdapter;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
 import hljpolice.pahlj.com.hljpoliceapp.dao.NetDao;
-import hljpolice.pahlj.com.hljpoliceapp.activity.HtmlActivity;
-import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.utils.Escape;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
@@ -173,8 +173,8 @@ public class ShiXiangFragment extends Fragment {
             }
         });
 
-
-        mRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        
+        mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -216,7 +216,7 @@ public class ShiXiangFragment extends Fragment {
         });
     }
 
-    private void downloadShiXiang(final int action, int pageId, Map<String, String> data) {
+        private void downloadShiXiang(final int action, int pageId, Map<String, String> data) {
         NetDao.downShiXiang(mContext, pageId, data, new OkHttpUtils.OnCompleteListener<ShiXiangBean>() {
             @Override
             public void onSuccess(ShiXiangBean result) {

@@ -38,7 +38,8 @@
                     app:focus_color="@color/good_detaul_flow_indicator_focus"
                     app:normal_color="#a1d1d1d1"
                     app:r="5dp"
-                    app:space="3dp" />
+                    app:space="3dp"
+                    android:visibility="invisible"/>
             </RelativeLayout>
 
             <LinearLayout
