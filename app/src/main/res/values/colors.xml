@@ -401,5 +401,8 @@
     <!-- PagerSlidingTab -->
 <color name="texttab">#7ED126</color>
 <color name="listnull">#B4B4B4</color>
-
+    <color name="backgroundcolor">#FFFFFF</color>
+    <color name="main_color">#00b4f3</color>
+    <color name="background_white">#ffffff</color>
+    <color name="font_white">#ffffff</color>
 </resources>

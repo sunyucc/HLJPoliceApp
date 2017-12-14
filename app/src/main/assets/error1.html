@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Android WebView ä¸ Javascript äº¤äº</title>
+
+</head>
+<body>
+<form class="form-horizontal"  action="${pageContext.request.contextPath}/file/goonesuo2"    method="post">
+    <table>
+        <tr>
+            <td>身份证</td>
+            <td><input type="text" value="" name="idNumber"></input></td>
+        </tr>
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" value="" name="name"></input></td>
+        </tr>
+        <tr>
+            <td>证件有效时间开始</td>
+            <td><input type="text" value="" name="validFrom"></input></td>
+        </tr>
+        <tr>
+            <td>证件有效时间结束</td>
+            <td><input type="text" value="" name="validEnd"></input></td>
+        </tr>
+        <tr>
+            <td>照片名称</td>
+            <td><input type="text" value="" name="picname" id="imagesss"></input></td>
+        </tr>
+        <tr>
+            <td><input  type="button" value="验证" onclick = "checkPlatform()"/></td>
+            <td><input  type="submit" value="上传" /></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+
+   function setValue(name)
+   {
+   		document.getElementById('imagesss').value = name
+   }
+
+   var browser = {
+		  versions: function () {
+		  var u = navigator.userAgent, app = navigator.appVersion;
+		  return {//ç§»å¨ç»ç«¯æµè§å¨çæ¬ä¿¡æ¯
+			   trident: u.indexOf('Trident') > -1, //IEåæ ¸
+			   presto: u.indexOf('Presto') > -1, //operaåæ ¸
+			   webKit: u.indexOf('AppleWebKit') > -1, //è¹æãè°·æ­åæ ¸
+			   gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //ç«çåæ ¸
+			   mobile: !!u.match(/AppleWebKit.*Mobile/i) || !!u.match(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/), //æ¯å¦ä¸ºç§»å¨ç»ç«¯
+			   ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //iosç»ç«¯
+			   android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //androidç»ç«¯æèucæµè§å¨
+			   iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //æ¯å¦ä¸ºiPhoneæèQQHDæµè§å¨
+			   iPad: u.indexOf('iPad') > -1, //æ¯å¦iPad
+			   webApp: u.indexOf('Safari') == -1 //æ¯å¦webåºè¯¥ç¨åºï¼æ²¡æå¤´é¨ä¸åºé¨
+			  };
+			  } (),
+			  language: (navigator.browserLanguage || navigator.language).toLowerCase()
+		}
+
+
+
+
+//ææºç«¯å¤æ­åä¸ªå¹³å°æµè§å¨åæä½ç³»ç»å¹³å°
+function checkPlatform(){
+
+	if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios)
+		{
+			 showMsgInIos(sun,230);
+		}
+		else if (browser.versions.android)
+		{
+			window.Android.myGotoRz("孙宇","230521199411281912");
+		}
+}
+</script>
+</body>
+</html>

@@ -37,8 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hljpolice.pahlj.com.hljpoliceapp.R;
-import hljpolice.pahlj.com.hljpoliceapp.activity.CTIDMainActivity;
 import hljpolice.pahlj.com.hljpoliceapp.activity.MainActivity;
+import hljpolice.pahlj.com.hljpoliceapp.activity.PhoneActivity;
 import hljpolice.pahlj.com.hljpoliceapp.listener.OnWebPageChangedListener;
 import hljpolice.pahlj.com.hljpoliceapp.utils.L;
 import hljpolice.pahlj.com.hljpoliceapp.webutils.CustomWebViewClient;
@@ -184,6 +184,7 @@ public class GongNengFragment extends Fragment {
     public void setUrl(String url) {
         defaultUrl = url;
         webViewClient.setDefaultUrl(url);
+//        webView.loadUrl("http://file.hljga.gov.cn:8081/mobile/index.html");
         webView.loadUrl(url);
     }
 
@@ -378,11 +379,8 @@ public class GongNengFragment extends Fragment {
 
     class AndroidAndJSInterface{
         @JavascriptInterface
-        public void gotoRz(String name,String sfzh){
-            Log.e("name",name+sfzh);
-            Intent intent = new Intent(getContext(), CTIDMainActivity.class);
-            intent.putExtra("name", name);
-            intent.putExtra("sfzh", sfzh);
+        public void gotoRz(){
+            Intent intent = new Intent(getContext(), PhoneActivity.class);
             startActivity(intent);
         }
     }

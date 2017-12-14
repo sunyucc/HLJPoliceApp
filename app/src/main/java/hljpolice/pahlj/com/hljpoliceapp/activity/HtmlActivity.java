@@ -5,7 +5,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -13,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -68,6 +72,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     ProgressBar bar;
     @BindView(R.id.rl_layout)
     RelativeLayout rlLayout;
+    SharedPreferences sp ;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
@@ -79,6 +84,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_html);
         ButterKnife.bind(this);
+        sp =getSharedPreferences("user", Context.MODE_PRIVATE);
         initView();
         initData();
 
@@ -160,6 +166,7 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         });
         mWebView.setDownloadListener(new MyWebViewDownLoadListener());
     }
+
     private class MyWebViewDownLoadListener implements DownloadListener {
 
         @Override
@@ -281,14 +288,13 @@ public class HtmlActivity extends BaseSwipeBackActivity {
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setUseWideViewPort(true);
-
+        mWebView.addJavascriptInterface(new AndroidAndJSInterface(), "Android");
 //        mWebView.setVerticalScrollBarEnabled(true);
         // 启用地理位置
         L.e("url+++" + url);
-//        mWebView.loadUrl(url);
-        mWebView.loadUrl("http://172.17.25.230:8081/appDemo/index.html");
+        mWebView.loadUrl("http://yingyong.hljga.gov.cn/sfzbl/sfzbl_index.html");
+//        mWebView.loadUrl("file:///android_asset/error1.html");
         mWebView.requestFocus();
-
     }
 
 
@@ -375,6 +381,26 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+
+        if (sp.getBoolean("isZhian",false)) {
+            final String xm = sp.getString("mXm","");
+            final String sjh = sp.getString("mSjh","");
+            final String sfzh =sp.getString("mSfzh","");
+            final String tp = sp.getString("mtp","");
+            Log.e("onstart", xm + sjh + sfzh + sfzh + tp);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:getResult("+"'" + sjh + "','" + xm + "','" + sfzh + "','" + tp + "'"+")");
+                    Log.e("javascript: ", "javascript:getResult(" + "'" + xm + "','" + sjh + "','" + sfzh + "','" + tp + "'" + ")");
+                }
+            }, 500);
+            SharedPreferences.Editor editor = sp.edit();
+
+            editor.clear();
+//                startActivity(mIntent);
+            editor.commit();
+        }
     }
 
     @Override
@@ -402,5 +428,19 @@ public class HtmlActivity extends BaseSwipeBackActivity {
     @OnClick(R.id.iv_close)
     public void onClick() {
         MFGT.finish(this);
+    }
+
+    class AndroidAndJSInterface {
+        @JavascriptInterface
+        public void myGotoRz(String name, String sfzh) {
+            Log.e("name", name + sfzh);
+//            name = "孙宇";
+//            sfzh = "230521199411281912";
+            Intent intent = new Intent(HtmlActivity.this, PhoneActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("sfzh", sfzh);
+            intent.putExtra("id", 1);
+            startActivity(intent);
+        }
     }
 }

@@ -181,6 +181,7 @@
         <item name="android:displayOptions" tools:ignore="NewApi">showCustom</item>
         <item name="android:height">?actionBarSize</item>
     </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in

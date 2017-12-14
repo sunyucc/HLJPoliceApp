@@ -9,6 +9,7 @@ import java.util.Map;
 import hljpolice.pahlj.com.hljpoliceapp.I;
 import hljpolice.pahlj.com.hljpoliceapp.bean.FunctionBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.NewsBean;
+import hljpolice.pahlj.com.hljpoliceapp.bean.Repetition;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangBean;
 import hljpolice.pahlj.com.hljpoliceapp.bean.ShiXiangModuleBean;
 import hljpolice.pahlj.com.hljpoliceapp.utils.OkHttpUtils;
@@ -107,6 +108,27 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(null);
     }
-
+    public static void gainYzm(Context context,String phoneNum, OkHttpUtils.OnCompleteListener<Repetition> listener){
+        OkHttpUtils<Repetition> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.YSRZ.GAIN_YZM)
+                .addParam("mobile", phoneNum)
+                .targetClass(Repetition.class)
+                .execute(listener);
+    }
+    public static void verify(Context context,String phonenum,String yzm, OkHttpUtils.OnCompleteListener<Repetition> listener){
+        OkHttpUtils<Repetition> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.YSRZ.YZMRZ_URL)
+                .addParam("phone", phonenum)
+                .addParam("yzm", yzm)
+                .targetClass(Repetition.class)
+                .execute(listener);
+    }
+    public static void repetition (Context context,String phoneNum, OkHttpUtils.OnCompleteListener<Repetition> listener){
+        OkHttpUtils<Repetition> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.YSRZ.REPETITION_URL)
+                .addParam("phone", phoneNum)
+                .targetClass(Repetition.class)
+                .execute(listener);
+    }
 
 }

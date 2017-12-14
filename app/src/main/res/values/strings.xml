@@ -72,8 +72,9 @@
     <string name="ctid_str_look_left_right">请调整脸部位置，并按提示左看右看</string>
 
 
-
     <string name="title_alert">提示信息</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="title_activity_phone">PhoneActivity</string>
+    <string name="title_activity_sf_info">SfInfoActivity</string>
 </resources>

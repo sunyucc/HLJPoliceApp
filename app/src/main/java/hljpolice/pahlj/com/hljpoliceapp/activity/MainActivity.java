@@ -446,6 +446,8 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         // 设置Uri和类型
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        //安装完成后执行打开
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // 执行意图进行安装
         startActivity(intent);
     }
